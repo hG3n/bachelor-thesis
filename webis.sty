@@ -1,0 +1,152 @@
+%%
+%% webis.sty
+%% von Peter Prettenhofer
+%% in Anlehnung an die Vorlage von Stefan Brecheisen, 
+%% Institut fuer Informatik der LMU Muenchen
+%%
+%%
+\def\fileversion{v1.0}
+\def\filedate{2003/05/19}
+
+\NeedsTeXFormat{LaTeX2e}
+
+\ProvidesPackage{webis}[\filedate\space\fileversion]
+
+%%
+%% benoetigte Pakete
+%%
+\RequirePackage[english,german]{babel}
+\RequirePackage{german}
+\RequirePackage{amssymb}
+\RequirePackage{geometry}
+\RequirePackage{fancyhdr}
+\RequirePackage{subfigure}
+\RequirePackage[nottoc]{tocbibind}
+\RequirePackage{graphicx}
+\RequirePackage{url}
+\RequirePackage{xspace}
+
+
+%%
+%% haeufig benutzte Symbole
+%%
+\newcommand{\N}{\mathbb{N}}    % Menge der natuerlichen Zahlen
+\newcommand{\Z}{\mathbb{Z}}    % Menge der ganzen Zahlen
+\newcommand{\Q}{\mathbb{Q}}    % Menge der rationalen Zahlen
+\newcommand{\R}{\mathbb{R}}    % Menge der reellen Zahlen
+\newcommand{\C}{\mathbb{C}}    % Menge der komplexen Zahlen
+
+\newcommand{\argmax}{\ensuremath{\mathop{\mathrm{argmax}}}} % argmax
+\newcommand{\argmin}{\ensuremath{\mathop{\mathrm{argmin}}}} % argmin
+
+\newcommand{\fmeasure}{\ensuremath{F}-Measure\xspace} % F-measure
+\newcommand{\precision}{\ensuremath{{\mathop {\mathit precision }}}\xspace} % precision
+\newcommand{\recall}{\ensuremath{{\mathop {\mathit recall }}}\xspace} % recall
+\newcommand{\tfidf}{\ensuremath{\mathit{tf}\kern-0.3em\cdot\kern-0.3em\mathit{idf}}\xspace} % tf-idf
+
+%%
+%% Einstellungen
+%%
+
+% Seitenraender
+\geometry{body={140mm,210mm},footskip=12mm}
+
+% Gestaltung der Kopf- und Fusszeilen
+\pagestyle{fancy}
+\headheight 14pt
+\fancyhf{}
+\fancyhead[L]{\small\slshape\leftmark}
+\fancyfoot[C]{\thepage}
+
+% subsubsections numerieren und ins Inhaltsverzeichnis aufnehmen
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+%%
+%% Globale Variablen
+%%
+\newtoks\arbeit             % Art der Arbeit
+\newtoks\titel              % Titel der Arbeit
+\newtoks\subtitel           % Untertitle der Arbeit
+\newtoks\bearbeiter         % Name des Bearbeiters
+\newtoks\betreuer           % Name des Betreuers
+\newtoks\erstgutachter		% Name des 1. Gutachters
+\newtoks\zweitgutachter		% Name des 2. Gutachters
+\newtoks\abgabetermin       % Datum der Abgabe
+\newtoks\ort                % Wohnort des Bearbeiters
+\newtoks\matrikelnummer     % Matrikelnummer des Bearbeiters
+\newtoks\geburtsdatum       % Geburtsdatum des Bearbeiters
+\newtoks\geburtsort         % Geburtsort des Bearbeiters
+
+%%
+%% Ausgabe des Deckblatts fuer eine Diplom- oder Projektarbeit.
+%%
+\newcommand{\deckblatt}{
+  \begin{titlepage}
+    \vspace{2cm}
+    \hspace*{-1cm}
+    \parbox{6cm}{Bauhaus-Universit"at Weimar\\ Fakult"at Medien\\ Studiengang Medieninformatik}
+
+    %\hspace{2cm}
+    %\parbox{5cm}{\includegraphics[width=5cm]{logo-lmu.png}}
+
+    \begin{center}
+      \vspace{3cm}\huge
+      \the\titel
+
+      \vspace{0.5cm}\large
+      \the\subtitel
+
+      \vspace{2cm}\huge
+      \the\arbeit
+    \end{center}
+      \vspace{\fill}\normalsize
+      \begin{table}[h]
+      \begin{tabular*}{1\textwidth}{@{\extracolsep{\fill}} lr }
+        
+        \the\bearbeiter & Matrikelnummer \the\matrikelnummer\\
+        Geboren am \the\geburtsdatum \ in \the\geburtsort & \\
+        & \\
+        & \\
+        & \\
+        1. Gutachter: \the\erstgutachter & \\
+        2. Gutachter: \the\zweitgutachter & \\
+        & \\
+        %Betreuer: \the\betreuer & \\
+        & \\
+        & \\
+        & \\
+        Datum der Abgabe: \the\abgabetermin & \\
+      \end{tabular*}
+      \end{table}      
+    
+  \end{titlepage}
+}
+
+%%
+%% Ausgabe der Erklaerung ueber die selbstaendige Anfertigung
+%% einer Diplomarbeit
+%%
+\newcommand{\erklaerung}{
+  \begin{titlepage}
+    \vspace*{\fill}
+    \parindent 0cm
+    \begin{center}
+      \textbf{Erkl"arung}
+    \end{center}
+
+    \vspace{1cm}
+
+Hiermit versichere ich, dass ich diese Arbeit selbst"andig verfasst und keine
+anderen als die angegebenen Quellen und Hilfsmittel verwendet habe.
+
+    \vspace{1cm}
+    \the\ort, den \the\abgabetermin
+
+    \vspace{2cm}
+    \makebox[10cm]{\dotfill}\\
+    \the\bearbeiter
+
+    \vspace*{\fill}
+  \end{titlepage}
+}

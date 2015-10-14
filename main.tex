@@ -1,0 +1,211 @@
+\documentclass[pdftex,12pt,a4paper]{report}
+
+%------------------------------------------------
+%	PACKAGES
+%------------------------------------------------
+
+\usepackage{webis}
+
+\usepackage{ucs}
+
+\usepackage[utf8x]{inputenc}
+
+\usepackage{ngerman}
+
+\usepackage[]{algpseudocode}
+
+\usepackage[gen]{eurosym}
+
+\usepackage{algorithm}
+
+%\usepackage{hyperref}
+
+\usepackage{url}
+
+%------------------------------------------------
+%	DEFINE AND CONFIGURE ENVIRONMENTS
+%------------------------------------------------
+
+% Figure (Latex definition)
+\usepackage[font=small,labelfont=bf,width=12cm]{caption}
+\usepackage{chngcntr}
+\counterwithout{figure}{chapter} 
+
+% Anforderung (Own definition)
+\newtheorem{anforderung}{Anforderung}[section]
+\counterwithout{anforderung}{section}
+
+% Hypothese (Own definition)
+\newtheorem{hypothese}{Hypothese}[section]
+\counterwithout{hypothese}{section}
+
+
+%------------------------------------------------
+%	CONFIGURATION FOR COVER PAGE
+%------------------------------------------------
+
+\global\arbeit{Bachelorarbeit}
+
+\global\titel{Echtzeit Hinderniserkennung für unbemannte Flugsysteme unter Benutzung eines Stereo Kamera Systems}
+
+\global\subtitel{}
+
+\global\bearbeiter{Hagen Hiller}
+
+\global\betreuer{Jens Kersten}
+
+\global\erstgutachter{Prof. Dr. Volker Rodehorst}
+
+\global\zweitgutachter{TBA}
+
+\global\abgabetermin{25.01.2016} % TODO insert abgabetermin
+
+\global\ort{Weimar} % TODO insert abgabeort
+
+\global\matrikelnummer{110514}
+
+\global\geburtsdatum{04.06.1992}
+
+\global\geburtsort{Berlin}
+
+%------------------------------------------------
+%	START DOCUMENT
+%------------------------------------------------
+
+\begin{document}
+
+
+%------------------------------------------------
+%	COVER PAGE
+%------------------------------------------------
+
+\deckblatt
+
+
+%------------------------------------------------
+%	DECLARATION FOR EXAMINATION OFFICE
+%------------------------------------------------
+
+\erklaerung
+
+
+%------------------------------------------------
+%	ABSTRACT
+%------------------------------------------------
+
+\begin{abstract}
+
+Lorem ipsum dolor sit Amet.
+
+\end{abstract}
+
+
+%------------------------------------------------
+%	TABLE OF CONTENTS
+%------------------------------------------------
+
+\tableofcontents
+
+
+%------------------------------------------------
+%	THESIS CHAPTERS
+%------------------------------------------------
+
+\chapter{Einführung}
+\label{chp:introduction}
+\input{./chapters/introduction}
+
+%------------------------------------------------
+
+\chapter{Anforderungsanalyse}
+\label{chp:anforderungsanalyse}
+\input{./chapters/anforderungsanalyse}
+
+%------------------------------------------------
+
+\chapter{State of the Art Algorithmen}
+\label{chp:stateoftheart}
+\input{./chapters/state_of_the_art}
+
+%------------------------------------------------
+
+\chapter{Zugrunde liegende Konzepte und Algorithmen}
+\label{chp:concepts}
+\input{./chapters/concepts}
+
+%------------------------------------------------
+
+\chapter{Subimage Detection}
+\label{chp:subimage}
+\input{./chapters/subimage}
+
+%------------------------------------------------
+
+\chapter{Samplepoint Detection}
+\label{chp:samplepoint}
+\input{./chapters/samplepoint}
+
+%------------------------------------------------
+
+\chapter{Konflikte in der Erkennung und Lösungsansätze}
+\label{chp:conflicts}
+\input{./chapters/conflicts}
+
+%------------------------------------------------
+
+\chapter{Evaluierung}
+\label{chp:evaluation}
+\input{./chapters/evaluation}
+
+%------------------------------------------------
+
+\chapter{Diskussion}
+\label{chp:discussion}
+\input{./chapters/discussion}
+
+%------------------------------------------------
+
+\chapter{Fazit und zukünftige Arbeiten}
+\label{chp:fazit}
+\input{./chapters/fazit}
+
+
+%------------------------------------------------
+%	APPENDIX
+%------------------------------------------------
+
+%\appendix
+
+%------------------------------------------------
+
+%\chapter{Anhang 1}
+
+
+%------------------------------------------------
+%	IMAGES APPENDIX
+%------------------------------------------------
+
+%\listoffigures
+
+
+%------------------------------------------------
+%	TABLES APPENDIX
+%------------------------------------------------
+
+%\listoftables
+
+
+%------------------------------------------------
+%	REFERENCES
+%------------------------------------------------
+
+\bibliographystyle{apalike}    
+
+\bibliography{main_bib}         % verwendet main_bib.bib
+
+
+%------------------------------------------------
+%	END OF DOCUMENT
+%------------------------------------------------
+
+\end{document}
