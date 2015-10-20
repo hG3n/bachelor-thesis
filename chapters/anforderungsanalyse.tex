@@ -1,21 +1,23 @@
-Lorem Ipsum dolor sit amet.
+Lorem ipsum dolor sit amet.
 
 % ---------------------- section -----------------------
 \section{Bildaufnahme und Preprocessing}
 \label{sec:bildaufnahme_preprocessing}
 
 	\begin{anforderung}
-	\label{req:mehrbenutzer}
-		Fehleingaben durch gleichzeitiges Interagieren verschiedener Nutzer mit dem Bildschirmtisch sollen vermieden werden.
+	\label{req:bildaufnahme}
+		Die zur Erkennung von Hindernissen verwendeten Bilder müssen kalibiert, entzerrt sowie stereo-rektifiziert werden.
 	\end{anforderung}
+	
+Um \ref{req:bildaufnahme} zu erfüllen müssen die aufgenommenen Bilder vor der Berechnung 
 
 % ---------------------- section -----------------------
 \section{Erfassung von Hindernissen}
 \label{sec:erfassung_von_hindernissen}
 
 	\begin{anforderung}
-	\label{req:wahrnehmungskonflikte}
-		Konflikten der Tiefenwahrnehmung durch Berührung negativ-parallaxer Bildareale sollte entgegen gewirkt werden.
+	\label{req:erfassung_von_hindernissen}
+		Die Erfassung von Hindernissen sollte eine siginifikant hohe Wahrscheinlichkeit haben um etwaige Fehlentscheidungen zu vermeiden.
 	\end{anforderung}
 
 % ---------------------- section -----------------------
@@ -23,8 +25,8 @@ Lorem Ipsum dolor sit amet.
 \label{sec:performanz}
 
 	\begin{anforderung}
-	\label{req:interaktionsziele}
-		Manipulationen der Applikation sollen basierend auf den Interaktionszielen der Nutzer bestimmt werden.
+	\label{req:performanz}
+		Das System sollte Hindernisse in Echtzeit erfassen und erkennen können.
 	\end{anforderung}
 
 % ---------------------- section -----------------------
@@ -32,6 +34,6 @@ Lorem Ipsum dolor sit amet.
 \label{sec:positionsinformationen}
 
 	\begin{anforderung}
-	\label{req:intuitiv_benutzbar}
-		Das System soll auch für unerfahrene Nutzer leicht benutzbar sein.
+	\label{req:positionsinformationen}
+		
 	\end{anforderung}
