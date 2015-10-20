@@ -1,3 +1,4 @@
+# general stuff
 *.aux
 *.glo
 *.idx
@@ -21,3 +22,6 @@
 *.mtc1
 *.out
 *.synctex.gz
+
+# ignore references
+./references
