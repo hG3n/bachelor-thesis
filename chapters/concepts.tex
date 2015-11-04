@@ -19,7 +19,7 @@ Abbildung \ref{fig:epipolar_geometry} visualisiert diesen Prozess. Gegeben sind 
 % ---------------------- section -----------------------
 \section{Stereo Matching}
 \label{sec:stereo_matching}
-Das grundlegende Konzept des Stereo Matchings beschreibt das Finden korrespondierender Punkte in zwei simultan aufgenommenen Bildern. Die Position der beiden Kameras ist dabei leicht versetzt, um einen jeweils anderen Blickwinkel auf die Szene zu erhalten. Mithilfe der verschiedenen Perspektiven können Disparitäten (Differenz der Projektion eines Objektes vom linken zum rechten Bild) zwischen korrespondierenden Pixeln berechnet werden. Die dabei erhaltenen Tiefeninformationen eines Objektes sind mit der errechneten Disparität sowie der relativen Position der Kameras, und deren intrinsischen Parametern REF, verbunden. Im Laufe dieses Prozesses kommt es zu zwei wesentlichen Problemstellungen, der Berechnung der Dispariät (Stereo Correspondence) sowie die Invertierung der Projektiven Geometrie um dreidimensionale Informationen aus der errechnetet Disparität zu erhalten. Sofern eine Lösung beider Probleme vorhanden ist können diese Informationen durch einfache Triangulierung errechnet werden.
+Das grundlegende Konzept des Stereo Matchings beschreibt das Finden korrespondierender Punkte in zwei simultan aufgenommenen Bildern. Die Position der beiden Kameras ist dabei leicht versetzt, um einen jeweils anderen Blickwinkel auf die Szene zu erhalten. Mithilfe der verschiedenen Perspektiven können Disparitäten (Differenz der Projektion eines Objektes vom linken zum rechten Bild) zwischen korrespondierenden Pixeln berechnet werden. Die dabei erhaltenen Tiefeninformationen eines Objektes sind mit der errechneten Disparität sowie der relativen Position der Kameras, und deren intrinsischen Parametern REF, verbunden. Im Laufe dieses Prozesses kommt es zu zwei wesentlichen Problemstellungen, der Berechnung der Disparität (Stereo Correspondence) sowie die Invertierung der Projektiven Geometrie um dreidimensionale Informationen aus der errechnetet Disparität zu erhalten. Sofern eine Lösung beider Probleme vorhanden ist können diese Informationen durch einfache Triangulierung errechnet werden.
 
 
 \subsection{Klassifikation}
@@ -48,7 +48,43 @@ Diesen Prozess veranschaulicht Abbildung \ref{fig:block_matching}. Durch den Fok
 
 \subsection{Semi Global Block Matching}
 \label{subsec:stereo_matching_sgbm}
-Das im Rahmen dieser Arbeit verwendete Verfahren zur Berechnung von Disparity Maps ist der in der freien Computer Vision Library implementierte Semi Global Block Matching Algorithmus. Diese leicht abgewandelte Implementierung des Semi Global Matching Algorithmus von Hirschmüller et. al \cite{hirschmuller2005sgm} zeichnet sich sowohl durch seine Genauigkeit, als auch durch seine performante Berechnung aus. Unter Zuhilfenahme dieses Verfahren ist es möglich Disparity Maps in Echtzeit, mit sehr guter Framerate, zu berechnen. Im folgenden wird die grundlegende Funktionsweise des SGM erläutert. Im Anschluss daran werden die Unterschiede zum SGBM herausgearbeitet, sowie eine kurze Erklärung der Parameter dessen vorgenommen.
+Das im Rahmen dieser Arbeit verwendete Verfahren zur Berechnung von Disparity Maps ist der in der freien Computer Vision Library implementierte Semi Global Block Matching Algorithmus. Diese leicht abgewandelte Implementierung des Semi Global Matching Algorithmus von Hirschmüller et. al \cite{hirschmuller2005sgm} zeichnet sich sowohl durch seine Genauigkeit, als auch durch seine performante Berechnung aus. Unter Zuhilfenahme dieses Verfahren ist es möglich Disparity Maps in Echtzeit, mit sehr guter Framerate, zu berechnen. Im folgenden wird die grundlegende Funktionsweise des SGM erläutert. Im Anschluss daran werden die Unterschiede zum SGBM herausgearbeitet, sowie eine kurze Erklärung der Parameter dessen vorgenommen.\\
+
+\noindent
+\textbf{SGM:} \\
+Die grundlegende Idee des Semi-Global Matching Algorithmus besteht aus dem pixelweisen Matching von Mutual Information \footnote{Mutual Information(MI), zu deutsch Transinformationen, beschreiben den statistischen Zusammenhang zweier Zufallsgrößen...}. Die globale zweidimensionale Smoothness Einschränkung wird dabei mithilfe mehrerer eindimensionaler Einschränkungen erzeugt. Ausgangsvoraussetzung dafür sind verschiedene Bilder derselben Szene mit vorhandener und bekannter Epipolargeometrie. 
+Zunächst wird für jeden Pixel $P$, aus der Intensität $I_{bp}$ sowie der vermuteten Korrespondenz $I_{mq}$ auf der Epipolarlinie $q=e_{bm}(pd)$ die Matching Kosten berechnet. Die eigentliche Berechnung dieser erfolgt dann mit Hilfe von Mutual Information.
+
+\begin{equation}\label{eq:mutual_information_1}
+MI_{I_1,I_2} = \sum_{p} mi_{I_1,I_2}(I_{1p},I_{2p})
+\end{equation}
+\begin{equation}\label{eq:mutual_information_2}
+mi_{I_1,I_2} (i,k) = h_{I_1}(i)+h_{I_2}(k)-h_{I_1,I_2}(i,k)
+\end{equation}
+
+\noindent
+Zur Berechnung der MI mithilfe der in \ref{eq:mutual_information_1} und \ref{eq:mutual_information_2} dargestellten Formeln, wird zunächst eine Initial Disparity Map benötigt. Diese wird nach Kims  \cite{zureiki2008stereo} Ansatz zufällig gewählt um die Kosten berechnen zu können. Dies ist insbesondere für iterative verfahren geeignet, da andernfalls die Berechnung verlangsamt werden könnte. Zur Steigerung der Performanz wird die Disparity Map zunächst nur auf halber Auflösung berechnet, was den Rechenaufwand um den Faktor $2 \cdot 3$ reduziert.Zur Vermeidung falscher Kostenberechnung durch auftretende Noise innerhalb des Bildes nimmt der Algorithmus weitere Einschränkungen vor. Dabei werden die benachbarten Disparitäten in die Berechnung mit einbezogen(siehe Abbildung \ref{eq:disparity_calculation}).
+
+\begin{equation}\label{eq:disparity_calculation}
+ foo = foo
+\end{equation}
+
+\noindent
+Das letzte Problem besteht in der Berechnung der Korrespondenz sowie der daraus resultierenden Disparitäten. Dabei wird nach der Disparität $D$ mit der geringsten berechneten Energiefunktion gesucht. Anstatt nun einfach den minimalen Pfad der Kosten zu summieren werden alle Richtungen zur aktuellen Disparität mit einbezogen (siehe Abbildung \ref{fig:sgm_directions})
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=10cm]{img/sgm_directions.pdf}
+	\end{center}
+	\caption{Darstellung der verschiedenen Richtungen}
+	\label{fig:sgm_directions}
+\end{figure}
+
+\noindent
+Zur Berechnung valider Werte, sollten dabei mindestens 8 Richtungen vorliegen, eine vermehrte Anzahl, beispielsweise 16, sind bei vorteilhaft. Die berechnete Disparität ergibt sich dabei aus den minimalen Kosten anhand dieser Pfade. Dabei gilt: “Je mehr Übereinstimmungen in den Kosten, desto wahrscheinlicher ist es das $D$ zur Intensität $I$ korrespondiert”.\\
+
+\noindent
+\textbf{SGBM:} \\
 
 
 % ---------------------- section -----------------------
