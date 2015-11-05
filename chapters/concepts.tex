@@ -95,7 +95,7 @@ Der Semi Global Block Matching Algorithmus ist ein in der Computer Vision Librar
 	\item Statt den originalen 8 bzw. 16 Richtungen werden nur 5 betrachtet. \label{item:differences_directions}
 	\item Es werden  standartm\"assig keine einzelnen Pixel sondern Blöcke verglichen. \label{item:differences_matching}
 	\item Anstelle der Mutual Information Kostenfunktion wird das von Birchfield et al. vorgestellte Sub-Pixel Dissimilarity Measurement Verfahren verwendet \cite{birchfield-tomasi}.
-	\item Pre und Post Processing Elemente des \emph{StereoBM} \cite{opencv} werden verwendet.
+	\item Pre und Post Processing Elemente des \emph{StereoBM} \cite{opencv_doc} werden verwendet.
 \end{enumerate}
 
 \noindent
@@ -115,4 +115,5 @@ Dies erlaubt dem Algorithmus eine schnelle Berechnung der Disparitäten auf eine
 % ---------------------- section -----------------------
 \section{mvStereoVision Framework}
 \label{sec:framework}
+Das verwendete Framework zur Bildaufnahme und Disparity Map Berechnung wurde im Rahmen des Projektes “SLAM for UAV” entwickelt. Dieses bedient sich der von Matrix Vision zur Verfügung gestellte Library \cite{matrixvision} zur Kommunikation mit den Kameras, sowie OpenCV \cite{opencv} zur Verarbeitung der Bilder. Die wesentlichen Funktionen werden im folgenden näher beleuchtet.
 
