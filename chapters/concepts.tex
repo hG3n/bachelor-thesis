@@ -14,7 +14,7 @@ Bei der Verwendung der meisten photogrammetrischer Verfahren spielt die Epipolar
 	\label{fig:epipolar_geometry}
 \end{figure}
 
-Abbildung \ref{fig:epipolar_geometry} visualisiert diesen Prozess. Gegeben sind die beiden Projektionszentren $C_L$ und $C_R$ der beiden Bildebenen sowie die Bildpunkte $P_L$ und $P_R$. Der Objektpunkt $O$ bildet im linken Kamerabild auf $P_{x_1,y_1}$ ab. Zunächst ist es nur möglich den Strahl auf welchem sich $O$ befindet zu bestimmen. Aufgrund des Wissens der extrinischen Orientierung der Kameras, können mithilfe der Basislinie zwischen den beiden Kameras die beiden Epipole in $L$ und $R$ ermittelt werden. Dabei sind diese durch den Schnittpunkt der Basislinie mit den beiden Bildebenen definiert\footnote{Im Falle eines Stereonormalfalles ist ein Schnittpunkt der Basislinie mit den Bildebenen nicht möglich, sodass die Epipole in der Unendlichkeit und parallel zur x-Achse liegen. Dies hat unter anderem den Vorteil, das die Epipolargeometrie bereits bekannt ist, und korrespondierende Bildpunkte nur noch innerhalb einer Pixelreihe gesucht werden müssen.}. Somit ist es möglich mithilfe der vorhandenen Epipole $e_L$, $e_R$ die Epipolarlinie $e_R,P_R$ zu bestimmten. Mithilfe dieser kann im Anschluss die dreidimensionale Position des Objektpunktes $O$ bestimmt werden.
+Abbildung \ref{fig:epipolar_geometry} visualisiert diesen Prozess. Gegeben sind die beiden Projektionszentren $C_L$ und $C_R$ der beiden Bildebenen sowie die Bildpunkte $P_L$ und $P_R$. Der Objektpunkt $O$ bildet im linken Kamerabild auf $P_{x_1,y_1}$ ab. Zunächst ist es nur möglich den Strahl auf welchem sich $O$ befindet zu bestimmen. Aufgrund des Wissens der extrinsischen Orientierung der Kameras, können mithilfe der Basislinie zwischen den beiden Kameras die Epipole in $L$ und $R$ ermittelt werden. Dabei sind diese durch den Schnittpunkt der Basislinie mit den beiden Bildebenen definiert\footnote{Im Falle eines Stereonormalfalles ist ein Schnittpunkt der Basislinie mit den Bildebenen nicht möglich, sodass die Epipole in der Unendlichkeit und parallel zur x-Achse liegen. Dies hat unter anderem den Vorteil, das die Epipolargeometrie bereits bekannt ist, und korrespondierende Bildpunkte nur noch innerhalb einer Pixelreihe gesucht werden müssen.}. Somit ist es möglich mithilfe der vorhandenen Epipole $e_L$, $e_R$ die Epipolarlinie $e_R,P_R$ zu bestimmten. Mithilfe dieser kann im Anschluss die dreidimensionale Position des Objektpunktes $O$ bestimmt werden.
 
 % ---------------------- section -----------------------
 \section{Stereo Matching}
@@ -26,7 +26,9 @@ Das grundlegende Konzept des Stereo Matchings beschreibt das Finden korrespondie
 \label{subsec:stereo_matching_classification}
 \textbf{Lokale Methoden:}\\
 Zur Berechnung der Disparität in lokalen Stereo Matching Algorithen gilt grundlegendes Prinzip: “Finde Pixel $P_2$ korrespondierend zu $P_1$ im Referenzbild”. Dabei wird die Korellation von $P_1$ und $P_2$ durch deren lokale Umgebung bestimmt. Der Referenzpunkt ist dabei das Zentrum eines Bereiches in welchem das Matching ausgeführt wird. Geläufige Methoden dafür sind Sum of Absolute Differences (SAD) (Hirschmüller 2011), Zero-mean Normalized Cross-Correlation (ZNCC) (Chen \& Medioni, 1999), (Sára, 2002), Sum of Squared Differences (SSD) (Cox et al., 1996), etc.
-Jedoch können aufgrund fehlender Beschränkungen verzerrte Tiefenberechnungen auftreten, da benachbarte Pixel verschiedene Disparitäten aufweisen können (beispielsweise an horizontalen Kanten wie Türrahmen etc.). Strukturell gesehen sind lokale Methoden einfacher gehalten als Globale Methoden was einen hohen Grad an Optimierung in der Implementierung zulässt.\\\\
+Jedoch können aufgrund fehlender Beschränkungen verzerrte Tiefenberechnungen auftreten, da benachbarte Pixel verschiedene Disparitäten aufweisen können (beispielsweise an horizontalen Kanten wie Türrahmen etc.). Strukturell gesehen sind lokale Methoden einfacher gehalten als Globale was einen hohen Grad an Optimierung in der Implementierung zulässt.\\
+
+\noindent
 \textbf{Globale Methoden:}\\
 Bei globalen Stereo Matching Algorithmen wird ein globales Modell der zu betrachtenden Szene erstellt, sowie eine ebenfalls globale Kostenfunktion definiert, welche minimal gehalten werden soll. Dabei werden im Gegensatz zu lokalen Methoden Matches in einer Reihe und des gesamten Bildes verglichen. Zusätzlich zu den benachbarten Pixeln werden hier ebenfalls die Matches der angrenzenden Pixel betrachtet. Zur Vereinfachung dieses Vorgangs betrachten einige Algorithmen nur die Epipolargeometrie, wobei ein zweidimensionales Problem auf ein eindimensionales reduziert wird. Resultierend daraus liegt die Stärke globaler Methoden in der Bewältigung schwacher Texturen sowie auftretende Okklusionen und unterschiedlicher Lichteinfälle, was, aufgrund der höheren Komplexität in einem höheren Rechen- und Speicheraufand mündet. Weitere Verbesserungen der Ergebnisse können durch Techniken wie Dynamische Programmierung und Graph Cut erreicht werden.
 
@@ -50,6 +52,8 @@ Diesen Prozess veranschaulicht Abbildung \ref{fig:block_matching}. Durch den Fok
 \label{subsec:stereo_matching_sgbm}
 Das im Rahmen dieser Arbeit verwendete Verfahren zur Berechnung von Disparity Maps ist der in der freien Computer Vision Library implementierte Semi Global Block Matching Algorithmus. Diese leicht abgewandelte Implementierung des Semi Global Matching Algorithmus von Hirschmüller et. al \cite{hirschmuller2005sgm} zeichnet sich sowohl durch seine Genauigkeit, als auch durch seine performante Berechnung aus. Unter Zuhilfenahme dieses Verfahren ist es möglich Disparity Maps in Echtzeit, mit sehr guter Framerate, zu berechnen. Im folgenden wird die grundlegende Funktionsweise des SGM erläutert. Im Anschluss daran werden die Unterschiede zum SGBM herausgearbeitet, sowie eine kurze Erklärung der Parameter dessen vorgenommen.\\
 
+
+%TODO: footnote Mutal Information erweitern
 \noindent
 \textbf{SGM:} \\
 Die grundlegende Idee des Semi-Global Matching Algorithmus besteht aus dem pixelweisen Matching von Mutual Information \footnote{Mutual Information(MI), zu deutsch Transinformationen, beschreiben den statistischen Zusammenhang zweier Zufallsgrößen...}. Die globale zweidimensionale Smoothness Einschränkung wird dabei mithilfe mehrerer eindimensionaler Einschränkungen erzeugt. Ausgangsvoraussetzung dafür sind verschiedene Bilder derselben Szene mit vorhandener und bekannter Epipolargeometrie. 
@@ -85,8 +89,30 @@ Zur Berechnung valider Werte, sollten dabei mindestens 8 Richtungen vorliegen, e
 
 \noindent
 \textbf{SGBM:} \\
+Der Semi Global Block Matching Algorithmus ist ein in der Computer Vision Library OpenCV implementiertes Verfahren zur schnellen Berechnung von Disparity Maps. Die Grundlage dafür bietet Hirschmüller et al.’s SGM \cite{hirschmueller2008sgm} mit den folgenden grundlegenden Änderungen:
+
+\begin{enumerate}[label=C.\arabic*]
+	\item Statt den originalen 8 bzw. 16 Richtungen werden nur 5 betrachtet. \label{item:differences_directions}
+	\item Es werden  standartm\"assig keine einzelnen Pixel sondern Blöcke verglichen. \label{item:differences_matching}
+	\item Anstelle der Mutual Information Kostenfunktion wird das von Birchfield et al. vorgestellte Sub-Pixel Dissimilarity Measurement Verfahren verwendet \cite{birchfield-tomasi}.
+	\item Pre und Post Processing Elemente des \emph{StereoBM} \cite{opencv} werden verwendet.
+\end{enumerate}
+
+\noindent
+%TODO: Parameter anpassung wichtig, grafik sgbm normal, sgbm im hirschmueller mode, sgm
+Dies erlaubt dem Algorithmus eine schnelle Berechnung der Disparitäten auf einem qualitativ hochwertigen Niveau. Der geringe Verlust an Qualität kann in Anbetracht der Berechnung in Echtzeit vernachlässigt werden. In Abbildung \ref{fig:sgbm_vs_sgm} findet sich FOO.
+\begin{figure}
+	\begin{center}
+%		\includegraphics[width=10cm]{img/sgm_directions.pdf}
+	\end{center}
+	\caption{Gegenueberstellung SGBM SGM.}
+	\label{fig:sgbm_vs_sgm}
+\end{figure}
+
+%TODO: Einleitung Parameter, nur die wichtigen werden erklaert
 
 
 % ---------------------- section -----------------------
 \section{mvStereoVision Framework}
 \label{sec:framework}
+
