@@ -36,11 +36,12 @@ Bei globalen Stereo Matching Algorithmen wird ein globales Modell der zu betrach
 \label{subsec:stereo_matching_bm}
 Einen der einfachsten Ansätze zur Berechnung von Korrespondenz zwischen zwei Bildern bietet der Block Matching Algorithmus. Bei diesem lokalen Matching Algorithmus werden Blöcke bestimmter Größe mithilfe mathematischer Berechnungen (NCC, SAD, etc.)auf Korrespondenz untersucht. Dabei reduziert die Epipolargeometrie diesen Prozess auf ein eindimensionales Problem indem ein Block im linken Bild mit einem Block im rechten Bild auf der Epipolarlinie des rechten Bildes pixelweise vergleichen wird. Das eigentliche Matching erfolgt über die Berechnung eines Blockes mithilfe einer Energiefunktion. Dabei gilt es bei der Korrespondenzanalyse mit dem möglichst gleichen Wert zu erhalten. 
 
+%TODO: Block/Schrift groesser
 \begin{figure}
 	\begin{center}
-%		\includegraphics[width=10cm]{img/epipolar_geometry.pdf}
+		\includegraphics[width=10cm]{img/block_matching.pdf}
 	\end{center}
-	\caption{Visualisierung des Block Mathching Algorithmus}
+	\caption{Visualisierung des Block Matching Algorithmus}
 	\label{fig:block_matching}
 \end{figure}
 
