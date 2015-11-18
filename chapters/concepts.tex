@@ -7,7 +7,7 @@ Bei der Verwendung der meisten photogrammetrischer Verfahren spielt die Epipolar
 
 % GRAFIK: epipolargeometrie
 \begin{figure}
-	\begin{center}
+	\begin{center}w
 		\includegraphics[width=10cm]{img/epipolar_geometry.pdf}
 	\end{center}
 	\caption{Darstellung der Epipolargeometrie.}
@@ -30,7 +30,7 @@ Jedoch können aufgrund fehlender Beschränkungen verzerrte Tiefenberechnungen a
 
 \noindent
 \textbf{Globale Methoden:}\\
-Bei globalen Stereo Matching Algorithmen wird ein globales Modell der zu betrachtenden Szene erstellt, sowie eine ebenfalls globale Kostenfunktion definiert, welche minimal gehalten werden soll. Dabei werden im Gegensatz zu lokalen Methoden Matches in einer Reihe und des gesamten Bildes verglichen. Zusätzlich zu den benachbarten Pixeln werden hier ebenfalls die Matches der angrenzenden Pixel betrachtet. Zur Vereinfachung dieses Vorgangs betrachten einige Algorithmen nur die Epipolargeometrie, wobei ein zweidimensionales Problem auf ein eindimensionales reduziert wird. Resultierend daraus liegt die Stärke globaler Methoden in der Bewältigung schwacher Texturen sowie auftretende Okklusionen und unterschiedlicher Lichteinfälle, was, aufgrund der höheren Komplexität in einem höheren Rechen- und Speicheraufand mündet. Weitere Verbesserungen der Ergebnisse können durch Techniken wie Dynamische Programmierung und Graph Cut erreicht werden.
+Bei globalen Stereo Matching Algorithmen wird ein globales Modell der zu betrachtenden Szene erstellt, sowie eine ebenfalls globale Kostenfunktion definiert, welche minimal gehalten werden soll. Dabei werden im Gegensatz zu lokalen Methoden Matches in einer Reihe und des gesamten Bildes verglichen. Zusätzlich zu den benachbarten Pixeln werden hier ebenfalls die Matches der angrenzenden Pixel betrachtet. Zur Vereinfachung dieses Vorgangs betrachten einige Algorithmen nur die Epipolargeometrie, wobei ein zweidimensionales Problem auf ein eindimensionales reduziert wird. Resultierend daraus liegt die Stärke globaler Methoden in der Bewältigung schwacher Texturen sowie auftretende Okklusionen und unterschiedlicher Lichteinfälle, was, aufgrund der höheren Komplexität in einem höheren Rechen- und Speicheraufwand mündet. Weitere Verbesserungen der Ergebnisse können durch Techniken wie Dynamische Programmierung und Graph Cut erreicht werden.
 
 \subsection{Block Matching}
 \label{subsec:stereo_matching_bm}
@@ -102,13 +102,6 @@ Der Semi Global Block Matching Algorithmus ist ein in der Computer Vision Librar
 \noindent
 %TODO: Parameter anpassung wichtig, grafik sgbm normal, sgbm im hirschmueller mode, sgm
 Dies erlaubt dem Algorithmus eine schnelle Berechnung der Disparitäten auf einem qualitativ hochwertigen Niveau. Der geringe Verlust an Qualität kann in Anbetracht der Berechnung in Echtzeit vernachlässigt werden. In Abbildung \ref{fig:sgbm_vs_sgm} findet sich FOO.
-\begin{figure}
-	\begin{center}
-%		\includegraphics[width=10cm]{img/sgm_directions.pdf}
-	\end{center}
-	\caption{Gegenueberstellung SGBM SGM.}
-	\label{fig:sgbm_vs_sgm}
-\end{figure}
 
 %TODO: vielleicht Einleitung Parameter, nur die wichtigen werden erklaert
 
