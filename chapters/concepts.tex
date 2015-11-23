@@ -3,11 +3,11 @@ Dieses Kapitel beleuchtet dieser Arbeit zugrunde liegende Konzepte und Algorithm
 % ---------------------- section -----------------------
 \section{Epipolargeometrie}
 \label{sec:epipolargeometrie}
-Bei der Verwendung der meisten photogrammetrischer Verfahren spielt die Epipolargeometrie eine entscheidende Rolle. Das mathematische Modell beschreibt die geometrische Beziehung zwischen verschiedenen Kamerabilden desselben Objektes, sowie die Abhängigkeit zwischen korrespondierenden Punkten. Generell gesehen ist die Epipolargeometrie durch das Lochkamera-Modell beschrieben. Dabei liegt jeder Punkt des aufgenommenen Objektes mit dem Projektionszentrum sowie dem Bildpunkt auf einer Geraden. Unter Zuhilfenahme der extrinsischen Orientierung sowie der intrinsischen Parameter der Kamera, ist es möglich den Schnittpunkt zweier Geraden zu berechnen um die dreidimensionalen Koordinaten des Objektpunktes zu erhalten. Dabei gilt generell, wenn ein Punkt $P$ im linken Bild gegeben ist, so wird die Suche des korrespondierenden Punktes $P’$ auf die Epipolarlinie des rechten Bildes reduziert. 
+Bei der Verwendung der meisten photogrammetrischer Verfahren spielt die Epipolargeometrie eine entscheidende Rolle. Das mathematische Modell beschreibt die geometrische Beziehung zwischen verschiedenen Kamerabildern desselben Objektes, sowie die Abhängigkeit zwischen korrespondierenden Punkten. Generell gesehen ist die Epipolargeometrie durch das Lochkamera-Modell beschrieben. Dabei liegt jeder Punkt des aufgenommenen Objektes mit dem Projektionszentrum sowie dem Bildpunkt auf einer Geraden. Unter Zuhilfenahme der extrinsischen Orientierung sowie der intrinsischen Parameter der Kamera, ist es möglich den Schnittpunkt zweier Geraden zu berechnen um die dreidimensionalen Koordinaten des Objektpunktes zu erhalten. Dabei gilt generell, wenn ein Punkt $P$ im linken Bild gegeben ist, so wird die Suche des korrespondierenden Punktes $P’$ auf die Epipolarlinie des rechten Bildes reduziert. 
 
 % GRAFIK: epipolargeometrie
 \begin{figure}
-	\begin{center}w
+	\begin{center}
 		\includegraphics[width=10cm]{img/epipolar_geometry.pdf}
 	\end{center}
 	\caption{Darstellung der Epipolargeometrie.}
@@ -104,7 +104,6 @@ Der Semi Global Block Matching Algorithmus ist ein in der Computer Vision Librar
 Dies erlaubt dem Algorithmus eine schnelle Berechnung der Disparitäten auf einem qualitativ hochwertigen Niveau. Der geringe Verlust an Qualität kann in Anbetracht der Berechnung in Echtzeit vernachlässigt werden. In Abbildung \ref{fig:sgbm_vs_sgm} findet sich FOO.
 
 %TODO: vielleicht Einleitung Parameter, nur die wichtigen werden erklaert
-
 
 % ---------------------- section -----------------------
 \section{mvStereoVision Framework}
