@@ -26,8 +26,8 @@ Im Laufe dieses Prozesses kommt es zu zwei wesentlichen Problemstellungen: die B
 \subsection{Klassifikation}
 \label{subsec:stereo_matching_classification}
 \textbf{Lokale Methoden:}\\
-Zur Berechnung der Disparität in lokalen Stereo Matching Algorithmen gilt grundlegendes Prinzip: “Finde Pixel $P_2$ korrespondierend zu $P_1$ im Referenzbild”. Dabei wird die Korrelation von $P_1$ und $P_2$ durch deren lokale Umgebung bestimmt. Der Referenzpunkt ist dabei das Zentrum eines Bereiches in welchem das Matching ausgeführt wird. Geläufige Methoden dafür sind Sum of Absolute Differences (SAD) (Hirschmüller 2011), Zero-mean Normalized Cross-Correlation (ZNCC) (Chen & Medioni, 1999), (Sára, 2002), Sum of Squared Differences (SSD) (Cox et al., 1996), etc..
-Jedoch können aufgrund fehlender Beschränkungen verzerrte Berechnungen der räumlichen Tiefe auftreten, da benachbarte Pixel verschiedene Disparitäten aufweisen können (beispielsweise an horizontalen Kanten wie Türrahmen etc.). Strukturell gesehen sind lokale Methoden einfacher gehalten als globale Methoden, wodurch ein hoher Grad an Optimierung in der Implementierung möglich ist.
+Zur Berechnung der Disparität in lokalen Stereo Matching Algorithmen gilt grundlegendes Prinzip: “Finde Pixel $P_2$ korrespondierend zu $P_1$ im Referenzbild”. Dabei wird die Korrelation von $P_1$ und $P_2$ durch deren lokale Umgebung bestimmt. Der Referenzpunkt ist dabei das Zentrum eines Bereiches in welchem das Matching ausgeführt wird. Geläufige Methoden dafür sind Sum of Absolute Differences (SAD) (Hirschmüller 2011), Zero-mean Normalized Cross-Correlation (ZNCC) (Chen \& Medioni, 1999), (Sára, 2002), Sum of Squared Differences (SSD) (Cox et al., 1996), etc..
+Jedoch können aufgrund fehlender Beschränkungen verzerrte Berechnungen der räumlichen Tiefe auftreten, da benachbarte Pixel verschiedene Disparitäten aufweisen können (beispielsweise an horizontalen Kanten wie Türrahmen etc.). Strukturell gesehen sind lokale Methoden einfacher gehalten als globale Methoden, wodurch ein hoher Grad an Optimierung in der Implementierung möglich ist.\\
 
 \noindent
 \textbf{Globale Methoden:}\\
