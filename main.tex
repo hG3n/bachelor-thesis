@@ -14,11 +14,11 @@
 
 \usepackage{ngerman}
 
-% \usepackage[]{algpseudocode}
+\usepackage[]{algpseudocode}
 
 \usepackage[gen]{eurosym}
 
-% \usepackage{algorithm}
+\usepackage{algorithm}
 
 %\usepackage{hyperref}
 
@@ -60,11 +60,11 @@
 
 \global\erstgutachter{Prof. Dr. Volker Rodehorst}
 
-\global\zweitgutachter{TBA}
+\global\zweitgutachter{TBA} % TODO Zweitkorrektor
 
-\global\abgabetermin{25.01.2016} % TODO insert abgabetermin
+\global\abgabetermin{25.01.2016}
 
-\global\ort{Weimar} % TODO insert abgabeort
+\global\ort{Weimar}
 
 \global\matrikelnummer{110514}
 
@@ -78,20 +78,17 @@
 
 \begin{document}
 
-
 %------------------------------------------------
 %	COVER PAGE
 %------------------------------------------------
 
 \deckblatt
 
-
 %------------------------------------------------
 %	DECLARATION FOR EXAMINATION OFFICE
 %------------------------------------------------
 
 \erklaerung
-
 
 %------------------------------------------------
 %	ABSTRACT
@@ -109,7 +106,6 @@ Lorem ipsum dolor sit Amet.
 %------------------------------------------------
 
 \tableofcontents
-
 
 %------------------------------------------------
 %	THESIS CHAPTERS
@@ -192,6 +188,7 @@ Lorem ipsum dolor sit Amet.
 
 \bibliographystyle{apalike}    
 % verwendet main_bib.bib
+% TODO \nocite{} fuer buchquellen hinzufuegen
 \bibliography{main_bib.bib}
 
 %------------------------------------------------
