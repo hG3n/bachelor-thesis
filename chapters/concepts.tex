@@ -3,7 +3,7 @@ Dieses Kapitel beleuchtet dieser Arbeit zugrunde liegende Konzepte und Algorithm
 % ---------------------- section -----------------------
 \section{Epipolargeometrie}
 \label{sec:epipolargeometrie}
-Bei der Verwendung der meisten photogrammetrischer Verfahren spielt die Epipolargeometrie eine entscheidende Rolle. Das mathematische Modell beschreibt die geometrische Beziehung zwischen verschiedenen Kamerabildern desselben Objektes, sowie die Abhängigkeit zwischen korrespondierenden Punkten. Generell gesehen ist die Epipolargeometrie durch das Lochkamera-Modell beschrieben. Dabei liegt jeder Punkt des aufgenommenen Objektes mit dem Projektionszentrum sowie dem Bildpunkt auf einer Geraden. Unter Zuhilfenahme der extrinsischen Orientierung sowie der intrinsischen Parameter der Kamera, ist es möglich den Schnittpunkt zweier Geraden zu berechnen um die dreidimensionalen Koordinaten des Objektpunktes zu erhalten. Dabei gilt generell, wenn ein Punkt $P$ im linken Bild gegeben ist, so wird die Suche des korrespondierenden Punktes $P’$ auf die Epipolarlinie des rechten Bildes reduziert. 
+Bei der Verwendung der meisten photogrammetrischen Verfahren spielt die Epipolargeometrie eine entscheidende Rolle. Das mathematische Modell beschreibt die geometrische Beziehung zwischen verschiedenen Kamerabildern desselben Objektes, sowie die Beziehung korrespondierender Punkte. Generell gesehen ist die Epipolargeometrie durch das Lochkamera-Modell beschrieben. Dabei liegt jeder Punkt des aufgenommenen Objektes mit dem Projektionszentrum sowie dem Bildpunkt auf einer Geraden. Unter Zuhilfenahme der extrinsischen Orientierung sowie der intrinsischen Parameter der Kamera, ist es möglich den Schnittpunkt zweier Geraden zu berechnen um die dreidimensionalen Koordinaten des Objektpunktes zu erhalten. Dabei gilt generell, wenn ein Punkt $P$ im linken Bild gegeben ist, so wird die Suche des korrespondierenden Punktes $P’$ auf die Epipolarlinie des rechten Bildes reduziert. 
 
 % GRAFIK: epipolargeometrie
 \begin{figure}
@@ -14,27 +14,30 @@ Bei der Verwendung der meisten photogrammetrischer Verfahren spielt die Epipolar
 	\label{fig:epipolar_geometry}
 \end{figure}
 
-Abbildung \ref{fig:epipolar_geometry} visualisiert diesen Prozess. Gegeben sind die beiden Projektionszentren $C_L$ und $C_R$ der beiden Bildebenen sowie die Bildpunkte $P_L$ und $P_R$. Der Objektpunkt $O$ bildet im linken Kamerabild auf $P_{x_1,y_1}$ ab. Zunächst ist es nur möglich den Strahl auf welchem sich $O$ befindet zu bestimmen. Aufgrund des Wissens der extrinsischen Orientierung der Kameras, können mithilfe der Basislinie zwischen den beiden Kameras die Epipole in $L$ und $R$ ermittelt werden. Dabei sind diese durch den Schnittpunkt der Basislinie mit den beiden Bildebenen definiert\footnote{Im Falle eines Stereonormalfalles ist ein Schnittpunkt der Basislinie mit den Bildebenen nicht möglich, sodass die Epipole in der Unendlichkeit und parallel zur x-Achse liegen. Dies hat unter anderem den Vorteil, das die Epipolargeometrie bereits bekannt ist, und korrespondierende Bildpunkte nur noch innerhalb einer Pixelreihe gesucht werden müssen.}. Somit ist es möglich mithilfe der vorhandenen Epipole $e_L$, $e_R$ die Epipolarlinie $e_R,P_R$ zu bestimmten. Mithilfe dieser kann im Anschluss die dreidimensionale Position des Objektpunktes $O$ bestimmt werden.
+Abbildung \ref{fig:epipolar_geometry} visualisiert diesen Prozess. Gegeben sind die beiden Projektionszentren $C_L$ und $C_R$ der beiden Bildebenen sowie die Bildpunkte $P_L$ und $P_R$. Der Objektpunkt $O$ bildet im linken Kamerabild auf $P_{x_1,y_1}$ ab. Zunächst ist es nur möglich den Strahl auf dem sich $O$ befindet zu bestimmen. Aufgrund des Wissens der extrinsischen Orientierung der Kameras können mithilfe der Basislinie zwischen den beiden Kameras die beiden Epipole in $L$ und $R$ ermittelt werden. Dabei sind diese durch den Schnittpunkt der Basislinie mit den beiden Bildebenen definiert \footnote{Im Falle eines Stereonormalfalles ist ein Schnittpunkt der Basislinie mit den Bildebenen nicht möglich, sodass die Epipole in der Unendlichkeit und parallel zur x-Achse liegen. Dies hat unter anderem den Vorteil, das die Epipolargeometrie bereits bekannt ist, und korrespondierende Bildpunkte nur noch innerhalb einer Pixelreihe gesucht werden müssen.}. Somit ist es möglich mithilfe der vorhandenen Epipole $e_L$, $e_R$ die Epipolarlinie $e_l,P_{x_2,y_2}$ zu bestimmten. Anhand dieser kann im Anschluss die dreidimensionale Position des Objektpunktes $O$ bestimmt werden.
 
 % ---------------------- section -----------------------
 \section{Stereo Matching}
 \label{sec:stereo_matching}
-Das grundlegende Konzept des Stereo Matchings beschreibt das Finden korrespondierender Punkte in zwei simultan aufgenommenen Bildern. Die Position der beiden Kameras ist dabei leicht versetzt, um einen jeweils anderen Blickwinkel auf die Szene zu erhalten. Mithilfe der verschiedenen Perspektiven können Disparitäten (Differenz der Projektion eines Objektes vom linken zum rechten Bild) zwischen korrespondierenden Pixeln berechnet werden. Die dabei erhaltenen Tiefeninformationen eines Objektes sind mit der errechneten Disparität sowie der relativen Position der Kameras, und deren intrinsischen Parametern REF, verbunden. Im Laufe dieses Prozesses kommt es zu zwei wesentlichen Problemstellungen, der Berechnung der Disparität (Stereo Correspondence) sowie die Invertierung der Projektiven Geometrie um dreidimensionale Informationen aus der errechnetet Disparität zu erhalten. Sofern eine Lösung beider Probleme vorhanden ist können diese Informationen durch einfache Triangulierung errechnet werden.
+Das grundlegende Konzept des Stereo Matchings beschreibt das Finden korrespondierender Punkte in zwei simultan aufgenommenen Bildern. Die Position der beiden Kameras ist dabei leicht versetzt, um einen jeweils anderen Blickwinkel auf die Szene zu erhalten. Mithilfe der verschiedenen Perspektiven können Disparitäten (Differenz der Projektion eines Objektes vom linken zum rechten Bild) zwischen korrespondierenden Pixeln berechnet werden. Die dabei erhaltenen Tiefeninformationen eines Objektes sind mit der errechneten Disparität sowie der relativen Position der Kameras und deren intrinsischen Parametern REF verbunden.
+Im Laufe dieses Prozesses kommt es zu zwei wesentlichen Problemstellungen: die Berechnung der Disparität (Stereo Korrespondenz) sowie die Invertierung der projektiven Geometrie, um dreidimensionale Informationen aus der errechnetet Disparität zu erhalten. Sofern eine Lösung beider Probleme vorhanden ist, können diese Informationen durch einfache Triangulierung errechnet werden.
 
 
 \subsection{Klassifikation}
 \label{subsec:stereo_matching_classification}
 \textbf{Lokale Methoden:}\\
-Zur Berechnung der Disparität in lokalen Stereo Matching Algorithen gilt grundlegendes Prinzip: “Finde Pixel $P_2$ korrespondierend zu $P_1$ im Referenzbild”. Dabei wird die Korellation von $P_1$ und $P_2$ durch deren lokale Umgebung bestimmt. Der Referenzpunkt ist dabei das Zentrum eines Bereiches in welchem das Matching ausgeführt wird. Geläufige Methoden dafür sind Sum of Absolute Differences (SAD) (Hirschmüller 2011), Zero-mean Normalized Cross-Correlation (ZNCC) (Chen \& Medioni, 1999), (Sára, 2002), Sum of Squared Differences (SSD) (Cox et al., 1996), etc.
-Jedoch können aufgrund fehlender Beschränkungen verzerrte Tiefenberechnungen auftreten, da benachbarte Pixel verschiedene Disparitäten aufweisen können (beispielsweise an horizontalen Kanten wie Türrahmen etc.). Strukturell gesehen sind lokale Methoden einfacher gehalten als Globale was einen hohen Grad an Optimierung in der Implementierung zulässt.\\
+Zur Berechnung der Disparität in lokalen Stereo Matching Algorithmen gilt grundlegendes Prinzip: “Finde Pixel $P_2$ korrespondierend zu $P_1$ im Referenzbild”. Dabei wird die Korrelation von $P_1$ und $P_2$ durch deren lokale Umgebung bestimmt. Der Referenzpunkt ist dabei das Zentrum eines Bereiches in welchem das Matching ausgeführt wird. Geläufige Methoden dafür sind Sum of Absolute Differences (SAD) (Hirschmüller 2011), Zero-mean Normalized Cross-Correlation (ZNCC) (Chen & Medioni, 1999), (Sára, 2002), Sum of Squared Differences (SSD) (Cox et al., 1996), etc..
+Jedoch können aufgrund fehlender Beschränkungen verzerrte Berechnungen der räumlichen Tiefe auftreten, da benachbarte Pixel verschiedene Disparitäten aufweisen können (beispielsweise an horizontalen Kanten wie Türrahmen etc.). Strukturell gesehen sind lokale Methoden einfacher gehalten als globale Methoden, wodurch ein hoher Grad an Optimierung in der Implementierung möglich ist.
 
 \noindent
 \textbf{Globale Methoden:}\\
-Bei globalen Stereo Matching Algorithmen wird ein globales Modell der zu betrachtenden Szene erstellt, sowie eine ebenfalls globale Kostenfunktion definiert, welche minimal gehalten werden soll. Dabei werden im Gegensatz zu lokalen Methoden Matches in einer Reihe und des gesamten Bildes verglichen. Zusätzlich zu den benachbarten Pixeln werden hier ebenfalls die Matches der angrenzenden Pixel betrachtet. Zur Vereinfachung dieses Vorgangs betrachten einige Algorithmen nur die Epipolargeometrie, wobei ein zweidimensionales Problem auf ein eindimensionales reduziert wird. Resultierend daraus liegt die Stärke globaler Methoden in der Bewältigung schwacher Texturen sowie auftretende Okklusionen und unterschiedlicher Lichteinfälle, was, aufgrund der höheren Komplexität in einem höheren Rechen- und Speicheraufwand mündet. Weitere Verbesserungen der Ergebnisse können durch Techniken wie Dynamische Programmierung und Graph Cut erreicht werden.
+Bei globalen Stereo Matching Algorithmen wird ein globales Modell der zu betrachtenden Szene erstellt sowie eine ebenfalls globale Kostenfunktion definiert, welche minimal gehalten werden soll. Dabei werden im Gegensatz zu lokalen Methoden die Matches in einer Pixelreihe und die des gesamten Bildes miteinander verglichen. Zusätzlich zu den benachbarten Pixeln werden hier ebenfalls die Matches der angrenzenden Pixel betrachtet. Zur Vereinfachung dieses Vorgangs betrachten einige Algorithmen nur die Epipolargeometrie, wobei ein zweidimensionales Problem auf ein eindimensionales reduziert wird. Resultierend daraus liegt die Stärke globaler Methoden in der Bewältigung schwacher Texturen sowie auftretender Okklusionen und unterschiedlicher Lichteinfälle, was, aufgrund der höheren Komplexität in einem höheren Rechen- und Speicheraufwand mündet. Weitere Verbesserungen der Ergebnisse können durch Techniken wie Dynamische Programmierung und Graph Cut erreicht werden.
 
 \subsection{Block Matching}
 \label{subsec:stereo_matching_bm}
-Einen der einfachsten Ansätze zur Berechnung von Korrespondenz zwischen zwei Bildern bietet der Block Matching Algorithmus. Bei diesem lokalen Matching Algorithmus werden Blöcke bestimmter Größe mithilfe mathematischer Berechnungen (NCC, SAD, etc.)auf Korrespondenz untersucht. Dabei reduziert die Epipolargeometrie diesen Prozess auf ein eindimensionales Problem indem ein Block im linken Bild mit einem Block im rechten Bild auf der Epipolarlinie des rechten Bildes pixelweise vergleichen wird. Das eigentliche Matching erfolgt über die Berechnung eines Blockes mithilfe einer Energiefunktion. Dabei gilt es bei der Korrespondenzanalyse mit dem möglichst gleichen Wert zu erhalten. 
+Einen der einfachsten Ansätze zur Berechnung von Korrespondenz zwischen zwei Bildern bietet der Block Matching Algorithmus. Bei dieser lokalen Methode werden Blöcke bestimmter Größe mithilfe mathematischer Berechnungen (NCC, SAD, etc.) auf Korrespondenz untersucht. Dabei reduziert die Epipolargeometrie diesen Prozess auf ein eindimensionales Problem indem ein Block im linken Bild mit einem Block im rechten Bild auf der Epipolarlinie des rechten Bildes pixelweise vergleichen wird. Das eigentliche Matching erfolgt über die Berechnung eines Blockes mithilfe einer Energiefunktion.
+% Dabei gilt es, bei der Korrespondenzanalyse mit dem möglichst gleichen Wert zu erhalten. 
+
 
 %TODO: Block/Schrift groesser
 \begin{figure}
@@ -46,19 +49,19 @@ Einen der einfachsten Ansätze zur Berechnung von Korrespondenz zwischen zwei Bi
 \end{figure}
 
 \noindent
-Diesen Prozess veranschaulicht Abbildung \ref{fig:block_matching}. Durch den Fokus auf einzelne Pixelreihen und deren unmittelbare Umgebung ist dieses Verfahren wesentlich schneller aber auch ungenauer als globale Matching Algorithmen. 
+Diesen Prozess veranschaulicht Abbildung \ref{fig:block_matching} . Durch den Fokus auf einzelne Pixelreihen und deren unmittelbare Umgebung ist dieses Verfahren wesentlich schneller, aber auch ungenauer als globale Matching Algorithmen. 
+ 
 
 
 \subsection{Semi Global Block Matching}
 \label{subsec:stereo_matching_sgbm}
-Das im Rahmen dieser Arbeit verwendete Verfahren zur Berechnung von Disparity Maps ist der in der freien Computer Vision Library implementierte Semi Global Block Matching Algorithmus. Diese leicht abgewandelte Implementierung des Semi Global Matching Algorithmus von Hirschmüller et. al \cite{hirschmuller2005sgm} zeichnet sich sowohl durch seine Genauigkeit, als auch durch seine performante Berechnung aus. Unter Zuhilfenahme dieses Verfahren ist es möglich Disparity Maps in Echtzeit, mit sehr guter Framerate, zu berechnen. Im folgenden wird die grundlegende Funktionsweise des SGM erläutert. Im Anschluss daran werden die Unterschiede zum SGBM herausgearbeitet, sowie eine kurze Erklärung der Parameter dessen vorgenommen.\\
-
+Das im Rahmen dieser Arbeit verwendete Verfahren zur Berechnung von Disparity Maps ist der in der freien Computer Vision Library implementierte Semi Global Block Matching Algorithmus. Diese leicht abgewandelte Implementierung des Semi Global Matching Algorithmus von Hirschmüller et. al \cite{hirschmuller2005sgm} zeichnet sich sowohl durch seine Genauigkeit, als auch durch seine performante Berechnung aus. Unter Zuhilfenahme dieses Verfahren ist es möglich, Disparity Maps in Echtzeit mit sehr guter Framerate zu berechnen. Im Folgenden wird zunächst die grundlegende Funktionsweise des SGM erläutert. Im Anschluss daran werden die Unterschiede zum SGBM herausgearbeitet sowie eine kurze Erklärung der Parameter dessen vorgenommen.\\
 
 %TODO: footnote Mutal Information erweitern
 \noindent
 \textbf{SGM:} \\
-Die grundlegende Idee des Semi-Global Matching Algorithmus besteht aus dem pixelweisen Matching von Mutual Information \footnote{Mutual Information(MI), zu deutsch Transinformationen, beschreiben den statistischen Zusammenhang zweier Zufallsgrößen...}. Die globale zweidimensionale Smoothness Einschränkung wird dabei mithilfe mehrerer eindimensionaler Einschränkungen erzeugt. Ausgangsvoraussetzung dafür sind verschiedene Bilder derselben Szene mit vorhandener und bekannter Epipolargeometrie. 
-Zunächst wird für jeden Pixel $P$, aus der Intensität $I_{bp}$ sowie der vermuteten Korrespondenz $I_{mq}$ auf der Epipolarlinie $q=e_{bm}(pd)$ die Matching Kosten berechnet. Die eigentliche Berechnung dieser erfolgt dann mit Hilfe von Mutual Information.
+Die grundlegende Idee des Semi-Global Matching Algorithmus besteht in dem pixelweisen Matching von Mutual Information \footnote{Mutual Information(MI), zu deutsch Transinformationen, beschreiben den statistischen Zusammenhang zweier Zufallsgrößen...}. Die globale zweidimensionale Smoothness Einschränkung wird dabei mithilfe mehrerer eindimensionaler Einschränkungen erzeugt. Ausgangsvorraussetzung dafür sind verschiedene Bilder derselben Szene mit vorhandener und bekannter Epipolargeometrie. 
+Zunächst werden für jeden Pixel $P$ aus der Intensität $I_{bp}$ sowie der vermuteten Korrespondenz $I_{mq}$ auf der Epipolarlinie $q=e_{bm}(pd)$ die Matching Kosten berechnet. Die eigentliche Berechnung dieser erfolgt dann mit Hilfe von Mutual Information \footnote{muss noch kommen} REF berechnet.
 
 \begin{equation}\label{eq:mutual_information_1}
 MI_{I_1,I_2} = \sum_{p} mi_{I_1,I_2}(I_{1p},I_{2p})
@@ -68,14 +71,14 @@ mi_{I_1,I_2} (i,k) = h_{I_1}(i)+h_{I_2}(k)-h_{I_1,I_2}(i,k)
 \end{equation}
 
 \noindent
-Zur Berechnung der MI mithilfe der in \ref{eq:mutual_information_1} und \ref{eq:mutual_information_2} dargestellten Formeln, wird zunächst eine Initial Disparity Map benötigt. Diese wird nach Kims  \cite{zureiki2008stereo} Ansatz zufällig gewählt um die Kosten berechnen zu können. Dies ist insbesondere für iterative verfahren geeignet, da andernfalls die Berechnung verlangsamt werden könnte. Zur Steigerung der Performanz wird die Disparity Map zunächst nur auf halber Auflösung berechnet, was den Rechenaufwand um den Faktor $2 \cdot 3$ reduziert.Zur Vermeidung falscher Kostenberechnung durch auftretende Noise innerhalb des Bildes nimmt der Algorithmus weitere Einschränkungen vor. Dabei werden die benachbarten Disparitäten in die Berechnung mit einbezogen(siehe Abbildung \ref{eq:disparity_calculation}).
+Zur Berechnung der MI mithilfe der in \ref{eq:mutual_information_1} und \ref{eq:mutual_information_2} dargestellten Formeln wird zunächst eine Initial Disparity Map benötigt. Diese wird nach Kim et al’s \cite{zureiki2008stereo} Ansatz zufällig gewählt, um die Kosten berechnen zu können. Dies ist insbesondere für iterative Verfahren geeignet, da andernfalls die Berechnung verlangsamt werden könnte. Zur Steigerung der Performanz wird die Disparity Map zunähst nur auf halber Auflösung berechnet,  wodurch der Rechenaufwand um den Faktor $2 \cdot 3$ reduziert wird.Zur Vermeidung falscher Kostenberechnungen durch auftretende Noise innerhalb des Bildes nimmt der Algorithmus weitere Einschränkungen vor. Dabei werden die benachbarten Disparitäten in die Berechnung \ref{eq:disparity_calculation} mit einbezogen.
 
 \begin{equation}\label{eq:disparity_calculation}
  foo = foo
 \end{equation}
 
 \noindent
-Das letzte Problem besteht in der Berechnung der Korrespondenz sowie der daraus resultierenden Disparitäten. Dabei wird nach der Disparität $D$ mit der geringsten berechneten Energiefunktion gesucht. Anstatt nun einfach den minimalen Pfad der Kosten zu summieren werden alle Richtungen zur aktuellen Disparität mit einbezogen (siehe Abbildung \ref{fig:sgm_directions})
+Das letzte Problem besteht in der Berechnung der Korrespondenz sowie der daraus resultierenden Disparitäten. Dabei wird nach der Disparität $D$ mit der geringsten berechneten Energiefunktion gesucht. Anstatt nun einfach den minimalsten Pfad der Kosten zu summieren, werden alle Richtungen zur aktuellen Disparität mit einbezogen (siehe Abbildung \ref{fig:sgm_directions}).
 
 \begin{figure}
 	\begin{center}
@@ -86,7 +89,7 @@ Das letzte Problem besteht in der Berechnung der Korrespondenz sowie der daraus 
 \end{figure}
 
 \noindent
-Zur Berechnung valider Werte, sollten dabei mindestens 8 Richtungen vorliegen, eine vermehrte Anzahl, beispielsweise 16, sind bei vorteilhaft. Die berechnete Disparität ergibt sich dabei aus den minimalen Kosten anhand dieser Pfade. Dabei gilt: “Je mehr Übereinstimmungen in den Kosten, desto wahrscheinlicher ist es das $D$ zur Intensität $I$ korrespondiert”.\\
+Zur Berechnung valider Werte sollten dabei mindestens 8 Richtungen vorliegen; -  eine vermehrte Anzahl an Richtungen, etwa 16, ist dabei vorteilhaft. Die berechnete Disparität ergibt sich aus den minimalen Kosten anhand dieser Pfade. Dabei gilt: “Je mehr Übereinstimmungen in den Kosten, desto wahrscheinlicher ist es, dass $D$ zur Intensität $I$ gehört”.\\
 
 \noindent
 \textbf{SGBM:} \\
@@ -101,7 +104,8 @@ Der Semi Global Block Matching Algorithmus ist ein in der Computer Vision Librar
 
 \noindent
 %TODO: Parameter anpassung wichtig, grafik sgbm normal, sgbm im hirschmueller mode, sgm
-Dies erlaubt dem Algorithmus eine schnelle Berechnung der Disparitäten auf einem qualitativ hochwertigen Niveau. Der geringe Verlust an Qualität kann in Anbetracht der Berechnung in Echtzeit vernachlässigt werden. In Abbildung \ref{fig:sgbm_vs_sgm} findet sich FOO.
+Dies erlaubt dem Algorithmus eine schnelle Berechnung der Disparitäten auf einem qualitativ hochwertigen Niveau. Der geringe Verlust an Qualität kann in Anbetracht der Berechnung in Echtzeit vernachlässigt werden. In Abbildung \ref{fig:sgbm_vs_sgm} findet sich eine Gegenüberstellung beider Algorithmen.
+% TODO erklaeren was der Vergleich zeigen soll
 
 %TODO: vielleicht Einleitung Parameter, nur die wichtigen werden erklaert
 
