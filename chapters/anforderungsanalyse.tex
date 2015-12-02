@@ -8,8 +8,13 @@ Lorem ipsum dolor sit amet.
 	\label{req:bildaufnahme}
 		Die zur Erkennung von Hindernissen verwendeten Bilder müssen kalibriert, entzerrt sowie stereo-rektifiziert vorliegen.
 	\end{anforderung}
-	
-Um \ref{req:bildaufnahme} zu erfüllen müssen die aufgenommenen Bilder vor der Berechnung 
+
+\noindent
+Um Anforderung \ref{req:bildaufnahme} zu erfüllen müssen zunächst die intrinsischen und extrinsischen Parameter der Kamera berechnet werden. Dieser Prozess wird als Kalibierung der Kamera bezeichnet. Dafür werden Bilder eines Kalibierobjektes aufgenommen. Diese sind meistens einfache Schachbrettmuster mit ungleicher Anzahl an Quadraten, oder auch radiale Objekte mit einem spezifischerem Aufbau. Der Prozess der Kalibierung zielt darauf ab die 'inneren' Parameter der Kamera zu bestimmen. Dies beinhaltet einerseits die Kameramatrix in welcher Parameter wie der Fokus Punkt(Focal Point), der Bildhauptpunkt(Principal Point) sowie die Brennweite der der Kamera. Weiterhin werden geometrische Verzerrungen des Bildes,  parametrisiert und somit nutzbar für die Entzerrung der Bilder in weiteren Schritten. Weiterhin werden bei der Kallibrierung die extrinsischen (äußeren) Parameter der Kamera bestimmt. Zu diesen zählt die Translation (x,y und z) sowie die Rotation der Kamera um die jeweiligen Achsen des Weltkoordinatensystems. Ein spezieller Aspekt bei der Kalibierung von Stereo-Systemen ist die Berechnung der extrinsischen Parameter von einer Kamera zur anderen. Die dabei berechnete Translation einer Kamera zur Referenzkamera wird als Baseline bezeichnet. Diese ist für Prozeduren wie Stereo-Matching unabdingbar. Der Prozess der Parameterfindung ist in der Regel ein Prozess welcher einmalig nach dem Aufbau ausgeführt werden muss und solange währt wie sich nichts am Aufbau der Kameras ändert (Linsen, Translation, Rotation).\\
+
+\noindent
+Folgend aus der Kalibrierung der Kameras beginnt der Prozess der Rektifizierung der Bilder. Dieser kann dabei in zwei Schritte unterteilt werden, einerseits die Berechung der Region of Interest, andererseits die Rektifizierung jedes aufgenommenen Einzelbildes. 
+    % TODO retification beschreiben
 
 % ---------------------- section -----------------------
 \section{Erfassung von Hindernissen}
@@ -35,5 +40,5 @@ Um \ref{req:bildaufnahme} zu erfüllen müssen die aufgenommenen Bilder vor der 
 
 	\begin{anforderung}
 	\label{req:positionsinformationen}
-		
+		Relative Positionen der gefundenen Objekte müssen in jedem Frame vorliegen.
 	\end{anforderung}
