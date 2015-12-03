@@ -112,7 +112,18 @@ Dies erlaubt dem Algorithmus eine schnelle Berechnung der Disparitäten auf eine
 % ---------------------- section -----------------------
 \section{mvStereoVision Framework}
 \label{sec:framework}
-Das verwendete Framework zur Bildaufnahme und Disparity Map Berechnung wurde im Rahmen des Projektes “SLAM for UAV” entwickelt. Dieses bedient sich der von Matrix Vision zur Verfügung gestellte Library \cite{matrixvision} zur Kommunikation mit den Kameras, sowie OpenCV \cite{opencv} zur Verarbeitung der Bilder. Die wesentlichen Funktionen werden im folgenden näher beleuchtet.
+Das verwendete Framework zur Bildaufnahme und Disparity Map Berechnung wurde im Rahmen des Projektes “SLAM for UAV” entwickelt. Dieses bedient sich der von Matrix Vision zur Verfügung gestellte Library \cite{matrixvision} zur Kommunikation mit den Kameras, sowie OpenCV \cite{opencv} zur Verarbeitung der Bilder. Die wesentlichen Funktionen werden im folgenden näher beleuchtet.\\
+
+\noindent
+Die Aufnahme der einzelnen Bilder beginnt bei einer Anfrage an die Kamera nach den jeweiligen Rohdaten. Diese werden anschliessend mithilfe der durch die Kalibrierung ermittelten Parameter entzerrt und rektifiziert und liegen so zur weiteren Verarbeitung bereit. Die Aufnahme der Bilder erfolgt dabei in separaten Threads um unabhängig von weiteren Berechnungen Bilder aufzunehmen. Die Berechnung der Disparity Map erfolg ebenfalls in einem eigenen Thread. Sofern eine neue Disparity Map vorliegt wird innerhalb des Hauptprogramms mit Hilfe eines Wahrheitswertes darüber informiert das diese vorliegt. Der gesamte Prozess wird in Abbildung \ref{fig:framework_pipeline} visualisiert.
+
+\begin{figure}[h]
+	\begin{center}
+%		\includegraphics[width=10cm]{img/sgm_directions.pdf}
+	\end{center}
+	\caption{Pipeline zur Bildaufnahme, Disparity Map Berechnung sowie weiteren Verarbeitung}
+	\label{fig:framework_pipeline}
+\end{figure}
 
 %TODO: aufnahme - sequenzdiagramm
 %TODO: kalibrierung - sequenzdiagramm
