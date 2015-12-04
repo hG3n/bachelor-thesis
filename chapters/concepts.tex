@@ -105,40 +105,43 @@ Der Semi Global Block Matching Algorithmus ist ein in der Computer Vision Librar
 
 \noindent
 %TODO: Parameter anpassung wichtig, grafik sgbm normal, sgbm im hirschmueller mode, sgm
-Dies erlaubt dem Algorithmus eine schnelle Berechnung der Disparitäten auf einem qualitativ hochwertigen Niveau. Der geringe Verlust an Qualität kann in Anbetracht der Berechnung in Echtzeit vernachlässigt werden. In Abbildung \ref{fig:sgbm_vs_sgm} findet sich eine Gegenüberstellung beider Algorithmen.
+Dies erlaubt dem Algorithmus eine schnelle Berechnung der Disparitäten auf einem qualitativ hochwertigen Niveau. Der geringe Verlust an Qualität kann in Anbetracht der Berechnung in Echtzeit vernachlässigt werden.
 
 \begin{figure}[h]
 \centering
-	\begin{tabular}{m{3cm} m{3cm} m{3cm} m{3cm}}
-	Datensatz&
-	\begin{center} Tskukuba \end{center} &
-	\begin{center} Teddy \end{center} &
-	\begin{center} Cones \end{center}
+	\begin{tabular}{m{2cm} m{3.3cm} m{3.3cm} m{3.3cm}}
+	{\scriptsize Datensatz}&
+	\begin{center} {\scriptsize Tskukuba} \end{center} &
+	\begin{center} {\scriptsize Teddy} \end{center} &
+	\begin{center} {\scriptsize Cones} \end{center}
 	\\
-	Bilder links &
+	{\scriptsize Bilder links} &
 	\includegraphics[width=3cm]{img/disparity_images/left_tsukuba.png} & 
 	\includegraphics[width=3cm]{img/disparity_images/left_teddy.png} & 
 	\includegraphics[width=3cm]{img/disparity_images/left_cones.png} 
 	\\ 
-	Ground Truth &
+	{\scriptsize Ground Truth} &
 	\includegraphics[width=3cm]{img/disparity_images/gt_tsukuba.png} & 
 	\includegraphics[width=3cm]{img/disparity_images/gt_teddy.png} & 
 	\includegraphics[width=3cm]{img/disparity_images/gt_cones.png} 
 	\\
-	SGM (MI) &
+	{\scriptsize SGM (MI)} &
 	\includegraphics[width=3cm]{img/disparity_images/sgm_tsukuba.png} &
 	\includegraphics[width=3cm]{img/disparity_images/sgm_teddy.png} &
 	\includegraphics[width=3cm]{img/disparity_images/sgm_cones.png}
 	\\ 
-	SGBM &
+	{\scriptsize SGBM} &
 	\includegraphics[width=3cm]{img/disparity_images/sgbm_tsukuba.png} &
 	\includegraphics[width=3cm]{img/disparity_images/sgbm_teddy.png} &
 	\includegraphics[width=3cm]{img/disparity_images/sgbm_cones.png}
 	 \\ 
 	\end{tabular}
 \caption{Vergleich zwischen Ground Truth Bildern sowie dem SGM(2005) und OpenCV's SGBM}
+\label{fig:disparity_comparison}
 \end{figure}
 
+\noindent
+Abbildung \ref{fig:disparity_comparison} stellt die originalen Bildern der Szene (\cite{middlebury_data}), die mithilfe von strukturiertem Licht aufgenommenen Ground Truth Bilder sowie die jeweiligen berechneten Tiefenkarten durch den SGM und den SGBM dar. Aus dieser ist der Qualitaetsverlust des SGBM beim Tsukuba- sowie beim Teddy Datensatz zu erkennen. Trotz dessen sind die Grundformen sowie die berechnete Tiefe klar erkennbar. 
 % TODO erklaeren was der Vergleich zeigen soll
 
 %TODO: vielleicht Einleitung Parameter, nur die wichtigen werden erklaert
@@ -152,8 +155,9 @@ Das verwendete Framework zur Bildaufnahme und Disparity Map Berechnung wurde im 
 Die Aufnahme der einzelnen Bilder beginnt bei einer Anfrage an die Kamera nach den jeweiligen Rohdaten. Diese werden anschliessend mithilfe der durch die Kalibrierung ermittelten Parameter entzerrt und rektifiziert und liegen so zur weiteren Verarbeitung bereit. Die Aufnahme der Bilder erfolgt dabei in separaten Threads um unabhängig von weiteren Berechnungen Bilder aufzunehmen. Die Berechnung der Disparity Map erfolg ebenfalls in einem eigenen Thread. Sofern eine neue Disparity Map vorliegt wird innerhalb des Hauptprogramms mit Hilfe eines Wahrheitswertes darüber informiert das diese vorliegt. Der gesamte Prozess wird in Abbildung \ref{fig:framework_pipeline} visualisiert.
 
 \begin{figure}[h]
+	% TODO add another state for further processing
 	\begin{center}
-%		\includegraphics[width=10cm]{img/sgm_directions.pdf}
+		\includegraphics[width=6cm]{img/framework_pipeline.pdf}
 	\end{center}
 	\caption{Pipeline zur Bildaufnahme, Disparity Map Berechnung sowie weiteren Verarbeitung}
 	\label{fig:framework_pipeline}
