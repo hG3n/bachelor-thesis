@@ -6,7 +6,7 @@ Dieses Kapitel beleuchtet dieser Arbeit zugrunde liegende Konzepte und Algorithm
 Bei der Verwendung der meisten photogrammetrischen Verfahren spielt die Epipolargeometrie eine entscheidende Rolle. Das mathematische Modell beschreibt die geometrische Beziehung zwischen verschiedenen Kamerabildern desselben Objektes, sowie die Beziehung korrespondierender Punkte. Generell gesehen ist die Epipolargeometrie durch das Lochkamera-Modell beschrieben. Dabei liegt jeder Punkt des aufgenommenen Objektes mit dem Projektionszentrum sowie dem Bildpunkt auf einer Geraden. Unter Zuhilfenahme der extrinsischen Orientierung sowie der intrinsischen Parameter der Kamera, ist es möglich den Schnittpunkt zweier Geraden zu berechnen um die dreidimensionalen Koordinaten des Objektpunktes zu erhalten. Dabei gilt generell, wenn ein Punkt $P$ im linken Bild gegeben ist, so wird die Suche des korrespondierenden Punktes $P’$ auf die Epipolarlinie des rechten Bildes reduziert. 
 
 % GRAFIK: epipolargeometrie
-\begin{figure}
+\begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=10cm]{img/epipolar_geometry.pdf}
 	\end{center}
@@ -14,6 +14,7 @@ Bei der Verwendung der meisten photogrammetrischen Verfahren spielt die Epipolar
 	\label{fig:epipolar_geometry}
 \end{figure}
 
+\noindent
 Abbildung \ref{fig:epipolar_geometry} visualisiert diesen Prozess. Gegeben sind die beiden Projektionszentren $C_L$ und $C_R$ der beiden Bildebenen sowie die Bildpunkte $P_L$ und $P_R$. Der Objektpunkt $O$ bildet im linken Kamerabild auf $P_{x_1,y_1}$ ab. Zunächst ist es nur möglich den Strahl auf dem sich $O$ befindet zu bestimmen. Aufgrund des Wissens der extrinsischen Orientierung der Kameras können mithilfe der Basislinie zwischen den beiden Kameras die beiden Epipole in $L$ und $R$ ermittelt werden. Dabei sind diese durch den Schnittpunkt der Basislinie mit den beiden Bildebenen definiert \footnote{Im Falle eines Stereonormalfalles ist ein Schnittpunkt der Basislinie mit den Bildebenen nicht möglich, sodass die Epipole in der Unendlichkeit und parallel zur x-Achse liegen. Dies hat unter anderem den Vorteil, das die Epipolargeometrie bereits bekannt ist, und korrespondierende Bildpunkte nur noch innerhalb einer Pixelreihe gesucht werden müssen.}. Somit ist es möglich mithilfe der vorhandenen Epipole $e_L$, $e_R$ die Epipolarlinie $e_l,P_{x_2,y_2}$ zu bestimmten. Anhand dieser kann im Anschluss die dreidimensionale Position des Objektpunktes $O$ bestimmt werden.
 
 % ---------------------- section -----------------------
@@ -40,7 +41,7 @@ Einen der einfachsten Ansätze zur Berechnung von Korrespondenz zwischen zwei Bi
 
 
 %TODO: Block/Schrift groesser
-\begin{figure}
+\begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=10cm]{img/block_matching.pdf}
 	\end{center}
@@ -80,9 +81,9 @@ Zur Berechnung der MI mithilfe der in \ref{eq:mutual_information_1} und \ref{eq:
 \noindent
 Das letzte Problem besteht in der Berechnung der Korrespondenz sowie der daraus resultierenden Disparitäten. Dabei wird nach der Disparität $D$ mit der geringsten berechneten Energiefunktion gesucht. Anstatt nun einfach den minimalsten Pfad der Kosten zu summieren, werden alle Richtungen zur aktuellen Disparität mit einbezogen (siehe Abbildung \ref{fig:sgm_directions}).
 
-\begin{figure}
+\begin{figure}[h]
 	\begin{center}
-		\includegraphics[width=10cm]{img/sgm_directions.pdf}
+		\includegraphics[width=8cm]{img/sgm_directions.pdf}
 	\end{center}
 	\caption{Darstellung der verschiedenen Richtungen}
 	\label{fig:sgm_directions}
@@ -105,6 +106,39 @@ Der Semi Global Block Matching Algorithmus ist ein in der Computer Vision Librar
 \noindent
 %TODO: Parameter anpassung wichtig, grafik sgbm normal, sgbm im hirschmueller mode, sgm
 Dies erlaubt dem Algorithmus eine schnelle Berechnung der Disparitäten auf einem qualitativ hochwertigen Niveau. Der geringe Verlust an Qualität kann in Anbetracht der Berechnung in Echtzeit vernachlässigt werden. In Abbildung \ref{fig:sgbm_vs_sgm} findet sich eine Gegenüberstellung beider Algorithmen.
+
+\begin{figure}[h]
+\centering
+	\begin{tabular}{m{3cm} m{3cm} m{3cm} m{3cm}}
+	Datensatz&
+	\begin{center} Tskukuba \end{center} &
+	\begin{center} Teddy \end{center} &
+	\begin{center} Cones \end{center}
+	\\
+	Bilder links &
+	\includegraphics[width=3cm]{img/disparity_images/left_tsukuba.png} & 
+	\includegraphics[width=3cm]{img/disparity_images/left_teddy.png} & 
+	\includegraphics[width=3cm]{img/disparity_images/left_cones.png} 
+	\\ 
+	Ground Truth &
+	\includegraphics[width=3cm]{img/disparity_images/gt_tsukuba.png} & 
+	\includegraphics[width=3cm]{img/disparity_images/gt_teddy.png} & 
+	\includegraphics[width=3cm]{img/disparity_images/gt_cones.png} 
+	\\
+	SGM (MI) &
+	\includegraphics[width=3cm]{img/disparity_images/sgm_tsukuba.png} &
+	\includegraphics[width=3cm]{img/disparity_images/sgm_teddy.png} &
+	\includegraphics[width=3cm]{img/disparity_images/sgm_cones.png}
+	\\ 
+	SGBM &
+	\includegraphics[width=3cm]{img/disparity_images/sgbm_tsukuba.png} &
+	\includegraphics[width=3cm]{img/disparity_images/sgbm_teddy.png} &
+	\includegraphics[width=3cm]{img/disparity_images/sgbm_cones.png}
+	 \\ 
+	\end{tabular}
+\caption{Vergleich zwischen Ground Truth Bildern sowie dem SGM(2005) und OpenCV's SGBM}
+\end{figure}
+
 % TODO erklaeren was der Vergleich zeigen soll
 
 %TODO: vielleicht Einleitung Parameter, nur die wichtigen werden erklaert
