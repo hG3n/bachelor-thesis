@@ -1,4 +1,7 @@
-Lorem ipsum dolor sit amet.
+Zur Erreichung der in Abschnitt \ref{sec:ziel_der_arbeit} beschriebenen Ziele wurden einige Anforderungen definiert. Jene Eckpfeiner der Entwicklung sollen in diesem Kapitel näher beleuchtet werden.\\
+
+\noindent
+Abschnitt \ref{req:bildaufnahme} geht hierbei auf die notwendigen Schritte des Preprocessings der aufgenommenen Bilder ein. Des Weiteren wird in Abschnitt \ref{req:performanz} die Notwendigkeit einer Erkennung der Hindernisse in Echtzeit sowie eine daraus resultierende signifikant hohe Wahrscheinlichkeit in der korrekten Erkennung der Hindernisse diskutiert. Zuletzt wird in Abschnitt \ref{req:positionsinformationen} die weitergehende Arbeit mit den errechneten Positionsinformationen behandelt.
 
 % ---------------------- section -----------------------
 \section{Bildaufnahme und Preprocessing}
@@ -22,19 +25,12 @@ Folgend aus der Kalibrierung der Kameras beginnt der Prozess der Rektifizierung 
 
 	\begin{anforderung}
 	\label{req:performanz}
-		Das System sollte Hindernisse in Echtzeit erfassen und erkennen können.
+		Das System sollte Hindernisse in Echtzeit erfassen und erkennen können um eine signifikant hohe Erkennungswahrscheinlichkeit zu gewährleisten.
 	\end{anforderung}
-	
 
-
-% ---------------------- section -----------------------
-\section{Erfassung von Hindernissen}
-\label{sec:erfassung_von_hindernissen}
-
-	\begin{anforderung}
-	\label{req:erfassung_von_hindernissen}
-		Die Erfassung von Hindernissen sollte eine signifikant hohe Wahrscheinlichkeit haben um etwaige Fehlentscheidungen zu vermeiden.
-	\end{anforderung}
+\noindent
+Die Erfassung von Hindernissen in Echtzeit ist ein wesentlicher Bereich in der Entwicklung autonomer Systeme um Unfälle jedweder zu vermeiden. Dabei ist die erste Vorraussetzung für das System eine hohe Framerate in der Bildaufnahme um ausreichend Einzelbilder für die Berechnung der Disparity Map bereitzustellen. Die Anzahl der pro Sekunde verfügbaren Tiefenkarten ist ebenfalls entscheidend für die Validierung der zu erkennenden Hindernisse.
+% TODO weiter
 	
 
 % ---------------------- section -----------------------
@@ -43,5 +39,8 @@ Folgend aus der Kalibrierung der Kameras beginnt der Prozess der Rektifizierung 
 
 	\begin{anforderung}
 	\label{req:positionsinformationen}
-		Relative Positionen der gefundenen Objekte müssen in jedem Frame vorliegen.
+		Die relativen Positionen der gefundenen Objekte müssen in jedem Frame vorliegen.
 	\end{anforderung}
+	
+In Hinblick auf die Vermeidung der erkannten Hindernisse wurde Anforderung \ref{req:positionsinformationen} definiert. Dabei genügt es nicht dem System mitzuteilen das ein gefährliches Objekt gefunden wurde, da die Position für die Vermeidung dessen von Nöten ist. 
+
