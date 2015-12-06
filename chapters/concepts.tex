@@ -152,6 +152,7 @@ Abbildung \ref{fig:disparity_comparison} stellt die originalen Bildern der Szene
 Das verwendete Framework zur Bildaufnahme und Disparity Map Berechnung wurde im Rahmen des Projektes “SLAM for UAV” entwickelt. Dieses bedient sich der von Matrix Vision zur Verfügung gestellte Library \cite{matrixvision} zur Kommunikation mit den Kameras, sowie OpenCV \cite{opencv} zur Verarbeitung der Bilder. Die wesentlichen Funktionen werden im folgenden näher beleuchtet.\\
 
 \noindent
+\textbf{Bildaufnahme:}\\
 Die Aufnahme der einzelnen Bilder beginnt bei einer Anfrage an die Kamera nach den jeweiligen Rohdaten. Diese werden anschliessend mithilfe der durch die Kalibrierung ermittelten Parameter entzerrt und rektifiziert und liegen so zur weiteren Verarbeitung bereit. Die Aufnahme der Bilder erfolgt dabei in separaten Threads um unabhängig von weiteren Berechnungen Bilder aufzunehmen. Die Berechnung der Disparity Map erfolg ebenfalls in einem eigenen Thread. Sofern eine neue Disparity Map vorliegt wird innerhalb des Hauptprogramms mit Hilfe eines Wahrheitswertes darüber informiert das diese vorliegt. Der gesamte Prozess wird in Abbildung \ref{fig:framework_pipeline} visualisiert.
 
 \begin{figure}[h]
@@ -162,6 +163,66 @@ Die Aufnahme der einzelnen Bilder beginnt bei einer Anfrage an die Kamera nach d
 	\caption{Pipeline zur Bildaufnahme, Disparity Map Berechnung sowie weiteren Verarbeitung}
 	\label{fig:framework_pipeline}
 \end{figure}
+
+
+\noindent
+\textbf{Distanzberechnung:}
+Die Berechnung der Distanz kann in zwei wesentliche Prozesse unterteilt werden:
+\begin{enumerate}
+  \item Berechnung der Distanz aus zugrundeliegender Disparität
+  \item Rückrechnung der Dispari†ät aus gegebener Distanz
+\end{enumerate}
+Zugrundeliegend ist bei beiden Operationen die Reprojektionsmatrix $Q$ welche im Rahmen der Rektifizierung berechnet wird und wie folgt aufgebaut ist.
+\begin{equation}
+    \begin{bmatrix}
+      1 & 0 & 0 & -C_x\\
+      0 & 1 & 0 & -C_y\\
+      0 & 0 & 0 & f\\
+      0 & 0 & \frac{-1}{T_x} & \frac{C_x - C_x'}{T_x}
+    \end{bmatrix}\\\\
+\end{equation}
+Dabei beschreiben $-C_x$ und $-C_y$ die beiden negativen Koordinaten des Bildhauptpunktes der linken Kamera sofern dies als Referenz vorlag, der Parameter $f$ die Brennweite der linken Kamera. $T_x$ ist die horizontale Translation zwischen beiden Kameras. Die in der Q-Matrix enthaltenen Parameter sind mit Ausnahme von $C_x'$ alle die der linken Kamera. Es wird angenommen das sich die beiden Strahlen der Bildhauptpunkte in der Unendlichkeit schneiden woraus sich der Parameter $0$ in der unteren rechten Ecke berechnet.\\
+
+\noindent
+Eine Eigenschaft der Reprojektionsmatrix ist die einfache Berechnung von dreidimensionalen Weltkoordinaten. Diese Berechnung ist in Formel \ref{eq:distance_calculation} abgebildet.
+
+\begin{equation}\label{eq:distance_calculation}
+    \begin{aligned}
+        \begin{bmatrix}
+            X\\ Y \\ Z\\ W
+        \end{bmatrix}
+        = Q \cdot 
+        \begin{bmatrix}
+            image_x\\ image_y \\ disparity(x,y)\\ 1
+        \end{bmatrix}\\
+        pointcloud(x,y) = [\frac{X}{W}, \frac{Y}{W}, \frac{Z}{W} ]
+    \end{aligned}
+\end{equation}
+
+Die eigentliche Berechnung der einzelnen Parameter ergibt sich somit aus der Multiplikation des transponierten Vektors, welcher sowohl die Koordinaten des Pixels als auch die Disparität dessen enthält, und der Reprojektions Matrix. Die dabei benötigten Operationen werden im folgenden genauer beleuchtet.
+
+\begin{equation}
+  \begin{aligned}
+    X = 
+  \end{aligned}}
+\end{equation}
+
+Da die Berechnung der Disparity Map von den intrinsischen sowie extrinsischen Parametern sowie der Farbtiefe der Kamera abhänging ist kann kein genauer Wert definiert werden welcher eine bestimmte Distanz repräsentiert. Mithilfe der folgenden Berechnung kann der Pixelwert innerhalb der Disparity Map anhand von 3D-Koordinaten berechnet werden.
+
+\begin{equation}
+  \label{eq:backward_calculation}
+  \begin{aligned}
+    X' = \frac{I_x - C_x}{d \cdot a + b}\\
+    Y' = \frac{I_y - C_y}{d \cdot a + b}\\
+    X' = \frac{f}{d \cdot a + b}\\\\
+    d = \frac{f- Z' \cdot b}{Z' \cdot a}\\
+    I_x = X' \cdot (d \cdot a + b) + C_x\\
+    I_y = Y' \cdot (d \cdot a + b) + C_y
+  \end{aligned}
+\end{equation}
+
+
+
 
 %TODO: aufnahme - sequenzdiagramm
 %TODO: kalibrierung - sequenzdiagramm
