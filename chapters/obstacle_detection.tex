@@ -33,7 +33,6 @@ Zu Beginn des Algorithmus, nach der vorherigen Bearbeitung der eigentlichen \emp
 	\label{fig:subimage_class}
 \end{figure}
 
-
 \noindent
 Für die Unterteilung der Disparity Map wurden intial nur 9 Segmente vorgesehen wobei jeder Bereich eine der möglichen Flugrichtungen repräsentieren sollte. Aufgrund der Größe der Submatrizen konnte jedoch keine valide Erkennung kleiner Hindernisse gewährleistet werden, da solche in der Berechnung des Mittelwertes untergegangen sind. Aufgrund dessen wurde die Anzahl der Segmente auf 81 erhöht, welches eine wesentlich genauere Erkennung ermöglicht. Zudem ist somit eine weitaus genauere Einteilung der Flugrichtungen möglich, da jede dieser nocheinmal genauer betrachtet wird (siehe Abbildung \ref{fig:subimage_detection_segments}).
 
@@ -70,8 +69,21 @@ Um die Hindernisse innerhalb der Segmente zu Erkennen wurde auf die Berechnung d
 Es werden demnach nur positive Disparitäten betrachtet was auch dazu führt das sich der Gesamtwert aller Werte aus der Menge dieser ergibt. Mit Hilfe dieser Berechnung ist es möglich Hindernisse auch in Bereichen zu erkennen in denen die Mehrzahl der Pixel keine Matches aufweisen.\\
 
 \noindent
-Die eigentliche Hinderniserkennung erfolgt in jedem Frame. Wobei der Term Frame hierbei nicht nach einem von der Kamera aufgenommenen Bild, sondern eine neue Disparity Map definiert. Da die Bildgröße pro Einzelbild stetig ist besteht keine Nötigkeit die einzelnen Segmente erneut zu generieren. Es genügt also die Mittelwerte eines jeden Subimages anhand der neuen Disparity Map zu aktualisieren. Daraufhin wird geprüft ob sich einer oder mehrere der Subimage Mittelwerte innerhalb der Gefahrenzone befinden. Die gefahrenzone wird zur Initialisierung der Erkennung berechnet. Da die Disparitäten in Abhängigkeit der Bildgröße sowie der Q-Matrix berechnet werden ergibt kann kein fest definierter Disparitätenwert für eine Distanz bestimmt werden. Demnach müssen zu Beginn die minimale sowie maximale Distanz der Erkennung auf einen Tiefenwert zurükgerechnet werden (siehe Abschnitt \ref{sec:framework}). Anschließend wird unter Zuhilfenahme der neuen Werte eine Pointcloud erstellt und geloggt. Der gesamte Ablauf der Hinderniserkennung wird in Algorithmus \ref{alg:mean_disparity_detection} dargestellt.\\
+Die eigentliche Hinderniserkennung erfolgt in jedem Frame. Wobei der Term Frame hierbei nicht nach einem von der Kamera aufgenommenen Bild, sondern eine neue Disparity Map definiert. Da die Bildgröße pro Einzelbild stetig ist besteht keine Nötigkeit die einzelnen Segmente erneut zu generieren. Es genügt also die Mittelwerte eines jeden Subimages anhand der neuen Disparity Map zu aktualisieren. Daraufhin wird geprüft ob sich einer oder mehrere der Subimage Mittelwerte innerhalb der Gefahrenzone befinden. Die Gefahrenzone wird zur Initialisierung der Erkennung berechnet. Da die Disparitäten in Abhängigkeit der Bildgröße sowie der Q-Matrix berechnet werden ergibt kann kein fest definierter Disparitätenwert für eine Distanz bestimmt werden. Demnach müssen zu Beginn die minimale sowie maximale Distanz der Erkennung auf einen Tiefenwert zurückgerechnet werden (siehe Formel \ref{eq:backward_calculation}). Dies erfolgt als Erweiterung der in Abschnitt \ref{sec:framework} beschriebenen ursprünglichen Distanzberechnung.\\
 
+\begin{equation}
+  \label{eq:backward_calculation}
+  \begin{aligned}
+    d &= \frac{f- Z' \cdot b}{Z' \cdot a}\\
+    I_x &= X' \cdot (d \cdot a + b) + C_x\\
+    I_y &= Y' \cdot (d \cdot a + b) + C_y
+  \end{aligned}
+\end{equation}
+
+\noindent
+Diese Rückrechnung ist ausschlaggebend für die schnelle Erkennung der Tiefe. Im Falle einer weiteren unterteilung müsste die Berechnung der Distanz für jedes Subimage einzeln erfolgen, was gerade bei der Samplepoint Detecion zum Tragen kommt sollten die Distanzen für ca. $6000$ Punkte (bei voller Auflösung in Abhängigkeit der verwendeten Parameter des SGBM) berechnet werden.\\
+
+% TODO subimage detection pseudocode
 \begin{algorithm}[h]
 \caption{Ablauf der Hinderniserkennung}
 \label{alg:mean_disparity_detection}
@@ -105,7 +117,7 @@ In Hinblick auf aktive optische Algorithmen zur 3D-Rekonstruktion und damit verb
 Ebenso wie in der in Abschnitt \ref{alg:mean_disparity_calculation} vorgestellten Mean Disparity Detection bedient sich die Samplepoint Detection einer vorverarbeiteten Disparity Map zur Hinderniserkennung.Bei der Initialisierung wird die Anzahl der zu berechnenden Samplepoints festgelegt, dabei richtet sich der Wert an der Anzahl der Reihen und Spalten der Disparity Map Matrix um eine äquidistante Verteilung gewährleisten zu können. Der hier verwendete Standart Faktor ist 8 (siehe Formel REF). Dies sorgt unter anderem für eine gleiche Anzahl von Samplepoints im gebinnten und ungebinnten Aufnahmemodus, da die jeweilige Menge relativ zur Bildgröße ist.\\
 
 \noindent
-Ein Samplepoint umfasst im entwickelten System entweder einen Pixel oder einen Zusammenschluss mehrerer Pixel. Die dabei festgelegte Ausgangskoordinate entspricht dabei entweder dem eigentlichen Punkt, oder dem Mittelpunkt einer festgelegten Region of Interest. Da ein Pixel gerade bei Bildern mit hoher Auflösung weniger Aussagekraft besitzt als der Pixel inklusive der lokalen Umgebung wurde ein Samplepoint auf diese Weise definiert. Der Wert eines einzelnen Samplepoints $S$ mit dem Zentrum $C$ ergibt sich im Falle eines Radius $r=3$ aus dem Mittelwert des Quadrats $Q$ mit den Eckpunkten $Q_{tl} = (C_x - r, C_y -r)$ und $Q_{br} = (C_x + r, C_y +r)$. Dies erhöht zwar die Anzahl der zu betrachtenden Pixel welche jedoch, in Abhängigkeit vom gewählten Radius, geringer ist als die Gesamtzahl aller Bildpunkte. Dieser Prozess wird in Abbildung \ref{fig:samplepoints_initmodes} verdeutlicht.
+Ein Samplepoint umfasst im entwickelten System entweder einen Pixel oder einen Zusammenschluss mehrerer Pixel. Die dabei festgelegte Ausgangskoordinate entspricht dabei entweder dem eigentlichen Punkt, oder dem Mittelpunkt einer festgelegten Region of Interest. Da ein Pixel gerade bei Bildern mit hoher Auflösung weniger Aussagekraft besitzt als der Pixel inklusive der lokalen Umgebung wurde ein Samplepoint auf diese Weise definiert. Der Wert eines einzelnen Samplepoints $S$ mit dem Zentrum $C$ ergibt sich im Falle eines Radius $r=3$ aus dem Mittelwert des Quadrats $Q$ mit den Eckpunkten $Q_{tl} = (C_x - r, C_y -r)$ und $Q_{br} = (C_x + r, C_y +r)$. Dies erhöht zwar die Anzahl der zu betrachtenden Pixel welche jedoch, in Abhängigkeit vom gewählten Radius, geringer ist als die Gesamtzahl aller Bildpunkte. Dieser Prozess wird in Abbildung \ref{fig:samplepoints_initmodes} verdeutlicht.\\
 
 \begin{figure}[h]
 	\begin{center}
