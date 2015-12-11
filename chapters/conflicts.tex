@@ -9,7 +9,7 @@ Abschnitt \ref{sec:obstacle_validation} geht dabei auf eine Möglichkeit zur Val
 
 Die Validierung der erkannten Hindernisse ist ein kompliziertes Problem in der autonomen Hinderniserkennung. Durch etwaige äußere Einflüsse wie die Veränderung der Lichtverhältnisse kann die Berechnung der Tiefenkarte fehlerhaft sein. Dies kann im Fall eines autonomen Flugs dazu führen, dass das UAV ein Hindernis innerhalb eines Korridors erkennt und aufgrund dessen versucht diesem imaginären Hindernis auszuweichen. Gerade in engen Umgebungen ohne viel verfügbaren Platz kann dies zum totalen Systemausfall führen. Daher sollte ausgewertet werden ob es sich bei erkannten Hindernissen auch um solche handelt. Ein Ansatz zur Vermeidung solcher Falscherkennungen wäre, die Objekte insofern zu verfolgen, dass für jeden Frame (in Abhängigkeit der zugrundliegenden Framerate) überprüft wird ob bereits im vorherigen Frame ein Objekt gefunden wurde. Erst nachdem dies sichergestellt wurde wird daraufhin eine Warnung ausgegeben. Zeitgleich wäre es möglich, dass Informationen wie die Eigenbewegung sowie die Information ob sich das erkannte Objekt selber im Raum bewegt verloren gehen.
 
-Homogene & spiegelnde Flächen:
+Homogene \& spiegelnde Flächen:
 
 
 Hindernisgrösse:
