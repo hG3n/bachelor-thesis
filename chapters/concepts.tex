@@ -166,7 +166,7 @@ Die Aufnahme der einzelnen Bilder beginnt bei einer Anfrage an die Kamera nach d
 
 
 \noindent
-\textbf{Distanzberechnung:}
+\textbf{Distanzberechnung:}\\
 Zugrundeliegend bei der Distanzberechnung ist die Reprojektionsmatrix $Q$ welche im Rahmen der Rektifizierung berechnet wird und wie folgt aufgebaut ist.
 \begin{equation}
     Q= 
@@ -202,6 +202,7 @@ Eine Eigenschaft der Reprojektionsmatrix ist die einfache Berechnung von dreidim
     \end{aligned}
 \end{equation}
 
+\noindent
 Die eigentliche Berechnung der einzelnen Parameter ergibt sich somit aus der Multiplikation des transponierten Vektors, welcher sowohl die Koordinaten des Pixels als auch die Disparität dessen enthält, und der Reprojektions Matrix. Die dabei benötigten Operationen werden im folgenden genauer beleuchtet.
 
 % TODO fix alignment
