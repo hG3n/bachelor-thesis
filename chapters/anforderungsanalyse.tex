@@ -31,7 +31,7 @@ Folgend aus der Kalibrierung der Kameras beginnt der Prozess der Rektifizierung 
 \noindent
 Die Erfassung von Hindernissen in Echtzeit ist ein wesentlicher Bereich in der Entwicklung autonomer Systeme um Unfälle jedweder zu vermeiden. Dabei ist die erste Vorraussetzung für das System eine hohe Framerate in der Bildaufnahme um ausreichend Einzelbilder für die Berechnung der Disparity Map bereitzustellen. Die Anzahl der pro Sekunde verfügbaren Tiefenkarten ist ebenfalls entscheidend für die Validierung der zu erkennenden Hindernisse sowie die Geschwindigkeit in der sich das UAV letztenendes fortbewegen kann ohne aufgrund fehlender Einzelbilder Hindernisse zu verpassen.
 Da die Progresse der Einzelbilder die Geschwindigkeit der Berechnung der Tiefenkarte aktiv beeinflusst muss entschieden werden ob ein erhöhter Detailgrad oder die Maximierung der Framerate von höherer Priorität sind.
-% TODO weiter
+% TODO mehr zu hinderniserkennung in echtzeit
 	
 
 % ---------------------- section -----------------------
@@ -43,5 +43,6 @@ Da die Progresse der Einzelbilder die Geschwindigkeit der Berechnung der Tiefenk
 		Die relativen Positionen der gefundenen Objekte müssen in jedem Frame vorliegen.
 	\end{anforderung}
 	
-In Hinblick auf die Vermeidung der erkannten Hindernisse wurde Anforderung \ref{req:positionsinformationen} definiert. Dabei genügt es nicht dem System mitzuteilen das ein gefährliches Objekt gefunden wurde, da die Position für die Vermeidung dessen von Nöten ist. In dem von Richards et al. \cite{richards2014obstacle} entwickelten Algorithmus liegen die Weltkoordinaten als Resultat aus dem Optischen Fluss sowie dem Feature Tracking vor. Diese Berechnung für jeden Pixel einer Disparity Map vorzunehmen ist jedoch weder Zeit- noch Ressourcensparend und aufgrund dessen nicht für eine Echtzeiterkennung geeignet. Daher sollten nur die 3D-Informationen für die erkannten Hindernisse gespeichert bzw. an die Hindernisvermeidung weitergegeben werden. s
+In Hinblick auf die Vermeidung der erkannten Hindernisse wurde Anforderung \ref{req:positionsinformationen} definiert. Dabei genügt es nicht dem System mitzuteilen das ein gefährliches Objekt gefunden wurde, da die Position für die Vermeidung dessen von Nöten ist. In dem von Richards et al. \cite{richards2014obstacle} entwickelten Algorithmus liegen die Weltkoordinaten als Resultat aus dem Optischen Fluss sowie dem Feature Tracking vor. Diese Berechnung für jeden Pixel einer Disparity Map vorzunehmen ist jedoch weder Zeit- noch Ressourcensparend und aufgrund dessen nicht für eine Echtzeiterkennung geeignet. Daher sollten nur die 3D-Informationen für die erkannten Hindernisse gespeichert bzw. an die Hindernisvermeidung weitergegeben werden.
+% TODO mehr zu relativen positionen
 
