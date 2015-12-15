@@ -1,3 +1,6 @@
+# ignore osx bullshit
+.DS_Store
+
 # general stuff
 *.aux
 *.glo
