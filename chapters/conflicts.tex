@@ -9,17 +9,30 @@ In der Erkennung von Hindernissen mithilfe von passiv optischen Systemen können
 Die Validierung der erkannten Hindernisse ist ein kompliziertes Problem in der autonomen Hinderniserkennung. Durch etwaige äußere Einflüsse wie die Veränderung der Lichtverhältnisse kann die Berechnung der Tiefenkarte fehlerhaft sein. Dies kann im Fall eines autonomen Flugs dazu führen, dass das UAV ein Hindernis innerhalb eines Korridors erkennt und aufgrund dessen versucht diesem imaginären Hindernis auszuweichen. Gerade in engen Umgebungen ohne viel verfügbaren Platz kann dies zum totalen Systemausfall führen. Daher sollte ausgewertet werden ob es sich bei erkannten Hindernissen auch um solche handelt. Ein Ansatz zur Vermeidung solcher Falscherkennungen wäre, die Objekte insofern zu verfolgen, dass für jeden Frame (in Abhängigkeit der zugrundeliegenden Framerate) überprüft wird ob bereits im vorherigen Frame ein Objekt gefunden wurde. Erst nachdem dies sichergestellt wurde wird daraufhin eine Warnung ausgegeben. Zeitgleich wäre es möglich, dass Informationen wie die Eigenbewegung sowie die Information ob sich das erkannte Objekt selber im Raum bewegt verloren gehen.\\
 
 \noindent
-Eine andere Problematik stellt die Erkennung von homogenen, spiegelnden sowie durchsichtigen Flächen dar. Aufgrund fehlender Texturen sowie vorhandener Pixeldifferenzen kann die Korrespondenz zweier Pixel unter Umständen nicht bestimmt werden. Diese homogenen Bereiche haben demnach fehlerhafte Informationen zur Folge, so kann  einerseits einem Pixel an einer weißen Wand kein zugehöriger Pixel zugeordnet werden, andererseits ist es auch möglich das falsche Bildpunkte miteinander gematcht werden, welche wiederum eine hohe Disparität zur Folge haben. In diesem Fall wird ein Hindernis erkannt obwohl sich keines an dieser Position befunden hat.\\
-    % TODO Beispielbilder homogene Flächen
+Eine andere Problematik stellt die Erkennung von homogenen, spiegelnden sowie durchsichtigen Flächen dar. Aufgrund fehlender Texturen sowie vorhandener Pixeldifferenzen kann die Korrespondenz zweier Pixel unter Umständen nicht bestimmt werden. Diese homogenen Bereiche haben demnach fehlerhafte Informationen zur Folge, so kann  einerseits einem Pixel an einer weißen Wand kein zugehöriger Pixel zugeordnet werden, andererseits ist es auch möglich das falsche Bildpunkte miteinander gematcht werden, welche wiederum eine hohe Disparität zur Folge haben. In diesem Fall wird ein Hindernis erkannt obwohl sich keines an dieser Position befunden hat. Abbildung \ref{fig:disparity-error-homogeneous} zeigt deutlich in welchen Bereichen der \emph{SGBM} aufgrund fehlender Textur keine Korrespondenzen finden konnte.\\
+
+\begin{figure}[h]
+	\centering
+	\begin{tabular}{m{6.5cm} m{6.5cm}}
+	\includegraphics[width=6.5cm]{img/disparity_error_left.pdf}
+	\begin{center} \small (a) linkes Kamerabild\end{center}
+	&
+	\includegraphics[width=6.5cm]{img/disparity_error.pdf}
+	\begin{center} \small (b) Disparity Map \end{center}
+	\end{tabular}
+\caption{Konflikt in der Berechnung der Disparität bei nicht texturierten Flächen. Die in rot markierten Flächen sind das Resultat fehlender Texturierung.}
+\label{fig:disparity-error-homogeneous}
+\end{figure}
+
 \noindent
 Auch spiegelnde Flächen sind eine optische Problemstellung. Aufgrund der Projektion eines anderen Bereiches kommt es zu falschen Informationen innerhalb der Disparity Map. Hindernisse können zwar erkannt werden sofern sich die spiegelnde Fläche in einer günstigen Position befindet. Dies ist der Fall, wenn beide Kameras exakt den selben Bereich erfassen. Jedoch wird auch in diesem Fall eine weiter entfernte Distanz wahrgenommen anstelle des eigentlichen Objektes. Ist dies nicht der Fall so kann auch im Fall spiegelnder Flächen keine Disparität und folglich keine Tiefe wahrgenommen werden.\\
     % TODO Grafik spiegelnde Flächen
 \noindent
-Eine weitere Fehlerquelle sind durchsichtige Bereiche. Diese vereinen zum einen Fehlerquellen welche auch bei spiegelnden Arealen auftreten, zum anderen werden Objekte die sich hinter einer Glasscheibe befinden zwar erkannt (sofern keine Reflexion vorliegt) jedoch das Glas als eigentliches Hindernis nicht. Weiterhin besteht die Möglichkeit, dass Reflexionen aus Perspektive der beiden Kameras betrachtet einen anderen Tiefeneindruck vermitteln. Objekte werden so entweder weiter entfernt oder auch in kürzerer Distanz erkannt als sie sich eigentlich befinden.\\
+Eine weitere Fehlerquelle sind durchsichtige Bereiche. Diese vereinen zum einen Fehlerquellen welche auch bei spiegelnden Arealen auftreten, zum anderen werden Objekte die sich hinter einer Glasscheibe befinden zwar erkannt (sofern keine Reflexion vorliegt) jedoch das Glas als eigentliches Hindernis nicht. Weiterhin besteht die Möglichkeit, dass Reflexionen aus Perspektive der beiden Kameras betrachtet einen anderen Tiefeneindruck vermitteln. Objekte werden so entweder weiter entfernt oder auch in kürzerer Distanz erkannt als sie sich wirklich befinden.\\
 
 \noindent
 Aufgrund des Aspektes, dass die Erkennung des Systems auf den Gebrauch in Innenbereichen konzipiert ist, gibt es verschiedenste Probleme bei der Anwendung in Außenbereichen. Zum einen ist die Verschlusszeit der Kameras fixiert. Die Verwendung einer automatischen Belichtungszeit ist nur für jede Kamera einzeln möglich. Um mit verschiedenen Lichtverhältnissen umgehen zu können, ohne dabei die Möglichkeit der Korrespondenzanalyse zu verlieren, muss die Verschlusszeit daher bei beiden Kameras immer gleich sein. Weiterhin ist die Erkennung des Bodens ein zu betrachtender Aspekt. Dieser ist bei aktueller Berechnung ein Teil der zu betrachtenden Hindernisse, was einerseits seine Berechtigung hat, andererseits auch bei niedrigen Flughöhen zu einer fehlerhaften Erkennung als Hindernis führt. 
-% TODO Hindernisgröße einbauen
+	% TODO Hindernisgröße einbauen
 
 
 % ---------------------- section -----------------------
