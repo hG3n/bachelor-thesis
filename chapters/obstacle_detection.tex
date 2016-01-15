@@ -89,7 +89,13 @@ Diese Rückrechnung ist ausschlaggebend für die schnelle Erkennung der Tiefe. I
 \label{alg:mean_disparity_detection}
 \begin{algorithmic}[1]
     \Procedure{detectObstacles}{$submatrix$}
-     
+		\State $found\_points \gets 0$
+		\State $found\_obstacles \gets 0$
+		\For{$value$ in $mean\_disparities$}
+			\If{$value < range_{min}$ AND $value > range_{max}$}
+				\State $temp\_Subimage \gets Subimage\_vector[index_{value}]$
+				\State $found\_obstacles \gets found\_obstacles.append(value)$
+				\State $coordinate \gets calc\_coordinate(temp\_Subimage$
     \EndProcedure
 \end{algorithmic}  
 \end{algorithm}
