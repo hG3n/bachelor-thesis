@@ -16,8 +16,14 @@ Die aktive Entwicklung der Algorithmen erfolgte im Hinblick auf eine Verwendun d
 Es handelt sich dabei um einen Quattrocopter welcher für den Forschungsbereich entwickelt wurde. Dieser ist mit einem Bordcomputer ausgestattet welche die nötige Leistung für die Entwicklung der Algorithmen bereitstellt (3rd Generation Intel Core i7). Weiterhin wurden zwei MatrixVision BlueFOX mv-MLC200wC Industriekameras als visuelles System verwendet. Die maximale Auflösung beider Kameras beträgt $752\times480$ bei 60 möglichen Bildern pro Sekunde, in Abhängigkeit verschiedener Parameter (verwendetet Verschlusszeit, aufgenommene Bitrate, u.a). Für den Echtzeit Aspekt des Systems werden beide Kameras im horizontalen und vertikalen Binning verwendet. Dies reduziert die Anzahl der Bildpunkte in beiden Dimensionen auf $376\times240$, wodurch der Berechnungsaufwand verringert und die die Aufnahmerate der Kameras auf bis zu 170 Einzelbilder pro Sekunde maximiert wird.
 	\noindent
 Für Entwicklung der Algorithmen wurde die freie Computer Vision Bibliothek OpenCV \cite{opencv} verwendet. Diese stellt benötigte Algebraische Grundoperationen sowie bestimmte Algorithmen welche im Rahmen dieser Arbeit genutzt wurden zur Verfügung.
-	% mehr?!
-	% bild pelican	
+
+\begin{figure}
+	\centering
+	\includegraphics[width=8cm]{img/pelican}
+	\label{img:pelican}
+	\caption{AscTec Pelican}
+\end{figure}
+	% TODO Setup erweitern --> mehr?!
 
 
 \section{Ziel der Arbeit}
