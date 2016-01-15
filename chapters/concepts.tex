@@ -17,23 +17,36 @@ Bei der Verwendung der meisten photogrammetrischen Verfahren spielt die Epipolar
 \noindent
 Abbildung \ref{fig:epipolar_geometry} visualisiert diesen Prozess. Gegeben sind die beiden Projektionszentren $C_L$ und $C_R$ der beiden Bildebenen sowie die Bildpunkte $P_L$ und $P_R$. Der Objektpunkt $O$ bildet im linken Kamerabild auf $P_{x_1,y_1}$ ab. Zunächst ist es nur möglich den Strahl auf dem sich $O$ befindet zu bestimmen. Aufgrund des Wissens der extrinsischen Orientierung der Kameras können mithilfe der Basislinie zwischen den beiden Kameras die beiden Epipole in $L$ und $R$ ermittelt werden. Dabei sind diese durch den Schnittpunkt der Basislinie mit den beiden Bildebenen definiert \footnote{Im Falle eines Stereonormalfalles ist ein Schnittpunkt der Basislinie mit den Bildebenen nicht möglich, sodass die Epipole in der Unendlichkeit und parallel zur x-Achse liegen. Dies hat unter anderem den Vorteil, das die Epipolargeometrie bereits bekannt ist, und korrespondierende Bildpunkte nur noch innerhalb einer Pixelreihe gesucht werden müssen.}. Somit ist es möglich mithilfe der vorhandenen Epipole $e_L$, $e_R$ die Epipolarlinie $e_l,P_{x_2,y_2}$ zu bestimmten. Anhand dieser kann im Anschluss die dreidimensionale Position des Objektpunktes $O$ bestimmt werden.
 
-\section{Kalibrierung und Rektifizierung}
+\section{Kamerakalibrierung und Bild-Rektifizierung}
 \label{sec:camera_calibration}
 Um den Prozess des Stereo Matchings zu vereinfachen und beschleunigen bietet die Rektifizierung der Referenzbilder einen simplen Einstiegspunkt zur Lösung des Stereo-Korrespondenzproblems. Dafür müssen zunächst die intrinsischen und extrinsischen Parameter der Kamera berechnet werden. Dieser Prozess wird als Kalibierung der Kamera bezeichnet. Dafür werden Bilder eines Kalibierobjektes aufgenommen. Diese sind meistens einfache Schachbrettmuster mit ungleicher Anzahl an Quadraten, oder auch radiale Objekte mit einem spezifischerem Aufbau. Der Prozess der Kalibierung zielt darauf ab die \enquote{inneren} Parameter der Kamera zu bestimmen. Dies beinhaltet einerseits die Kameramatrix in welcher Parameter wie der Fokus Punkt(Focal Point), der Bildhauptpunkt(Principal Point) sowie die Brennweite der der Kamera. Weiterhin werden geometrische Verzerrungen des Bildes,  parametrisiert und somit nutzbar für die Entzerrung der Bilder in weiteren Schritten. Weiterhin werden bei der Kallibrierung die extrinsischen (äußeren) Parameter der Kamera bestimmt. Zu diesen zählt die Translation (x,y und z) sowie die Rotation der Kamera um die jeweiligen Achsen des Weltkoordinatensystems. Ein spezieller Aspekt bei der Kalibierung von Stereo-Systemen ist die Berechnung der extrinsischen Parameter von einer Kamera zur anderen. Die dabei berechnete Translation einer Kamera zur Referenzkamera wird als Baseline bezeichnet. Diese ist für Prozeduren wie Stereo-Matching unabdingbar. Der Prozess der Parameterfindung ist in der Regel ein Prozess welcher einmalig nach dem Aufbau ausgeführt werden muss und solange währt wie sich nichts am Aufbau der Kameras ändert (Objektive, Translation, Rotation).\\
 
 \noindent
-Folgend aus der Kalibrierung der Kameras beginnt der Prozess der Rektifizierung der Bilder. Dieser kann dabei in zwei Schritte unterteilt werden, einerseits die Berechung der Region of Interest, andererseits die Rektifizierung jedes aufgenommenen Einzelbildes. Mithilfe der zuvor berechneten intrinsischen und extrinsischen Parameter kann nun die Transformation der beiden Kamerabilder zueinander berechnet werden. Dies geschieht unter dem Aspekt der Epipolargeometrie. Nach der Rektifizierung und dem Anwenden der ROIs auf beiden Kamerabildern entspricht die jeweilige Pixelreihe im linken Bild der Pixelreihe mit dem selben Index im rechten Bild.\\
+Folgend aus der Kalibrierung der Kameras beginnt der Prozess der Rektifizierung der Bilder. Dieser kann dabei in zwei Schritte unterteilt werden, einerseits die Berechung der Region of Interest, andererseits die Rektifizierung jedes aufgenommenen Einzelbildes. Mithilfe der zuvor berechneten intrinsischen und extrinsischen Parameter kann nun die Transformation der beiden Kamerabilder zueinander berechnet werden. Dies geschieht unter dem Aspekt der Epipolargeometrie. Nach der Rektifizierung und dem Anwenden der ROIs auf beiden Kamerabildern entspricht die jeweilige Pixelreihe im linken Bild der Pixelreihe mit dem selben Index im rechten Bild. Abbildung \ref{img:rectification} verdeutlicht den Ablauf der Rektifizierung, so ist in Abbildung \ref{img:rectification} (c) erkennbar das sich die korrespondierenden Bildpunkte auf einer Epipolarlinie befinden.\\
     % TODO retification beschreiben
-   	% TODO Rectification bild paper projekt
 
+   	\pagebreak
+\begin{figure}[h]
+	\centering
+	\begin{tabular}{c}
+	\includegraphics[width=10cm]{img/calibration/undistort}\\
+	\small (a) Korrespondierende Punkte innerhalb der entzerrten Bilder\\\\
+	\includegraphics[width=10cm]{img/calibration/rect_uncropped.pdf}\\
+	\small (b) Korrespondierende Punkte in den rektifizierten Bilder\\\\
+	\includegraphics[width=10cm]{img/calibration/rect_cropped.pdf}\\
+	\small (c) Korrespondierende Punkte in den geschnittenen und \\
+				skalierten rektifizierten Bildern
+	\end{tabular}
+\caption{Resultat der Rektifizierung}
+\label{img:rectification}
+\end{figure}
 
 
 % ---------------------- section -----------------------
 \section{Stereo Matching}
 \label{sec:stereo_matching}
-Das grundlegende Konzept des Stereo Matchings beschreibt das Finden korrespondierender Punkte in zwei simultan aufgenommenen Bildern. Die Position der beiden Kameras ist dabei leicht versetzt, um einen jeweils anderen Blickwinkel auf die Szene zu erhalten. Mithilfe der verschiedenen Perspektiven können Disparitäten (Differenz der Projektion eines Objektes vom linken zum rechten Bild) zwischen korrespondierenden Pixeln berechnet werden. Die dabei erhaltenen Tiefeninformationen eines Objektes sind mit der errechneten Disparität sowie der relativen Position der Kameras und deren intrinsischen Parametern REF verbunden.
+Das grundlegende Konzept des Stereo Matchings beschreibt das Finden korrespondierender Punkte in zwei simultan aufgenommenen Bildern. Die Position der beiden Kameras ist dabei leicht versetzt, um einen jeweils anderen Blickwinkel auf die Szene zu erhalten. Mithilfe der verschiedenen Perspektiven können Disparitäten (Differenz der Projektion eines Objektes vom linken zum rechten Bild) zwischen korrespondierenden Pixeln berechnet werden. Die dabei erhaltenen Tiefeninformationen eines Objektes sind mit der errechneten Disparität sowie der relativen Position der Kameras und deren intrinsischen Parametern verbunden.
 Im Laufe dieses Prozesses kommt es zu zwei wesentlichen Problemstellungen: die Berechnung der Disparität (Stereo Korrespondenz) sowie die Invertierung der projektiven Geometrie, um dreidimensionale Informationen aus der errechnetet Disparität zu erhalten. Sofern eine Lösung beider Probleme vorhanden ist, können diese Informationen durch einfache Triangulierung errechnet werden.
-
 
 \subsection{Klassifikation}
 \label{subsec:stereo_matching_classification}
@@ -50,7 +63,6 @@ Bei globalen Stereo Matching Algorithmen wird ein globales Modell der zu betrach
 Einen der einfachsten Ansätze zur Berechnung von Korrespondenz zwischen zwei Bildern bietet der Block Matching Algorithmus. Bei dieser lokalen Methode werden Blöcke bestimmter Größe mithilfe mathematischer Berechnungen (NCC, SAD, etc.) auf Korrespondenz untersucht. Dabei reduziert die Epipolargeometrie diesen Prozess auf ein eindimensionales Problem indem ein Block im linken Bild mit einem Block im rechten Bild auf der Epipolarlinie des rechten Bildes pixelweise vergleichen wird. Das eigentliche Matching erfolgt über die Berechnung eines Blockes mithilfe einer Energiefunktion.
 % Dabei gilt es, bei der Korrespondenzanalyse mit dem möglichst gleichen Wert zu erhalten. 
 
-
 %TODO: Block/Schrift groesser
 \begin{figure}[h]
 	\begin{center}
@@ -63,7 +75,6 @@ Einen der einfachsten Ansätze zur Berechnung von Korrespondenz zwischen zwei Bi
 \noindent
 Diesen Prozess veranschaulicht Abbildung \ref{fig:block_matching} . Durch den Fokus auf einzelne Pixelreihen und deren unmittelbare Umgebung ist dieses Verfahren wesentlich schneller, aber auch ungenauer als globale Matching Algorithmen. 
  
-
 
 \subsection{Semi Global Block Matching}
 \label{subsec:stereo_matching_sgbm}
