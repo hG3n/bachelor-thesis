@@ -1,4 +1,4 @@
-Im Rahmen dieser Arbeit wurden zwei Systeme zur Erkennung von Hindernissen in Echtzeit entwickelt. Diese richten sich nach den in Kapitel REF erläuterten Algorithmen und Konzepten. Anhand dieser ist es möglich aus den beiden Bildern des Stereo Systems für jeden Frame die Disparity Map zu berechnen, welche im Anschluss daran in mehreren Schritten zunächst so angepasst wird, dass nicht verwertbare Bereiche der Tiefenkarte entfernt werden (siehe \ref{sec:bildaufnahme_preprocessing}). Dies reduziert die Anzahl der zur Erkennung zu verarbeitenden Punkte und somit die Rechenzeit.\\
+Im Rahmen dieser Arbeit wurden zwei Systeme zur Erkennung von Hindernissen in Echtzeit entwickelt. Diese richten sich nach den in Kapitel REF erläuterten Algorithmen und Konzepten. Anhand dieser ist es möglich aus den beiden Bildern des Stereo Systems für jeden Frame die Disparity Map zu berechnen, welche im Anschluss daran in mehreren Schritten zunächst so angepasst wird, dass nicht verwertbare Bereiche der Tiefenkarte entfernt werden.
 
 \noindent
 Im folgenden Kapitel werden beide Methoden detailliert beleuchtet. Zu Beginn wird die zugrunde liegende Klassenstruktur beschrieben. In Abschnitt \ref{sec:mean_disparity_detection} die \emph{Mean Disparity Detection} erläutert, wobei auf das grundlegende Konzept sowie den Algorithmus zur Erkennung selber eingegangen wird. Selbiges gilt für die \emph{Samplepoint Detection} in Abschnitt \ref{sec:samplepoint_detection}.
@@ -15,6 +15,38 @@ Im folgenden Kapitel werden beide Methoden detailliert beleuchtet. Zu Beginn wir
 %\end{figure}
 
 
+% ---------------------- section -----------------------
+\section{Preprocessing}
+\label{sec:preprocessing}
+Der Ablauf der Hinderniserkennung ist in beiden entwickelten Methoden gleichbleibend. Die dafür benötigen Preprocessing Schritte gleichen sich demnach ebenfalls und werden im folgenden Erläutert
+
+\textbf{Region of Interest der Disparity Map}\\
+Zu Beginn des Algorithmus muss der durch die Baseline verursachte nicht matchbare Bereich entfernt werden. Dies geschieht nach der Wahl der in (REF) beschriebenen Parameter der SGBM.
+	% pixelschift durch numdispt/2 bestimmt
+	% sofern dieser ungerade 1 addiert zur weiteren vorgehensweise
+	% horizontaler pixelshift so gewählt das die dimensionen der disparity map durch 8 teilbar bleiben
+	% dies hat sich während der entwicklung als robuster und zuverlässiger wert erwiesen.
+	% TODO roi der disparity map
+
+\textbf{Berechnung der Disparität aus gegebener Distanz}\\
+% TODO invertierung distanz zu disparität
+	% um ressourcenschonend zu arbeiten wird nicht mit distanzen gearbeitet sondern mit disparitäten
+	% daher wichtig zu wissen welche disparität der distanz der range entspricht
+	% dafuer wird die in REF beschriebene distanzberechnung invertiert
+	% mithilfe diesre rechnnung --> einzelne Pixel werte der disparuty map berechnen
+	% als referenz wird der pricipal point gew¨åhlt welcher sich im falle des benutteen sustems nahezu im bildmittelpunkt befindet
+	% RECHNUNG
+	% dies vorgehensweise spart rechenkraft da nun nicht fuer djedes erkannte hidnerniss eine distanz berechnet werden muss
+	%stattdessen wird einfach der Disparity wert genutzt welcher direkt zur verfugung steht
+	% bei beiden algorithmen derselbe schritt
+
+\textbf{Pointcloud Erstellung}\\
+% TODO pointcloud erstellung generell
+	% ausgabe der pcl erfolt im stanford ply format
+	% somit können erkannte hindernisse leicht wieder eingelesen werden um vermeidungsstrategien zu entwickeln
+	% andereseits können fur jeden frame (in dem ein hindernis vorlag) pointclouds dargestellt werden um etwaige fehler zu erkmitteln
+	
+%	 Das Format der Ausgabe entspricht dabei Stanford's Polygon File Format ($.ply$). Was die Informationsweitergabe and spätere Module vereinfacht, da die dreidimensionalen Koordinaten pro Zeile abgespeichert werden. Zudem erleichtert
 
 % ---------------------- section -----------------------
 \section{Mean Disparity Detection}
@@ -34,7 +66,7 @@ Zu Beginn des Algorithmus, nach der vorherigen Bearbeitung der eigentlichen \emp
 \end{figure}
 
 \noindent
-Für die Unterteilung der Disparity Map wurden intial nur 9 Segmente vorgesehen wobei jeder Bereich eine der möglichen Flugrichtungen repräsentieren sollte. Aufgrund der Größe der Submatrizen konnte jedoch keine valide Erkennung kleiner Hindernisse gewährleistet werden, da solche in der Berechnung des Mittelwertes untergegangen sind. Aufgrund dessen wurde die Anzahl der Segmente auf 81 erhöht, welches eine wesentlich genauere Erkennung ermöglicht. Zudem ist somit eine weitaus genauere Einteilung der Flugrichtungen möglich, da jede dieser nocheinmal genauer betrachtet wird (siehe Abbildung \ref{fig:subimage_detection_segments}).
+Für die Unterteilung der Disparity Map wurden intial nur $9$ Segmente vorgesehen wobei jeder Bereich eine der möglichen Flugrichtungen repräsentieren sollte. Aufgrund der Größe der Submatrizen konnte jedoch keine valide Erkennung kleiner Hindernisse gewährleistet werden, da solche in der Berechnung des Mittelwertes untergegangen sind. Aufgrund dessen wurde die Anzahl der Segmente auf $81$ erhöht, welches eine wesentlich genauere Erkennung ermöglicht. Zudem ist somit eine weitaus genauere Einteilung der Flugrichtungen möglich, da jede dieser nocheinmal genauer betrachtet wird (siehe Abbildung \ref{fig:subimage_detection_segments}).
 
 \begin{figure}[h]
 	\begin{center}
@@ -85,7 +117,6 @@ Diese Rückrechnung ist ausschlaggebend für die schnelle Erkennung der Tiefe. I
 
 % TODO subimage detection pseudocode
 \begin{algorithm}[h]
-\caption{Ablauf der Hinderniserkennung}
 \label{alg:mean_disparity_detection}
 \begin{algorithmic}[1]
     \Procedure{detectObstacles}{$submatrix$}
@@ -96,8 +127,15 @@ Diese Rückrechnung ist ausschlaggebend für die schnelle Erkennung der Tiefe. I
 				\State $temp\_Subimage \gets Subimage\_vector[index_{value}]$
 				\State $found\_obstacles \gets found\_obstacles.append(value)$
 				\State $coordinate \gets calc\_coordinate(temp\_Subimage$
+				\State $found\_points \gets found\_points.append(coordinate)$
+			\EndIf
+		\EndFor
+		\If{$size$ of $found\_points \neq$ $0$}
+			\State $write pointcloud for current found_obstacle$
+		\EndIf 
     \EndProcedure
-\end{algorithmic}  
+\end{algorithmic}
+\caption{Ablauf der Hinderniserkennung}
 \end{algorithm}
 
 \noindent
@@ -112,7 +150,7 @@ Innerhalb der Pointcloud sind nun die Weltkoordinaten jedes Samplepoints relativ
 In Hinblick auf aktive optische Algorithmen zur 3D-Rekonstruktion und damit verbunden Techniken wir Laser Scanning oder Time of Flight wurde die Samplepoint Detection entwickelt. Das Ziel war dabei eine ressourcensparende Alternative zur Mean Disparity Detection zu schaffen indem nicht zwangsläufig alle Pixel der Disparity Map betrachtet werden müssen.\\
 
 \noindent
-Ebenso wie in der in Abschnitt \ref{alg:mean_disparity_calculation} vorgestellten \emph{Mean Disparity Detection} bedient sich die Samplepoint Detection einer vorverarbeiteten Disparity Map zur Hinderniserkennung.Bei der Initialisierung wird die Anzahl der zu berechnenden Samplepoints festgelegt, dabei richtet sich der Wert an der Anzahl der Reihen und Spalten der Disparity Map Matrix um eine äquidistante Verteilung gewährleisten zu können. Der hier verwendete Standart Faktor ist 8 (siehe Formel REF). Dies sorgt unter anderem für eine gleiche Anzahl von Samplepoints im gebinnten und ungebinnten Aufnahmemodus, da die jeweilige Menge relativ zur Bildgröße ist. Auf eine Verteilung der Messpunkte am direkten Rand der Disparity Map wurde bewusst verzichtet, da dieser aufgrund der Rektifizierung eher Fehler aufweist als Bereiche in der Mitte des Bildes.\\
+Ebenso wie in der in Abschnitt \ref{alg:mean_disparity_calculation} vorgestellten \emph{Mean Disparity Detection} bedient sich die Samplepoint Detection einer vorverarbeiteten Disparity Map zur Hinderniserkennung. Bei der Initialisierung wird die Anzahl der zu berechnenden Samplepoints festgelegt, dabei richtet sich der Wert an der Anzahl der Reihen und Spalten der Disparity Map Matrix um eine äquidistante Verteilung gewährleisten zu können. Der hier verwendete Standart Faktor ist 8 (siehe Formel REF). Dies sorgt unter anderem für eine gleiche Anzahl von Samplepoints im gebinnten und ungebinnten Aufnahmemodus, da die jeweilige Menge relativ zur Bildgröße ist. Auf eine Verteilung der Messpunkte am direkten Rand der Disparity Map wurde bewusst verzichtet, da dieser aufgrund der Rektifizierung eher Fehler aufweist als Bereiche in der Mitte des Bildes.\\
 
 \noindent
 Ein Samplepoint umfasst im entwickelten System entweder einen Pixel oder einen Zusammenschluss mehrerer Pixel. Die dabei festgelegte Ausgangskoordinate entspricht dabei entweder dem eigentlichen Punkt, oder dem Mittelpunkt einer festgelegten Region of Interest. Da ein Pixel gerade bei Bildern mit hoher Auflösung weniger Aussagekraft besitzt als der Pixel inklusive der lokalen Umgebung wurde ein Samplepoint auf diese Weise definiert. Der Wert eines einzelnen Samplepoints $S$ mit dem Zentrum $C$ ergibt sich im Falle eines Radius $r=3$ aus dem Mittelwert des Quadrats $Q$ mit den Eckpunkten $Q_{tl} = (C_x - r, C_y -r)$ und $Q_{br} = (C_x + r, C_y +r)$. Dies erhöht zwar die Anzahl der zu betrachtenden Pixel welche jedoch, in Abhängigkeit vom gewählten Radius, geringer ist als die Gesamtzahl aller Bildpunkte. Dieser Prozess wird in Abbildung \ref{fig:samplepoints_initmodes} verdeutlicht.\\
@@ -129,6 +167,3 @@ Ein Samplepoint umfasst im entwickelten System entweder einen Pixel oder einen Z
 Nachdem zunächst alle Samplepoints initialisiert wurden, werden die jeweiligen Werte pro Frame aktualisiert. Die eigentliche Erkennung erfolgt dabei einerseits durch die Erstellung einer Pointcloud welche ebenfalls die selben Dimensionen wie die zugrunde liegende Disparity Map besitzt. Erweiternd dazu lässt sich mithilfe der jeweiligen Punkte das als aktuell am gefährlichsten einzustufende Hindernis sowie dessen Position bestimmen. Dabei werden Samplepoints innerhalb der Gefahrenzone zunächst nur auf Bildebene betrachtet.
 Zunächst wird die Liste an Samplepoints der errechneten Disparität sortiert.
 Da generell Hindernisse direkt vor dem UAV als am kritischsten zu betrachten sind, berechnet der Algorithmus den zweidimensionalen Abstand zwischen Bildhauptpunkt und den Samplepoints mit der geringsten Disparität. 
-
-
-
