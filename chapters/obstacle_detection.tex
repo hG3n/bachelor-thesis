@@ -16,17 +16,34 @@ Im folgenden Kapitel werden beide Methoden detailliert beleuchtet. Zu Beginn wir
 % ---------------------- section -----------------------
 \section{Preprocessing}
 \label{sec:preprocessing}
-Der Ablauf der Hinderniserkennung ist in beiden entwickelten Methoden gleichbleibend. Die dafür benötigen Preprocessing Schritte gleichen sich demnach ebenfalls und werden im folgenden Erläutert
+Der Ablauf der Hinderniserkennung ist in beiden entwickelten Methoden gleichbleibend. Die dafür benötigen Preprocessing Schritte gleichen sich demnach ebenfalls und werden im folgenden erläutert.\\
 
+\noindent
 \textbf{Region of Interest der Disparity Map}\\
-Zu Beginn des Algorithmus muss der durch die Baseline verursachte nicht matchbare Bereich entfernt werden. Dies geschieht nach der Wahl der in (REF) beschriebenen Parameter der SGBM.
+Zu Beginn des Algorithmus muss der durch die Baseline verursachte nicht matchbare Bereich entfernt werden. Dies geschieht nach der Wahl der in(REF) beschriebenen Parameter der SGBM. Dieser sogenannte Pixelshift berechnet sich aus der Hälfte der Anzahl der zu berechnenden Disparitäten. Sollte dieser einen ungeraden Wert ergeben so wird er um 1 erhöht. Generell ist der Pixelshift so gewählt das die Dimensionen der Disparity Map durch 8 Teilbar sind. Dieser Wert hat sich während der Entwicklung als robuster Wert erwiesen. Weiterhin dient es zur späteren Verteilung der Samplepoints.\\
+
 	% pixelschift durch numdispt/2 bestimmt
 	% sofern dieser ungerade 1 addiert zur weiteren vorgehensweise
 	% horizontaler pixelshift so gewählt das die dimensionen der disparity map durch 8 teilbar bleiben
 	% dies hat sich während der entwicklung als robuster und zuverlässiger wert erwiesen.
 	% TODO roi der disparity map
-
+	
+\noindent
 \textbf{Berechnung der Disparität aus gegebener Distanz}\\
+Um die Algorithmen ressourcensparend zu gestalten wird während der Erkennung mit den reinen Disparitäten gearbeitet. Da die Disparitäten in Abhängigkeit der Bildgröße sowie der Q-Matrix berechnet werden ergibt kann kein fest definierter Disparitätenwert für eine Distanz bestimmt werden. Für diesen Prozess wird die in Anschnitt \ref{sec:framework} beschriebene Distanzberechnung invertiert. Mithilfe der in Formel \ref{eq:backward_calculation} dargestellten Berechnung können nun die jeweilige Position sowie die dazugehörige Disparität berechnet werden. 
+
+\begin{equation}
+  \label{eq:backward_calculation}
+  \begin{aligned}
+    d &= \frac{f- Z' \cdot b}{Z' \cdot a}\\
+    I_x &= X' \cdot (d \cdot a + b) + C_x\\
+    I_y &= Y' \cdot (d \cdot a + b) + C_y
+  \end{aligned}
+\end{equation}
+
+\noindent
+Dieser Prozess findet in der späteren Initialisierung der Algorithmen Verwendung bei welcher die metrischen Angaben der Erkennungsreichweite in Disparitäten zurückgerechnet werden. Als Referenz wir dazu die Position des Bildhauptpunktes berechnet welcher sich im Ursprung des Weltkoordinatensystems befindet. Diese Vorgehensweise spart in der späteren Hinderniserkennung Ressourcen, da nicht für jedes Subimage bzw. jeden Samplepoint die Weltkoordinate berechnet werden muss. Stattdessen können die Disparitäten direkt verglichen werden. Dies ist in beiden Algorithmen derselbe Schritt.\\
+
 % TODO invertierung distanz zu disparität
 	% um ressourcenschonend zu arbeiten wird nicht mit distanzen gearbeitet sondern mit disparitäten
 	% daher wichtig zu wissen welche disparität der distanz der range entspricht
@@ -38,7 +55,10 @@ Zu Beginn des Algorithmus muss der durch die Baseline verursachte nicht matchbar
 	%stattdessen wird einfach der Disparity wert genutzt welcher direkt zur verfugung steht
 	% bei beiden algorithmen derselbe schritt
 
+\noindent
 \textbf{Pointcloud Erstellung}\\
+Die Ausgabe der Pointclouds erfolgt in Stanfords Polygon File Format (ply). Aufrund der einfachen Struktur können die einzelnen Pointclouds erkannter Hindernisse einfach analysiert werden um etwaige Vermeidunsstrategien zu entwickeln. Weiterhin ermölgicht das ply Format die Visualisierung jedes Frames in denen Hindernisse erkannt wurden.
+
 % TODO pointcloud erstellung generell
 	% ausgabe der pcl erfolt im stanford ply format
 	% somit können erkannte hindernisse leicht wieder eingelesen werden um vermeidungsstrategien zu entwickeln
@@ -99,19 +119,7 @@ Um die Hindernisse innerhalb der Segmente zu Erkennen wurde auf die Berechnung d
 Es werden demnach nur positive Disparitäten betrachtet was auch dazu führt das sich der Gesamtwert aller Werte aus der Menge dieser ergibt. Mit Hilfe dieser Berechnung ist es möglich Hindernisse auch in Bereichen zu erkennen in denen die Mehrzahl der Pixel keine Matches aufweisen.\\
 
 \noindent
-Die eigentliche Hinderniserkennung erfolgt in jedem Frame. Wobei der Term Frame hierbei nicht nach einem von der Kamera aufgenommenen Bild, sondern eine neue Disparity Map definiert. Da die Bildgröße pro Einzelbild stetig ist besteht keine Nötigkeit die einzelnen Segmente erneut zu generieren. Es genügt also die Mittelwerte eines jeden Subimages anhand der neuen Disparity Map zu aktualisieren. Daraufhin wird geprüft ob sich einer oder mehrere der Subimage Mittelwerte innerhalb der Gefahrenzone befinden. Die Gefahrenzone wird zur Initialisierung der Erkennung berechnet. Da die Disparitäten in Abhängigkeit der Bildgröße sowie der Q-Matrix berechnet werden ergibt kann kein fest definierter Disparitätenwert für eine Distanz bestimmt werden. Demnach müssen zu Beginn die minimale sowie maximale Distanz der Erkennung auf einen Tiefenwert zurückgerechnet werden (siehe Formel \ref{eq:backward_calculation}). Dies erfolgt als Erweiterung der in Abschnitt \ref{sec:framework} beschriebenen ursprünglichen Distanzberechnung.\\
-
-\begin{equation}
-  \label{eq:backward_calculation}
-  \begin{aligned}
-    d &= \frac{f- Z' \cdot b}{Z' \cdot a}\\
-    I_x &= X' \cdot (d \cdot a + b) + C_x\\
-    I_y &= Y' \cdot (d \cdot a + b) + C_y
-  \end{aligned}
-\end{equation}
-
-\noindent
-Diese Rückrechnung ist ausschlaggebend für die schnelle Erkennung der Tiefe. Im Falle einer weiteren Segmentierung müsste die Berechnung der Distanz für jedes Subimage einzeln erfolgen, was gerade bei der Samplepoint Detecion zum Tragen kommt, sollen die Distanzen für ca. $6000$ Punkte (bei voller Auflösung in Abhängigkeit der verwendeten Parameter des SGBM) berechnet werden.\\
+Die eigentliche Hinderniserkennung erfolgt in jedem Frame. Wobei der Term Frame hierbei nicht nach einem von der Kamera aufgenommenen Bild, sondern eine neue Disparity Map definiert. Da die Bildgröße pro Einzelbild stetig ist besteht keine Nötigkeit die einzelnen Segmente erneut zu generieren. Es genügt also die Mittelwerte eines jeden Subimages anhand der neuen Disparity Map zu aktualisieren. Daraufhin wird geprüft ob sich einer oder mehrere der Subimage Mittelwerte innerhalb der Gefahrenzone befinden. Die Gefahrenzone wird zur Initialisierung der Erkennung berechnet. Mit Hilfe der in Abschnitt \ref{sec:preprocessing} beschriebenen Invertierung der Distanzberechnung müssen zu Beginn die minimale sowie maximale Distanz der Erkennung auf einen Tiefenwert zurückgerechnet werden. Diese Rückrechnung ist ausschlaggebend für die schnelle Erkennung der Tiefe. Im Falle einer weiteren Segmentierung müsste die Berechnung der Distanz als Teil der Weltkoordinate für jedes Subimage einzeln erfolgen, was gerade bei der Samplepoint Detecion zum Tragen kommt, sollen die Distanzen für ca. $6000$ Punkte (bei voller Auflösung in Abhängigkeit der verwendeten Parameter des SGBM) berechnet werden.\\
 
 % TODO subimage detection pseudocode
 \begin{algorithm}[h]
