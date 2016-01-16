@@ -80,7 +80,7 @@ Diesen Prozess veranschaulicht Abbildung \ref{fig:block_matching} . Durch den Fo
 \label{subsec:stereo_matching_sgbm}
 Das im Rahmen dieser Arbeit verwendete Verfahren zur Berechnung von Disparity Maps ist der in der freien Computer Vision Library implementierte Semi Global Block Matching Algorithmus. Diese leicht abgewandelte Implementierung des Semi Global Matching Algorithmus von Hirschmüller et. al \cite{hirschmuller2005sgm} zeichnet sich sowohl durch seine Genauigkeit, als auch durch seine performante Berechnung aus. Unter Zuhilfenahme dieses Verfahren ist es möglich, Disparity Maps in Echtzeit mit sehr guter Framerate zu berechnen. Im Folgenden wird zunächst die grundlegende Funktionsweise des SGM erläutert. Im Anschluss daran werden die Unterschiede zum SGBM herausgearbeitet sowie eine kurze Erklärung der Parameter dessen vorgenommen.\\
 
-%TODO: footnote Mutal Information erweitern
+%TODO: footnote Mutal Information fixen
 \noindent
 \textbf{SGM:} \\
 Die grundlegende Idee des Semi-Global Matching Algorithmus besteht in dem pixelweisen Matching von Mutual Information \footnote{Mutual Information(MI), zu deutsch Transinformationen, beschreiben den statistischen Zusammenhang zweier Zufallsgrößen. Genauer gesagt beschreiben sie die Höhe des Informationsgehaltes einer Zufallsvariable aus anderen zufällig gewählten Werten.}. Die globale zweidimensionale Smoothness Einschränkung wird dabei mithilfe mehrerer eindimensionaler Einschränkungen erzeugt. Ausgangsvorraussetzung dafür sind verschiedene Bilder derselben Szene mit vorhandener und bekannter Epipolargeometrie. 
@@ -126,7 +126,7 @@ Der Semi Global Block Matching Algorithmus ist ein in der Computer Vision Librar
 \end{enumerate}
 
 \noindent
-%TODO: Parameter anpassung wichtig, grafik sgbm normal, sgbm im hirschmueller mode, sgm
+%TODO: Parameter anpassung wichtig!, sgbm hirschmueller Mode!
 Dies erlaubt dem Algorithmus eine schnelle Berechnung der Disparitäten auf einem qualitativ hochwertigen Niveau. Der geringe Verlust an Qualität kann in Anbetracht der Berechnung in Echtzeit vernachlässigt werden.
 
 \begin{figure}[h]
@@ -158,7 +158,6 @@ Dies erlaubt dem Algorithmus eine schnelle Berechnung der Disparitäten auf eine
 	\includegraphics[width=3cm]{img/disparity_images/sgbm_cones.png}
 	 \\ 
 	\end{tabular}
-	% TODO caption neu schreiben
 \caption{Vergleich zwischen Ground Truth Bildern sowie dem SGM(2005) und OpenCV's SGBM}
 \label{fig:disparity_comparison}
 \end{figure}
@@ -228,30 +227,12 @@ Eine Eigenschaft der Reprojektionsmatrix ist die einfache Berechnung von dreidim
 \noindent
 Die eigentliche Berechnung der einzelnen Parameter ergibt sich somit aus der Multiplikation des transponierten Vektors, welcher sowohl die Koordinaten des Pixels als auch die Disparität dessen enthält, und der Reprojektions Matrix. Die dabei benötigten Operationen werden im folgenden genauer beleuchtet.
 
-% TODO fix alignment
+
 \begin{equation}
   \begin{aligned}
-    \begin{rcases}
         X &= I_x - C_x\\
         Y &= I_y - C_y\\
         Z &= f\\
         W &= d \cdot a + b
-    \end{rcases}
-    \begin{array}{c}
-        X' = \dfrac{I_x - C_x}{d \cdot a + b}\\
-        Y' = \dfrac{I_y - C_y}{d \cdot a + b}\\
-        X' = \dfrac{f}{d \cdot a + b}\\\\
-    \end{array}
   \end{aligned}
 \end{equation}
-
-% TODO parameter rückrechnung
-
-% Invertierung der oben beschriebenen Rechnung
-% Disparity Map kann somit aus 3d koordinaten zuruckgerechnet werden
-
-
-
-
-
-

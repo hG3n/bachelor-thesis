@@ -9,8 +9,7 @@ Bei der Durchführung der Tests befinden sich die Kameras statisch im Raum. Die 
 \noindent
 Der zu erkennende Bereich wurde auf $0,2$ bis $1,5$ Meter definiert. Dies entspricht einem Szenario in welchem das System auch aufgrund der hohen Framerate der Erkennung angewendet werden kann. Eine Erweiterung dessen auf beispielsweise $2.0$ Meter wurde nicht durchgeführt, da der Algorithmus auch bei großen Entfernungen robuste Werte in der Distanzberechnung liefert \cite{hilleralhallak}.
 Das dabei erreichte Sichtfeld nach der Anwendug der ROI auf die Disparity Map (siehe \ref{sec:preprocessing}) beträgt $50^{\circ}$ auf horizontaler Achse und $38^{\circ}$ vertikal. Dies ist in Abbildung (REF) visualisiert.
-	% TODO sichtfeld durch disparity map roi
-	% TODO vergleich zum ursprünglichen sichtfeld
+	% TODO sichtfeld durch disparity map & vergleich zum ursprünglichen sichtfeld
 
 \noindent
 Ein aufgenommenes Testset besteht aus jeweils 12 Testbildern. Für jede Methode wurden drei verschiedene Hindernisgrößen getestet, groß, klein und winzige Hindernisse. Anhand dieser wird ausgewertet welche minimale, maximale sowie mittlere Disparität, und daraus resultierende Distanz erkannt wird.\\

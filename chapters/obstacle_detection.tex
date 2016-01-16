@@ -26,7 +26,7 @@ Zu Beginn des Algorithmus muss der durch die Baseline verursachte nicht matchbar
 	% sofern dieser ungerade 1 addiert zur weiteren vorgehensweise
 	% horizontaler pixelshift so gewählt das die dimensionen der disparity map durch 8 teilbar bleiben
 	% dies hat sich während der entwicklung als robuster und zuverlässiger wert erwiesen.
-	% TODO roi der disparity map
+	% TODO roi der disparity map siehe notes
 	
 \noindent
 \textbf{Berechnung der Disparität aus gegebener Distanz:}\\
@@ -121,7 +121,7 @@ Es werden demnach nur positive Disparitäten betrachtet was auch dazu führt das
 \noindent
 Die eigentliche Hinderniserkennung erfolgt in jedem Frame. Wobei der Term Frame hierbei nicht nach einem von der Kamera aufgenommenen Bild, sondern eine neue Disparity Map definiert. Da die Bildgröße pro Einzelbild stetig ist besteht keine Nötigkeit die einzelnen Segmente erneut zu generieren. Es genügt also die Mittelwerte eines jeden Subimages anhand der neuen Disparity Map zu aktualisieren. Daraufhin wird geprüft ob sich einer oder mehrere der Subimage Mittelwerte innerhalb der Gefahrenzone befinden. Die Gefahrenzone wird zur Initialisierung der Erkennung berechnet. Mit Hilfe der in Abschnitt \ref{sec:preprocessing} beschriebenen Invertierung der Distanzberechnung müssen zu Beginn die minimale sowie maximale Distanz der Erkennung auf einen Tiefenwert zurückgerechnet werden. Diese Rückrechnung ist ausschlaggebend für die schnelle Erkennung der Tiefe. Im Falle einer weiteren Segmentierung müsste die Berechnung der Distanz als Teil der Weltkoordinate für jedes Subimage einzeln erfolgen, was gerade bei der Samplepoint Detecion zum Tragen kommt, sollen die Distanzen für ca. $6000$ Punkte (bei voller Auflösung in Abhängigkeit der verwendeten Parameter des SGBM) berechnet werden.\\
 
-% TODO subimage detection pseudocode
+% TODO subimage detection pseudocode verbessern
 \begin{algorithm}[h]
 \label{alg:mean_disparity_detection}
 \begin{algorithmic}[1]
