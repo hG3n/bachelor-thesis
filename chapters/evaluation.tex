@@ -2,7 +2,7 @@ Um die Funktionsweise beider Algorithmen zu belegen wurden beide Methoden einers
 
 % ---------------------- section -----------------------
 \section{Testsetup}
-\label{sec:aufbau}
+\label{sec:test_setup}
 
 Bei der Durchführung der Tests befinden sich die Kameras statisch im Raum. Die zu erkennenden Hindernisse werden innerhalb und ausserhalb der zu erkennenden Reichweite platziert, wobei die Ausrichtung der Hindernisse teils zufällig, teils bewusst an kritischen Positionen erfolgt, um ein reales Anwendungsszenarien passend zu simulieren. Ein aufgenommenes Testset besteht dabei aus beiden Bildern der Kamera, der normalisierten Disparity Map sowie eine komplette Pointcloud dieser um etwaige Fehler der Algorithmen leichter erkennen zu können, sowie den geloggten Pointclouds der Hinderniserkennung. Weiterhin werden diverse Parameter gespeichert, wie die Anzahl der erkannten Hinderniselemente, sowie deren Disparitäten.\\
 
@@ -42,6 +42,42 @@ Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} 
 
     \subsection{Robustheit}
     \label{subsec:subimage_robustheit}
+    Hinsichtlich der Robustheit wurden beide Algorithmen nach demselben Schema untersucht. Der in Abschnitt \ref{sec:test_setup} beschriebene Testablauf beschreibt 3 verschiedene Hindernisgrößen. Tabelle \ref{tbl:obstacle_sizes} zeigt sowohl die Maße der Hindernisse als auch die Fläche in $cm/cm^2$ auf.
+    
+	\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|c|c|c|c|}
+	\hline
+	Hindernis   & Radius & Länge & Breite & Fläche \\
+	\hline
+	Groß   		&   -    & 53.5  & 43.0   & 2300.5 \\
+	\hline
+	Mittel 		& 	-    & 16.0  & 14.5   & 232.0\\
+	\hline
+	Winzig		& 2.5	 &   -   &   -    & 19.6 \\
+	\hline	
+	\end{tabular}
+	\label{tbl:obstacle_sizes}
+	\caption{Maße der verschiedenen genutzten Hindernisse}
+	\end{table}
+	
+	\noindent
+	Während der Tests wurde für jedes aufgenommene Einzelbild die reale Distanz gemessen. Der dabei verwendete Referenzpunkt befand sich in der Mitte des zu erkennenden Hindernisses, da die Hindernisse nicht zwangsläufig orthogonal zur Bildebene platziert wurden. Während der Aufnahme sind die jeweiligen Einzelbilder der linken und rechten Kamera sowie die berechnete Disparity Map sichtbar. Weiterhin ist ein weiterer Anzeigemodus verfügbar welcher die gefundenen Hindernisse innerhalb der Tiefenkarte markiert (siehe Abbildung \ref{fig:test_viewing}). Weiterhin kann jede erstellte Hindernis-Pointcloud im Nachhinein gerendert werden um einen überblick über die Ergebnisse des Algorithmus zu erhalten.
+	
+	\begin{figure}[h]
+		\centering
+		\begin{tabular}{c c}
+			\includegraphics[width=5.0cm]{img/evaluation/test_set/_test_3_left}&
+   			\includegraphics[width=5.0cm]{img/evaluation/test_set/_test_3_right}\\
+			(a) linkes Kamerabild & (b) rechtes Kamerabild\\
+			\includegraphics[width=5.0cm]{img/evaluation/test_set/_test_3_disparity}&
+		    \includegraphics[width=5.0cm]{img/evaluation/test_set/_test_3_disparity}\\
+			(c) Anzeigemodus Hindernis & (d) Hindernis Pointcloud als Mesh
+		\end{tabular}
+		\label{fig:test_viewing}
+		\caption{Abbildungen (a) - (c) zeigen die sichtbaren Bilder während der Testaufnahme. (c) zeigt eine als Mesh gerenderte Pointcloud}
+	\end{figure}
+	% TODO Obstacle Mesh
     
     % allgemein hindernisse beschreiben
     	% welche fläche repräsentiert jedes hinderniss
