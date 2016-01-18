@@ -64,6 +64,8 @@ Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} 
 	\noindent
 	Während der Tests wurde für jedes aufgenommene Einzelbild die reale Distanz gemessen. Der dabei verwendete Referenzpunkt befand sich in der Mitte des zu erkenneden Hindernisses, da diese nicht zwangsläufig orthogonal zur Bildebene platziert wurden. Somit entspricht die gemessene Distanz der mittleren Distanz welche sich aus allen gefundenen Bereichen eines Bildes zusammensetzt. Während der Aufnahme sind die jeweiligen Einzelbilder der linken und rechten Kamera sowie die berechnete Disparity Map sichtbar. Weiterhin ist ein weiterer Anzeigemodus verfügbar welcher die gefundenen Hindernisse innerhalb der Tiefenkarte markiert (siehe Abbildung \ref{fig:test_viewing}). Weiterhin kann jede erstellte Hindernis-Pointcloud im Nachhinein gerendert werden um einen überblick über die Ergebnisse des Algorithmus zu erhalten.\\
 	
+	\noindent
+	\textbf{Großes Hindernis:}\\
 	\begin{figure}[h]
 		\centering
 		\begin{tabular}{c c}
@@ -97,12 +99,10 @@ Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} 
 		    
 	\begin{figure}[h]
 		\centering
-		\begin{tabular}{m{7.0cm} m{7.0cm}}
-		\includegraphics[width=7cm]{img/evaluation/big_bar}
-		\centering \small (a)
-		&
-		\includegraphics[width=7cm]{img/evaluation/big_box}
-		\centering \small (b)
+		\begin{tabular}{cc}
+		\includegraphics[width=7cm]{img/evaluation/big_bar}&
+		\includegraphics[width=7cm]{img/evaluation/big_box}\\
+		 (a) & (b)
 		\end{tabular}
 		\caption{}
 	    \label{fig:eval_big}
@@ -116,46 +116,59 @@ Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} 
 		\begin{tabular}{cc}
 		\includegraphics[width=5cm]{img/evaluation/big_5_left}&
 		\includegraphics[width=5cm]{img/evaluation/big_6_left}\\
-		(b) Frame 6 &  (a) Frame 5
+		(a) Frame 6 &  (b) Frame 5
 		\end{tabular}
 		\caption{}
 	    \label{fig:eval_big_fails}
 	\end{figure}
 
-	Auch im in Abbildung \ref{fig:eval_big} (b) abgebildeten Boxplot lässt sich erkennen, dass der Median beider gemessenen Distanzen, mit geringen Abweichungen, nahezu gleich ist. Auch die minimal und maximal Werte befinden sich, ebenfalls mit vernachlässigbarer Abweichungen auf derselben Gerade. Lediglich das untere Quartil der real gemessenen Distanz weicht um $10 cm$ von der der gemessenen ab. Dies resultiert aus Frames in welchen die berechnete Distanz höher ist als die gemessene.\\
-	
 	\noindent
-	Auch die Erkennung mittlerer Hindernisse durch den Algorithmus war in nahezu allen Fällen erfolgreich. Ein auffälliges Detail im Vergleich zu den Ergebnissen des großen Hindernisses ist die höhere Differenz aus berechneter und gemessener Distanz. Lediglich Frame 1, 2, 5 und 9 zeigen eine geringere Abweichung. Das getestete Objekt befand sich während der Tests an einem durchsichtigen Plexiglas Stab. Dieser ist teilweise auch als Hindernis erkannt worden. Im Fall von Frame 0 umfasst das Objekt insgesamt 4 Subimages in denen es erkannt wurde. Ein fünftes Subimage wurde als Resultat des Stabes ebenfalls erkannt. Dies ist nicht der alleinige Auslöser der hohen Abweichungen, jedoch ein geringer Teil, da der Median der gesamten Teilmatrix gerade so hoch ist um vom Algorithmus als Hindernis erkannt zu werden. Die Orientierung des Hindernisses in Bild 3 ist sowohl in $x$ als auch in $z$ Achse rotiert. Dies resultiert in einer Erkennung der einzelnen Flächen, welche geometrisch weiter entfernt sind, und dem Messpunkt welcher auf der vorderen Ebene des Objektes platziert war (siehe Abbildung REF). Selbiges Resultat lässt sich in den Frames 4, 6 und 7 erkennen. In Frame 8 war das eigentlich Objekt nur teilweise im Bild zu erkennen, das eigentlich erkannte Hindernis ist in diesem Fall der beschriebene Befestigungsstab. Frame 8 enthält keine Informationen zu einem erkannten Hindernis, da sich das Hindernis direkt an der Grenze des Gefahrenbereichs befand.	Eben diese Ergebnisse sind auch in Abbildung \ref{fig:eval_medium} (b) sichtbar, das Maximum der realen Distanz resultiert dabei aus dem nicht erkannten Hindernis in Frame 11.
-		% TODO Bilder frame  
-	
+	Auch im in Abbildung \ref{fig:eval_big} (b) abgebildeten Boxplot lässt sich erkennen, dass der Median beider gemessenen Distanzen, mit geringen Abweichungen, nahezu gleich ist. Auch die minimal und maximal Werte befinden sich, ebenfalls mit vernachlässigbarer Abweichungen auf derselben Gerade. Lediglich das untere Quartil der real gemessenen Distanz weicht um $10 cm$ von der der gemessenen ab. Dies resultiert aus Frames in welchen die berechnete Distanz höher ist als die gemessene.\\
+
+	\noindent
+	\textbf{Mittleres Hindernis:}\\
 	\begin{figure}[h]
 		\centering
-		\begin{tabular}{m{7.0cm} m{7.0cm}}
-		\includegraphics[width=7cm]{img/evaluation/medium_bar}
-		\centering \small (a)
-		&
-		\includegraphics[width=7cm]{img/evaluation/medium_box}
-		\centering \small (b)
+		\begin{tabular}{cc}
+		\includegraphics[width=7cm]{img/evaluation/medium_bar}&
+		\includegraphics[width=7cm]{img/evaluation/medium_box}\\
+		(a) &  (b)
 		\end{tabular}
 	    \caption{}
 	    \label{fig:eval_medium}
 	\end{figure}
 	
+	\noindent
+	Auch die Erkennung mittlerer Hindernisse durch den Algorithmus war in nahezu allen Fällen erfolgreich. Ein auffälliges Detail im Vergleich zu den Ergebnissen des großen Hindernisses ist die höhere Differenz aus berechneter und gemessener Distanz. Lediglich Frame 1, 2, 5 und 9 zeigen eine geringere Abweichung. Das getestete Objekt befand sich während der Tests an einem durchsichtigen Plexiglas Stab. Dieser ist teilweise auch als Hindernis erkannt worden. Im Fall von Frame 0 umfasst das Objekt insgesamt 4 Subimages in denen es erkannt wurde. Ein fünftes Subimage wurde als Resultat des Stabes ebenfalls erkannt. Dies ist nicht der alleinige Auslöser der hohen Abweichungen, jedoch ein geringer Teil, da der Median der gesamten Teilmatrix gerade so hoch ist um vom Algorithmus als Hindernis erkannt zu werden. Die Orientierung des Hindernisses in Bild 3 ist sowohl in $x$ als auch in $z$ Achse rotiert. Dies resultiert in einer Erkennung der einzelnen Flächen, welche geometrisch weiter entfernt sind, und dem Messpunkt welcher auf der vorderen Ebene des Objektes platziert war (siehe Abbildung \ref{fig:eval_medium_fails} (b)). 
+	
+		\begin{figure}[h]
+			\centering
+			\begin{tabular}{cc}
+			\includegraphics[width=5cm]{img/evaluation/medium_0_left}&
+			\includegraphics[width=5cm]{img/evaluation/medium_3_left}\\
+			(a) Frame 0 &  (b) Frame 3
+			\end{tabular}
+			\caption{}
+		    \label{fig:eval_medium_fails}
+		\end{figure}
+	
+	\noindent
+	Selbiges Resultat lässt sich in den Frames 4, 6 und 7 erkennen. In Frame 8 war das eigentlich Objekt nur teilweise im Bild zu erkennen, das eigentlich erkannte Hindernis ist in diesem Fall der beschriebene Befestigungsstab. Frame 8 enthält keine Informationen zu einem erkannten Hindernis, da sich das Hindernis direkt an der Grenze des Gefahrenbereichs befand.	Eben diese Ergebnisse sind auch in Abbildung \ref{fig:eval_medium} (sb) sichtbar, das Maximum der realen Distanz resultiert dabei aus dem nicht erkannten Hindernis in Frame 11.\\
+	
+	\noindent
+	\textbf{Winziges Hindernis:}\\
 	\begin{figure}[h]
 		\centering
-		\begin{tabular}{m{7.0cm} m{7.0cm}}
-		\includegraphics[width=7cm]{img/evaluation/tiny_bar}
-		\centering \small (a)
-		&
-		\includegraphics[width=7cm]{img/evaluation/tiny_box}
-		\centering \small (b)
+		\begin{tabular}{cc}
+		\includegraphics[width=7cm]{img/evaluation/tiny_bar}&
+		\includegraphics[width=7cm]{img/evaluation/tiny_box}\\
+		(a)	& (b)
 		\end{tabular}
 	    \caption{}
 	    \label{fig:eval_tiny}
 	\end{figure}
-
-    \subsection{Performanz}
-    \label{subsec:subimage_performanz}
+	
+	Die Erkennung Winziger Hindernisse gestaltet sich aufgrund diverser Faktoren schwer. Ein limitierender Faktor ist die Fläche, wenn ein einzeles Hindernis so klein ist, dass es während der Mittelwertberechnung aufgrund der umliegenden Disparitäten untergeht. Dies macht sich in nahezu allen getesteten Bildern bemerkbar. In den Frames 2 und 3 sowie 7-10 wurde das Hindernis nicht erkannt, da es sich an einer Kreuzung verschiedener Subimages befand, dadurch wird der Median aller Teilmatrizen nicht signifikant beeinflusst. In Frame 6 wurde das Objekt um um 90$^{\circ}$ rotiert, sodass nur noch eine Seitenansicht dessen vorhanden war. Dies reicht zwar in diesem Frame zur Erkennung des Hindernisses aus, jedoch wurde im selben Frame auch der Stab als Hindernis erkannt. Auch der in Abbildung \ref{fig:eval_tiny} (b) dargestellte Boxplot zeigt, das signifikant größere Distanzen erkannt wurden als sie in den realen Messungen vorkommen. Auch dieser Punkt lässt sich durch die Nutzung des Mittelwertes innerhalb der Subimages begründen.
 
 % ---------------------- section -----------------------
 \section{Evaluierung Samplepoint Detection}
@@ -163,6 +176,3 @@ Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} 
 
     \subsection{Robustheit}
     \label{subsec:samplepoint_robustheit}    
-
-    \subsection{Performanz}
-    \label{subsec:samplepoint_performanz}
