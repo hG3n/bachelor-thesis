@@ -55,16 +55,6 @@ Dieser Prozess findet in der späteren Initialisierung der Algorithmen Verwendun
 	%stattdessen wird einfach der Disparity wert genutzt welcher direkt zur verfugung steht
 	% bei beiden algorithmen derselbe schritt
 
-\noindent
-\textbf{Pointcloud Erstellung:}\\
-Die Ausgabe der Pointclouds erfolgt in Stanfords Polygon File Format (ply). Aufgrund der einfachen Struktur können die einzelnen Pointclouds erkannter Hindernisse einfach analysiert werden um etwaige Vermeidungsstrategien zu entwickeln. Weiterhin ermöglicht das ply Format die Visualisierung jedes Frames in denen Hindernisse erkannt wurden.
-
-% TODO pointcloud erstellung generell
-	% ausgabe der pcl erfolt im stanford ply format
-	% somit können erkannte hindernisse leicht wieder eingelesen werden um vermeidungsstrategien zu entwickeln
-	% andereseits können fur jeden frame (in dem ein hindernis vorlag) pointclouds dargestellt werden um etwaige fehler zu erkmitteln
-	
-%	 Das Format der Ausgabe entspricht dabei Stanford's Polygon File Format ($.ply$). Was die Informationsweitergabe and spätere Module vereinfacht, da die dreidimensionalen Koordinaten pro Zeile abgespeichert werden. Zudem erleichtert
 
 % ---------------------- section -----------------------
 \section{Subimage Detection}
@@ -148,7 +138,7 @@ Die eigentliche Hinderniserkennung erfolgt in jedem Frame. Wobei der Term Frame 
 Die in Algorithmus \ref{alg:mean_disparity_detection} berechnete Pointcloud ist in diesem Fall ein Matrix mit der Größe der ursprünglichen Tiefenkarte. Dies ist für die Berechnung der dreidimensionalen Koordinate von Nöten. Mithilfe des Mittelpunkte der Subimages wird für jedes dieser die jeweilige 3D-Koordinate (siehe Abschnitt \ref{sec:framework}) berechnet und an der Position des Mittelwertes in die Punktwolke geschrieben.
 
 \noindent
-Innerhalb der Pointcloud sind nun die Weltkoordinaten jedes Samplepoints relativ zur Kameraposition gespeichert. Der Vektor zwischen dem Koordinatenursprung und der Koordinate entspricht dabei der Distanz zum Hindernis.
+Innerhalb der Pointcloud sind nun die Weltkoordinaten jedes Samplepoints relativ zur Kameraposition gespeichert. Der Vektor zwischen dem Koordinatenursprung und der Koordinate entspricht dabei der Distanz zum Hindernis. Die Ausgabe der Pointclouds erfolgt in Stanfords Polygon File Format (ply). Aufgrund der einfachen Struktur können die einzelnen Pointclouds erkannter Hindernisse einfach analysiert werden um etwaige Vermeidungsstrategien zu entwickeln. Weiterhin ermöglicht das ply Format die Visualisierung jedes Frames in denen Hindernisse erkannt wurden.
 
 % ---------------------- section -----------------------
 \section{Samplepoint Detection}
