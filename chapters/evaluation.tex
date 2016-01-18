@@ -18,30 +18,15 @@ Ein aufgenommenes Testset besteht aus jeweils 12 Testbildern. Für jede Methode 
 Weitere Tests beinhalten die Erkennung winziger Hindernisse unter Veränderung der \emph{SGBM} Parameter. Dabei wird unter anderem untersucht ob beispielsweise eine verringerte Blockgröße Einfluss auf die Erkennung kleiner Bereiche nimmt. Des Weiteren wird die Zeit für die Hinderniserkennung eines Frames untersucht um eine durchschnittliche Zeit für die Erkennung sowie die daraus resultierende Framerate zu ermitteln. Dies geschieht einerseits durch die Erkennung eines Hindernisses, welches sich über das gesamte Bild ausbreitet, andererseits für nur ein Teilelement jeder Erkennungsmethode (Subimage, Samplepoint).\\
 Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} umgehen können. Dazu zählen die Erkennung bei spiegelnden, reflektierenden und durchsichtigen Flächen, sowie die Erkennung schwach texturierter Hindernisse.\\
 
-% kameras statisch im raum
-% hindernisse innerhalb der zu erkennenden reichweite platziert
-% ausrichtung der hinernisse zum teil zufällig
-% teils bewusst an kritischen positionen platizert
-% für jeden Frame werden Informationen geloggt wie anzahl der erkannten hindernisse sowie position der hindernisse im raum
-% für jeden frame wird eine vollständige pointcloud berechnet um etwaige fehler zu erkennen
-% verschiedene hindernisgrößen gross klein winzig
-% jeweils 12 testbilder
-% range auf 0.2 - 1.5 meter festgelegt --> real life szenario
-
-% weitere tests:
-	% erkennung von kleinen hindernissen mithilfe veränderter sgbm parameter
-	% zeit die fuer die ausführung der detectObstacles funktion benötigt wird
-	% können auch extreme situationen wie durchsichtige flächen erkannt werden?
-		% spiegelnd
-	% erkennung von wenig texturierten hindernissen
-	% 
-
 % ---------------------- section -----------------------
 \section{Evaluierung Subimage Detection}
 \label{sec:evaluierung_subimage}
 
+% TODO INCREASE FONTSIZE IN DIAGRAMS
+
     \subsection{Robustheit}
     \label{subsec:subimage_robustheit}
+    
     Hinsichtlich der Robustheit wurden beide Algorithmen nach demselben Schema untersucht. Der in Abschnitt \ref{sec:test_setup} beschriebene Testablauf beschreibt 3 verschiedene Hindernisgrößen. Tabelle \ref{tbl:obstacle_sizes} zeigt sowohl die Maße der Hindernisse als auch die Fläche in $cm/cm^2$ auf.
     
 	\begin{table}[h]
@@ -64,8 +49,6 @@ Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} 
 	\noindent
 	Während der Tests wurde für jedes aufgenommene Einzelbild die reale Distanz gemessen. Der dabei verwendete Referenzpunkt befand sich in der Mitte des zu erkenneden Hindernisses, da diese nicht zwangsläufig orthogonal zur Bildebene platziert wurden. Somit entspricht die gemessene Distanz der mittleren Distanz welche sich aus allen gefundenen Bereichen eines Bildes zusammensetzt. Während der Aufnahme sind die jeweiligen Einzelbilder der linken und rechten Kamera sowie die berechnete Disparity Map sichtbar. Weiterhin ist ein weiterer Anzeigemodus verfügbar welcher die gefundenen Hindernisse innerhalb der Tiefenkarte markiert (siehe Abbildung \ref{fig:test_viewing}). Weiterhin kann jede erstellte Hindernis-Pointcloud im Nachhinein gerendert werden um einen überblick über die Ergebnisse des Algorithmus zu erhalten.\\
 	
-	\noindent
-	\textbf{Großes Hindernis:}\\
 	\begin{figure}[h]
 		\centering
 		\begin{tabular}{c c}
@@ -80,7 +63,9 @@ Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} 
 		\label{fig:test_viewing}
 	\end{figure}
    	% TODO hindernisform: was ist daran gut / schlecht vielleicht
-    
+
+	\noindent
+	\textbf{Großes Hindernis:}\\ 
     \noindent
 	Im ersten Test wurde das große Hindernis gewählt, dabei wurde mithilfe der dargestellten Hindernisse auf der Disparity Map überprüft ob sich die erkannten Hindernisse innerhalb des Gefahrenbereichs befinden. Um auch kritische Bereiche zu testen wurde das Hindernis zudem zu Teilen außerhalb dieser platziert. Aus den 12 aufgenommenen Bildern des Testsets ergaben sich die in Abbildung \ref{fig:eval_big} (a) sichtbaren Ergebnisse.\\
     
@@ -168,11 +153,47 @@ Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} 
 	    \label{fig:eval_tiny}
 	\end{figure}
 	
+	\noindent
 	Die Erkennung Winziger Hindernisse gestaltet sich aufgrund diverser Faktoren schwer. Ein limitierender Faktor ist die Fläche, wenn ein einzeles Hindernis so klein ist, dass es während der Mittelwertberechnung aufgrund der umliegenden Disparitäten untergeht. Dies macht sich in nahezu allen getesteten Bildern bemerkbar. In den Frames 2 und 3 sowie 7-10 wurde das Hindernis nicht erkannt, da es sich an einer Kreuzung verschiedener Subimages befand, dadurch wird der Median aller Teilmatrizen nicht signifikant beeinflusst. In Frame 6 wurde das Objekt um um 90$^{\circ}$ rotiert, sodass nur noch eine Seitenansicht dessen vorhanden war. Dies reicht zwar in diesem Frame zur Erkennung des Hindernisses aus, jedoch wurde im selben Frame auch der Stab als Hindernis erkannt. Auch der in Abbildung \ref{fig:eval_tiny} (b) dargestellte Boxplot zeigt, das signifikant größere Distanzen erkannt wurden als sie in den realen Messungen vorkommen. Auch dieser Punkt lässt sich durch die Nutzung des Mittelwertes innerhalb der Subimages begründen.
 
 % ---------------------- section -----------------------
 \section{Evaluierung Samplepoint Detection}
 \label{sec:evaluierung_samplepoint}
-
+	
+	
+	
     \subsection{Robustheit}
-    \label{subsec:samplepoint_robustheit}    
+    \label{subsec:samplepoint_robustheit}
+    	\begin{figure}[h]
+		\centering
+		\begin{tabular}{cc}
+		\includegraphics[width=7cm]{img/evaluation/sample_big_bar}&
+		\includegraphics[width=7cm]{img/evaluation/sample_big_box}\\
+		 (a) & (b)
+		\end{tabular}
+		\caption{}
+	    \label{fig:sample_eval_big}
+	\end{figure}
+
+	\begin{figure}[h]
+		\centering
+		\begin{tabular}{cc}
+		\includegraphics[width=7cm]{img/evaluation/sample_medium_bar}&
+		\includegraphics[width=7cm]{img/evaluation/sample_medium_box}\\
+		 (a) & (b)
+		\end{tabular}
+		\caption{}
+	    \label{fig:sample_eval_big}
+	\end{figure}
+
+	\begin{figure}[h]
+		\centering
+		\begin{tabular}{cc}
+		\includegraphics[width=7cm]{img/evaluation/sample_tiny_bar}&
+		\includegraphics[width=7cm]{img/evaluation/sample_tiny_box}\\
+		 (a) & (b)
+		\end{tabular}
+		\caption{}
+	    \label{fig:sample_eval_big}
+	\end{figure}
+
