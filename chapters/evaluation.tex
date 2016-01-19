@@ -107,24 +107,22 @@ Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} 
 	\end{figure}
 	
 	\noindent
-
-	Auch die Erkennung mittlerer Hindernisse durch den Algorithmus war in nahezu allen Fällen erfolgreich. Ein auffälliges Detail im Vergleich zu den Ergebnissen des großen Hindernisses ist die höhere Differenz aus berechneter und gemessener Distanz. Das getestete Objekt befand sich während der Tests an einem durchsichtigen Plexiglas Stab. Dieser ist teilweise auch als Hindernis erkannt worden. Im Fall von Frame 8 umfasst das Objekt insgesamt 17 Subimages in denen es erkannt wurde. Als Resultat des Stabes wurden jedoch noch 2 weitere erkannt.
-	% TODO UBERARBEITEN	
-	Dies ist nicht der alleinige Auslöser der hohen Abweichungen, jedoch ein geringer Teil, da der Median der gesamten Teilmatrix gerade so hoch ist um vom Algorithmus als Hindernis erkannt zu werden. Die Orientierung des Hindernisses in Bild 3 ist sowohl in $x$ als auch in $z$ Achse rotiert. Dies resultiert in einer Erkennung der einzelnen Flächen, welche geometrisch weiter entfernt sind, und dem Messpunkt welcher auf der vorderen Ebene des Objektes platziert war (siehe Abbildung \ref{fig:eval_medium_fails} (b)). 
+	Auch die Erkennung mittlerer Hindernisse durch den Algorithmus war in nahezu allen Fällen erfolgreich. Ein auffälliges Detail im Vergleich zu den Ergebnissen des großen Hindernisses ist die höhere Differenz aus berechneter und gemessener Distanz. Das getestete Objekt befand sich während der Tests an einem durchsichtigen Plexiglas Stab. Dieser ist teilweise auch als Hindernis erkannt worden. Im Fall von Frame 8 umfasst das Objekt insgesamt 17 Subimages in denen es erkannt wurde. Als Resultat des Stabes wurden jedoch noch 2 weitere erkannt. Frame 1 weist zwar keine große Abweichung zwischen der berechneten und realen Distanz auf, jedoch wird das Objekt zu teilen nicht erkannt. Bei einer Distanz von $120\ cm$ ist eine Erkennung dieser Hindernisgröße in nur 2 Subimages ungewöhnlich. Dies könnte zum Teil aus der verwendeten Blockgröße resultieren.
 	
-		\begin{figure}[h]
-			\centering
-			\begin{tabular}{cc}
-			\includegraphics[width=5cm]{img/evaluation/medium_0_left}&
-			\includegraphics[width=5cm]{img/evaluation/medium_3_left}\\
-			(a) Frame 0 &  (b) Frame 3
-			\end{tabular}
-			\caption{}
-		    \label{fig:eval_medium_fails}
-		\end{figure}
+	% TODO bilder des aktuellen sets nehmen
+	\begin{figure}[h]
+		\centering
+		\begin{tabular}{cc}
+		\includegraphics[width=5cm]{img/evaluation/medium_0_left}&
+		\includegraphics[width=5cm]{img/evaluation/medium_3_left}\\
+		(a) Frame 0 &  (b) Frame 3
+		\end{tabular}
+		\caption{}
+		\label{fig:eval_medium_fails}
+	\end{figure}
 	
 	\noindent
-	Selbiges Resultat lässt sich in den Frames 4, 6 und 7 erkennen. In Frame 8 war das eigentlich Objekt nur teilweise im Bild zu erkennen, das eigentlich erkannte Hindernis ist in diesem Fall der beschriebene Befestigungsstab. Frame 8 enthält keine Informationen zu einem erkannten Hindernis, da sich das Hindernis direkt an der Grenze des Gefahrenbereichs befand.	Eben diese Ergebnisse sind auch in Abbildung \ref{fig:eval_medium} (sb) sichtbar, das Maximum der realen Distanz resultiert dabei aus dem nicht erkannten Hindernis in Frame 11.\\
+	Selbiges Resultat lässt sich in den Frames 2, 6 und 7 erkennen. In Frame 9 dagegen konnte kein Hindernis erkannt werde, da sich das Objekt an der Grenze der Gefahrenzone befunden hat und demnach die Abweichung der Disparität zu keiner Erkennung führen konnte. Eben diese Ergebnisse sind auch in Abbildung \ref{fig:eval_medium} (sb) sichtbar, das Maximum der realen Distanz resultiert dabei aus dem nicht erkannten Hindernis in Frame 9.\\
 	
 	\noindent
 	\textbf{Winziges Hindernis:}\\
@@ -140,12 +138,13 @@ Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} 
 	\end{figure}
 	
 	\noindent
-	Die Erkennung winziger Hindernisse gestaltet sich aufgrund diverser Faktoren schwer. Ein limitierender Faktor ist die Fläche, wenn ein einzeles Hindernis so klein ist, dass es während der Mittelwertberechnung aufgrund der umliegenden Disparitäten untergeht. Dies macht sich in nahezu allen getesteten Bildern bemerkbar. In den Frames 2 und 3 sowie 7-10 wurde das Hindernis nicht erkannt, da es sich an einer Kreuzung verschiedener Subimages befand, dadurch wird der Median aller Teilmatrizen nicht signifikant beeinflusst. In Frame 6 wurde das Objekt um um 90$^{\circ}$ rotiert, sodass nur noch eine Seitenansicht dessen vorhanden war. Dies reicht zwar in diesem Frame zur Erkennung des Hindernisses aus, jedoch wurde im selben Frame auch der Stab als Hindernis erkannt. Auch der in Abbildung \ref{fig:eval_tiny} (b) dargestellte Boxplot zeigt, das signifikant größere Distanzen erkannt wurden als sie in den realen Messungen vorkommen. Auch dieser Punkt lässt sich durch die Nutzung des Mittelwertes innerhalb der Subimages begründen.
+	Die Erkennung winziger Hindernisse gestaltet sich aufgrund diverser Faktoren schwer. Ein limitierender Faktor ist die Fläche, ist ein einzeles Hindernis so klein, dass es während der Berechnung des Medians aufgrund der umliegenden Disparitäten untergeht, so kann auch kein Hindernis erkannt werden. Dies macht sich in vielen der getesteten Bildern bemerkbar. In den Frames 2, 5, 7 und 10 wurde das Hindernis nicht erkannt, da es sich entweder an einer Kreuzung verschiedener Subimages befand, oder die verwendete Blockgröße nicht ausreicht, dadurch wird der Median aller Teilmatrizen nicht signifikant beeinflusst. Auch der Stab wurde in den Frames 3, 6 sowie 8 als zusätzliches Hindernis erkannt. Dies ist ein Resultat der relativ geringen Distanz zu den Kameras. Die hohen Entfernungsdifferenzen resultieren in diesen Fällen wiederum aus der großen Entfernung der Hindernisse zum Hintergrund sowie dem auftretenden Schatten welcher durch die Baseline zu begründen ist. Auch der in Abbildung \ref{fig:eval_tiny} (b) dargestellte Boxplot zeigt, das signifikant größere Distanzen erkannt wurden als sie in den realen Messungen vorkommen.
 
 % ---------------------- section -----------------------
 \section{Evaluierung Samplepoint Detection}
 \label{sec:evaluierung_samplepoint}
-	
+
+	\noindent
 	Durch die wesentlich höhere Anzahl an betrachteten Bereichen innerhalb der Disparity Map ist anzunehmen, dass die Erkennung kleiner Hindernisse eine höhere Erfolgswahrscheinlichkeit verspricht. Im Rahmen dieses Abschnittes wird die Samplepoint Detection getestet. Dies geschieht nach dem in \ref{sec:evaluierung_subimage} bereits beschriebenen Schema.\\
 
 	\noindent
@@ -166,7 +165,6 @@ Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} 
 	\noindent
 	\textbf{Mittleres Hindernis:}\\
 
-
 	\begin{figure}[h]
 		\centering
 		\begin{tabular}{cc}
@@ -175,8 +173,26 @@ Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} 
 		 (a) & (b)
 		\end{tabular}
 		\caption{}
-	    \label{fig:sample_eval_big}
+	    \label{fig:sample_eval_medium}
 	\end{figure}
+
+	\noindent
+	Auch die Erkennung mittlerer Hindernisse erfolgte in allen Frames ohne signifikante Probleme (siehe Abbildung \ref{fig:sample_eval_medium}). Bereiche in denen aufgrund fehlender Textur keine Korrespondenz zugeordnet werden konnte wurden aufgrund der hohen Dichte der Samplepoints trotzdem erkannt. Wie Abbildungen \ref{fig:sample_eval_medium_fails} (a) und (b) zeigen wurden nicht gematchte Bereiche auch nicht als Hindernis erkannt, die umliegenden Texturierten Bereiche überwiegen diese doch und sorgen daher für eine robuste Detektion. 
+
+	\begin{figure}[h]
+		\centering
+		\begin{tabular}{cc}
+		\includegraphics[width=5cm]{img/evaluation/sample_tiny_test_5_disparity}&
+		\includegraphics[width=5cm]{img/evaluation/sample_tiny_test_11_disparity}\\
+		(a) Frame 5 &  (b) Frame 11
+		\end{tabular}
+		\caption{}
+		\label{fig:sample_eval_medium_fails}
+	\end{figure}
+	
+	\noindent
+	Die bereits beschriebene hohe Dichte der Samplepoints und deren geringe Größe hilft auch hier wieder den Stab als Hindernis zu erkennen (siehe Abbildung \ref{fig:sample_eval_medium_fails} (b))
+
 
 	\noindent
 	\textbf{Winziges Hindernis:}\\
@@ -190,6 +206,6 @@ Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} 
 		 (a) & (b)
 		\end{tabular}
 		\caption{}
-	    \label{fig:sample_eval_big}
+	    \label{fig:sample_eval_tiny}
 	\end{figure}
 
