@@ -1,10 +1,24 @@
+Im Rahmen des Kapitels \enquote{Evaluation} wurden beide entwickelten Methoden in verschiedenen Versuchen getestet. Die erlangten Ergebnisse beider Algorithmen unterscheiden sich in diversen Bereichen. Eine Diskussion sowie Auswertung der Evaluation findet in diesem Kapitel statt. Dabei wird zunächst auf die erlangten Ergebnisse eingegangen indem die Resultate diskutiert und bewertet werden. Anschliessend erfolgt eine Gegenüberstellung beider Algorithmen in Hinsicht auf die Rubustheit der Erkennung sowie deren Performance.
+
 % ---------------------- section -----------------------
 \section{Ergebnisse der Evaluation}
 \label{sec:anforderunsevaluierung}
 
+Die in der Evaluation erlangten Ergebnisse zeigen das beide Methoden 
+
 % generell ist zu sagen das die mean besser funktioniert wenn die hindernisse nicht vor einem weit entfernten hintergrund platziert werden
+
 % durch die geringen disparitäten der hinteren 'ebene' wirrd der median so weit verzerrt, dass kleine objekte einfach nicht mehr auffallen
+
 % wenn hintergrund höhere disparitäten aufweist fallen hohe disparitäten auch mehr ins gewicht
+
+% zum teil auch so bei der samplepoint detection, jedoch erwies sich diese in den tests als robuster
+
+% gerade kleine Hindernisse wurden auf distanz besser erkannt
+
+% trotzallem nicht immer eindeutig teilweise wurde ein Teil des objektes erkannt wie der stab aber nicht das eigentlich gesuchte objekt
+
+% 
 
 % ---------------------- section -----------------------
 \section{Gegenüberstellung beider Algorithmen}
@@ -12,20 +26,25 @@
 
 \subsection{Robustheit}
 \label{subsec:discussion_robsutness}
-	
-	
-	
-	% bisschen mehr statistik kram
-	% welcher ist wo signifikant besser
-		% bezug auf hindernisgroesse
-		% wahrscheinlichkeit das hindernis schlecht uz erkennen aber trotzdem wird es erkannt
+
+% bisschen mehr statistik kram
+% welcher ist wo signifikant besser
+	% bezug auf hindernisgroesse
+	% wahrscheinlichkeit das hindernis schlecht uz erkennen aber trotzdem wird es erkannt
+
+% bei statischen szenen schlechtere erkennung, bewegung hilft jedoch hindernisse zu erkennen, da diese durch die in der evaluierung angesprochenen bereiche (kreuzungen, nicht betrachteter bereich) durchwanderen und somit eine erkennung auslösen.
+
+% bewegung fundamental wichtig
+
 
 \subsection{Performance}
 \label{subsec:discussion_performance}
-  
-    % hinsichtlich performance verschiedene Punkte betrachtet
-    % erkennung pro frame im mittel
-    % framerate der Disparity berechnung
-    % gesamte framerate und ausblick auf die darurch erreichbare performance
-    % evtl auslagern und eigenne section machen da beide direkt gegenübergestllt werden können.
+
+% hinsichtlich performance verschiedene Punkte betrachtet
+% erkennung pro frame im mittel
+% framerate der Disparity berechnung
+% gesamte framerate und ausblick auf die darurch erreichbare performance
+% evtl auslagern und eigenne section machen da beide direkt gegenübergestllt werden können.
+    
+% resizing der initalbilder zur performance verbesserung
 
