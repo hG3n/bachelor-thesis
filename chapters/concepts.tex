@@ -125,6 +125,17 @@ Der Semi Global Block Matching Algorithmus ist ein in der Computer Vision Librar
 	\item Pre und Post Processing Elemente des \emph{StereoBM} \cite{opencv_doc} werden verwendet.
 \end{enumerate}
 
+Weiterhin existiert eine Reihe verschiedener Parameter welche die Berechnung der Disparity Map aktiv beeinflussen. Im folgenden werden die zur Initialisierung obligatorischen Parameter in ihrer Funktionsweise grob beschrieben.
+
+\begin{itemize}
+	\item \textbf{\emph{minDisparity:}}\\
+	Der Parameter \emph{minDisparity} begrenzt den messbaren Tiefenbereich nach oben, dies ist vor allem dann von Nöten wenn die Tiefenberechnung nach unten hin abgegrenzt werden soll. Er beschreibt also die minimale zu erkennende Disparität
+ 	\item \textbf{\emph{numDisparities:}}\\
+ 	Mit Hilfe der Number of Disparities \emph{numDisparities} wird die Breite des Matchingbereiches festgelegt. Er definiert wie viele Pixel im linken Bild auf Korrespondenz im rechten Bild analysiert werden sollen. In Abhängigkeit der Größe des Parameters entsteht bei der Berechnung der Tiefenkarte ein Bereich in welchem keine Informationen enthalten sind. Die damit verbundene weitere Verfahrensweise wird im Abschnitt \ref{sec:preprocessing} \enquote{Preprocessing} näher erläutert.
+	\item \textbf{\emph{blockSize:}}\\
+	Die \emph{blockSize} des \emph{SGBM} beschreibt die Größe des Matching Blocks in Pixeln. Je größer der Wert gewählt wird, desto weicher wird die resultierende Disparity Map. Dabei gehen jedoch auch Informationen verloren. Ist der Wert niedrig so ist es unter Umständen schwerer homogene Flächen korrekt zu Matchen und es treten mehr nicht-korrespondierende Bereiche auf.
+\end{itemize}
+
 \noindent
 %TODO: Parameter anpassung wichtig!, sgbm hirschmueller Mode!
 Dies erlaubt dem Algorithmus eine schnelle Berechnung der Disparitäten auf einem qualitativ hochwertigen Niveau. Der geringe Verlust an Qualität kann in Anbetracht der Berechnung in Echtzeit vernachlässigt werden.
