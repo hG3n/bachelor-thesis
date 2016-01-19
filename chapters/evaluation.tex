@@ -314,7 +314,7 @@ Die Änderung der Blockgröße hat auch bei der Samplepoint Detection keinen sig
 	\includegraphics[width=4cm]{img/evaluation/distance_sample/_test_1_disparity}&
 	\includegraphics[width=4cm]{img/evaluation/distance_sample/_test_2_disparity}
 	\end{tabular}
-	\caption{Testset unter Verwendung einer Blockgröße von 13 Pixeln in verschiedenen Distanzen (50 cm bis 150 cm sv.l.n.r.)9}
+	\caption{Testset unter Verwendung einer Blockgröße von 13 Pixeln in verschiedenen Distanzen (50 cm bis 150 cm v.l.n.r.)}
 	\label{fig:distance_sample_images}
 \end{figure}
 
@@ -322,16 +322,20 @@ Die Änderung der Blockgröße hat auch bei der Samplepoint Detection keinen sig
 Dabei lässt sich in allen Bildern welche im Abstand von 100 Zentimetern aufgenommen erkennen, dass das eigentliche Hindernis nicht mehr gefunden wurde, sondern die Befestigung dessen das erkannte Hindernis repräsentiert. Ein Grund für diese \enquote{falsch}-Erkennung könnte auch hier die Verwendung des Mittelwertes, sowie der nicht beachtete Raum zwischen den einzelnen Samplepoints sein. Bei einem Radius von 2 Pixeln beträgt dieser ebenfalls 2 Pixel. Eine Verzerrung der Werte durch den Hintergrund ist in diesem Fall unwahrscheinlich, die Verbindung der Distanz sowie der geringen Aufnahmeauflösung der Kameras führt eher dazu, dass das Hindernis vor dem Hintergrund als Teil dessen wirkt. Die plausibelste Fehlerquelle ist daher am wahrscheinlichsten die zugrunde liegende Disparity Map.
 
 % ---------------------- section -----------------------
-\section{something decribing evaluation of evaluation}
-\label{sec:evaluation_last}
+\section{Diskussion}
+\label{sec:evaluation_Diskussion}
 
 Die in den Abschnitten \ref{sec:evaluierung_subimage} und \ref{sec:evaluierung_samplepoint} erlangten Ergebnisse belegen die generelle Funktionsweise beider Algorithmen. Die Grundidee der Methoden gleicht sich in einigen Punkten, ebenso die Resultate. Beide Algorithmen liefern robuste Ergebnisse unter der Voraussetzung einer gewissen Hindernisgröße, wobei das kleine Objekt die größte Anforderung an diese stellt. Die Detektion des großen sowie mittleren Hindernisses ergab in allen Versuchen die Ergebnisse mit den niedrigsten Differenzen zwischen berechneten und gemessenen Entfernungen.\\
 
 \noindent
-Das Konzept der Subimage Detection ist in Bezug auf große und mittlere Hindernisse auch als robust einzustufen, jedoch ist die Berechnung des Medians der Matrizen auch der größte Konflikt. Weist der Hintergrund eines Objektes sehr geringe Disparitäten auf, so besteht die Möglichkeit das der Hintergrund den Mittelwert eines einzelnen Subimages insofern beeinflusst, dass das Hindernis (innerhalb dieser Submatrix) nicht mehr erkannt werden kann. Dies ließ sich bei nahezu allen Versuchen und Hindernisgrößen beobachten. Im Fall der großen und mittleren Hindernisse stellt dies keinen Konflikt dar, da die Fläche der Hindernisse trotzallem für eine Erkennung ausreicht. Ungeachtet dessen stellt gerade dieser Konflikt ein Problem in der Erkennung einzelner kleiner Hindernisse dar.
+Das Konzept der Subimage Detection ist in Bezug auf große und mittlere Hindernisse als robust einzustufen, jedoch ist die Berechnung des Medians der Matrizen auch der größte Konflikt. Weist der Hintergrund eines Objektes sehr geringe Disparitäten auf, so besteht die Möglichkeit das der Hintergrund den Mittelwert eines einzelnen Subimages insofern beeinflusst, dass das Hindernis (innerhalb dieser Submatrix) nicht mehr erkannt werden kann. Dies ließ sich bei nahezu allen Versuchen und Hindernisgrößen beobachten. Im Fall der großen und mittleren Hindernisse stellt dies keinen Konflikt dar, da die Fläche der Hindernisse trotzdem für eine Erkennung ausreicht. Ungeachtet dessen stellt gerade dieser Konflikt ein Problem in der Erkennung einzelner kleiner Hindernisse dar.
 
 \noindent
- 
+% samplepoints robust
+% bereich zwischen den samplepoints weniger kritisch da er nur 2 -4 pixel beträgt
+% robuste Ergebnisse auch bei kleinen hindernissen
+% jedoch wird auch hier nicht immer das eigentliche hindernis erkannt
+% hohe auflösung in der finalen pointcloud
 
 
 % zeigt das beide algorithmen funktionieren wenn die hindernisse eine bestimmte größe besitzen bereichen funktionieren
