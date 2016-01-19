@@ -26,7 +26,19 @@ Zu Beginn des Algorithmus muss der durch die Baseline verursachte nicht matchbar
 	% sofern dieser ungerade 1 addiert zur weiteren vorgehensweise
 	% horizontaler pixelshift so gewählt das die dimensionen der disparity map durch 8 teilbar bleiben
 	% dies hat sich während der entwicklung als robuster und zuverlässiger wert erwiesen.
-	% TODO roi der disparity map siehe notes
+	
+	\begin{figure}[h]
+		\centering
+		\begin{tabular}{cc}
+			\includegraphics[height=4cm]{img/evaluation/dmap_noroi} &
+			\includegraphics[height=4cm]{img/evaluation/dmap_roi}
+		\end{tabular}
+		\caption{Darstellung der Disparity ROI. Der rote Bereich markiert den Pixelshift}
+		\label{fig:dmap_roi}
+	\end{figure}
+
+	\noindent
+	Abbildung \ref{fig:dmap_roi} zeigt den Pixelshift in der finalen Disparity Map. Der \emph{SGBM} berechnet zwar Werte innerhalb des Bereiches welcher nicht zu erkennen ist, jedoch geschieht dies in Abhängigkeit der aktuellen Szene. Ist es nicht möglich in diesem Informationen zu berechnen so werden die Disparitäten entweder \enquote{geraten} oder als schwarzer Bereich mit negativen Werten ausgedrückt. Aus Gründen der Performance wird dieser daher entfernt um keine Berechnungen an Informationslosen Pixeln durchzuführen.\\
 	
 \noindent
 \textbf{Berechnung der Disparität aus gegebener Distanz:}\\
