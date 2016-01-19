@@ -215,20 +215,57 @@ Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} 
 \section{Diverse Tests}
 \label{sec:further_tests}
 
-	Hinsichtlich der verschiedenen möglichen Faktoren welche eine erfolgreiche Erkennung beeinflussen können wurden im Rahmen der Evaluation beider Algorithmen weitere kleinere Tests durchgeführt. Jene umfassen die Erkennung kleiner Hindernisse unter Veränderung der SGBM Parameter, speziell der Größe des Matching-Blocks. Weiterhin wird die Erkennung kritischer Umgebungen (durchsichtige, reflektierende und homogener Flächen) getestet. Weiterhin erfolgt eine Einschätzung welche minimale Größe auf bestimmte von einem Subimage/Samplepoint erkannt werden kann.\\
+Hinsichtlich der verschiedenen möglichen Faktoren welche eine erfolgreiche Erkennung beeinflussen können wurden im Rahmen der Evaluation beider Algorithmen weitere kleinere Tests durchgeführt. Jene umfassen die Erkennung winziger Hindernisse unter Veränderung der Größe des Matching-Blocks. Weiterhin wird die Erkennung kritischer Umgebungen (durchsichtige, reflektierende und homogener Flächen) getestet. Weiterhin erfolgt eine Einschätzung welche minimale Größe auf bestimmte von einem Subimage/Samplepoint erkannt werden kann.\\
 	
-	\noindent
-	\textbf{Veränderung der \emph{SGBM} Parameter:}
-
+\noindent
+\textbf{Veränderung der \emph{SGBM} Block Größe:}\\
+Um die Auswirkungen der Blockgröße auf die Distanzberechnung zu testen wurden verschiedene Kantenlängen des Blocks getestet. Für jede Größe wurde die Hinderniserkennung aus je 3 Distanzen ausgeführt. Im Folgenden werden zunächst die Daten dargelegt und im Anschluss daran analysiert. Eine Diskussion der erhaltenen Ergebnisse findet in Abschnitt \ref{sec:gegenueberstellung} statt.\\
 	
+\begin{table}[]
+\centering
+\begin{tabular}{|l||c|c|}
+\hline
+Blockgröße & berechnete Distanz & real gemessene Distanz \\
+\hline\hline
+7          & 120.659306         & 50                     \\
+           &  -                 & 100                    \\
+           &  -                 & 150                    \\
+\hline
+9          & 105.872901         & 50                     \\
+           &  -                 & 100                    \\
+           &  -                 & 150                    \\
+\hline
+11         & 98.989448          & 50                     \\
+           &  -                 & 100                    \\
+           &  -                 & 150                    \\
+\hline
+13         & 85.267674          & 50                     \\
+           &  -                 & 100                    \\
+           &  -                 & 150                    \\
+\hline
+15         & 112.185425         & 50                     \\
+           &  -                 & 100                    \\
+           &  -                 & 150                    \\
+\hline
+21         & 108.672094         & 50                     \\
+           &  -                 & 100                    \\
+           &  -                 & 150                    \\
+\hline
+\end{tabular}
+\caption{Ausgewertete Daten des Subimage Sit}
+\label{tbl:distance_subimage}
+\end{table}	
 
-	\noindent
-	\textbf{Erkennung in kritischen Umgebungen:}
+\noindent
+Das im Rahmen dieses Tests genutzte Hindernis ist jenes aus den Tests der einzelnen Methoden. Wie aus Abbildung \ref{tbl:distance_subimage} ersichtlich wird hat eine Änderung der Blockgröße keine Auswirkungen auf die Erkennung des Objektes. Die berechneten Entfernungen werden erheblich von den Pixeln des Hintergrundes beeinflusst, was in den verzerrten berechneten Distanzen resultiert.\\
 
 
+\noindent
+\textbf{Erkennung in kritischen Umgebungen:}\\
 
-	\noindent
-	\textbf{minimale Hindernisgröße:}
+
+\noindent
+\textbf{minimale Hindernisgröße:}\\
 	
 	
 	
