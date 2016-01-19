@@ -12,10 +12,10 @@ Das dabei erreichte Sichtfeld nach der Anwendug der ROI auf die Disparity Map (s
 	% TODO sichtfeld durch disparity map & vergleich zum ursprünglichen sichtfeld
 
 \noindent
-Ein aufgenommenes Testset besteht aus jeweils 12 Testbildern. Für jede Methode wurden drei verschiedene Hindernisgrößen getestet, groß, klein und winzige Hindernisse. Anhand dieser wird ausgewertet welche minimale, maximale sowie mittlere Disparität, und daraus resultierende Distanz erkannt wird.\\
+Ein aufgenommenes Testset besteht aus jeweils 12 Testbildern. Für jede Methode wurden drei verschiedene Hindernisgrößen getestet, groß, mittel und kleine Hindernisse. Anhand dieser wird ausgewertet welche minimale, maximale sowie mittlere Disparität, und daraus resultierende Distanz erkannt wird.\\
 
 \noindent
-Weitere Tests beinhalten die Erkennung winziger Hindernisse unter Veränderung der \emph{SGBM} Parameter. Dabei wird unter anderem untersucht ob beispielsweise eine verringerte Blockgröße Einfluss auf die Erkennung kleiner Bereiche nimmt. Des Weiteren wird die Zeit für die Hinderniserkennung eines Frames untersucht um eine durchschnittliche Zeit für die Erkennung sowie die daraus resultierende Framerate zu ermitteln. Dies geschieht einerseits durch die Erkennung eines Hindernisses, welches sich über das gesamte Bild ausbreitet, andererseits für nur ein Teilelement jeder Erkennungsmethode (Subimage, Samplepoint).\\
+Weitere Tests beinhalten die Erkennung kleiner Hindernisse unter Veränderung der \emph{SGBM} Parameter. Dabei wird unter anderem untersucht ob beispielsweise eine verringerte Blockgröße Einfluss auf die Erkennung kleiner Bereiche nimmt. Des Weiteren wird die Zeit für die Hinderniserkennung eines Frames untersucht um eine durchschnittliche Zeit für die Erkennung sowie die daraus resultierende Framerate zu ermitteln. Dies geschieht einerseits durch die Erkennung eines Hindernisses, welches sich über das gesamte Bild ausbreitet, andererseits für nur ein Teilelement jeder Erkennungsmethode (Subimage, Samplepoint).\\
 Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} umgehen können. Dazu zählen die Erkennung bei spiegelnden, reflektierenden und durchsichtigen Flächen, sowie die Erkennung schwach texturierter Hindernisse.\\
 
 % TODO BILDER AUFNEHMEN
@@ -37,7 +37,7 @@ Groß   		&   -    & 53.5  & 43.0   & 2300.5 \\
 \hline
 Mittel 		& 	-    & 16.0  & 14.5   & 232.0\\
 \hline
-Winzig		& 2.5	 &   -   &   -    & 19.6 \\
+Klein		& 2.5	 &   -   &   -    & 19.6 \\
 \hline	
 \end{tabular}
 \caption{Maße der verschiedenen genutzten Hindernisse}
@@ -140,7 +140,7 @@ Selbiges Resultat lässt sich in den Frames 2, 6 und 7 erkennen. In Frame 9 dage
 \end{figure}
 
 \noindent
-Die Erkennung winziger Hindernisse gestaltet sich aufgrund diverser Faktoren schwer. Ein limitierender Faktor ist die Fläche, ist ein einzeles Hindernis so klein, dass es während der Berechnung des Medians aufgrund der umliegenden Disparitäten untergeht, so kann auch kein Hindernis erkannt werden. Dies macht sich in vielen der getesteten Bildern bemerkbar. In den Frames 2, 5, 7 und 10 wurde das Hindernis nicht erkannt, da es sich entweder an einer Kreuzung verschiedener Subimages befand, oder die verwendete Blockgröße nicht ausreicht, dadurch wird der Median aller Teilmatrizen nicht signifikant beeinflusst. Auch der Stab wurde in den Frames 3, 6 sowie 8 als zusätzliches Hindernis erkannt. Dies ist ein Resultat der relativ geringen Distanz zu den Kameras. Die hohen Entfernungsdifferenzen resultieren in diesen Fällen wiederum aus der großen Entfernung der Hindernisse zum Hintergrund sowie dem auftretenden Schatten welcher durch die Baseline zu begründen ist. Auch der in Abbildung \ref{fig:eval_tiny} (b) dargestellte Boxplot zeigt, das signifikant größere Distanzen erkannt wurden als sie in den realen Messungen vorkommen.
+Die Erkennung kleiner Hindernisse gestaltet sich aufgrund diverser Faktoren schwer. Ein limitierender Faktor ist die Fläche, ist ein einzeles Hindernis so klein, dass es während der Berechnung des Medians aufgrund der umliegenden Disparitäten untergeht, so kann auch kein Hindernis erkannt werden. Dies macht sich in vielen der getesteten Bildern bemerkbar. In den Frames 2, 5, 7 und 10 wurde das Hindernis nicht erkannt, da es sich entweder an einer Kreuzung verschiedener Subimages befand, oder die verwendete Blockgröße nicht ausreicht, dadurch wird der Median aller Teilmatrizen nicht signifikant beeinflusst. Auch der Stab wurde in den Frames 3, 6 sowie 8 als zusätzliches Hindernis erkannt. Dies ist ein Resultat der relativ geringen Distanz zu den Kameras. Die hohen Entfernungsdifferenzen resultieren in diesen Fällen wiederum aus der großen Entfernung der Hindernisse zum Hintergrund sowie dem auftretenden Schatten welcher durch die Baseline zu begründen ist. Auch der in Abbildung \ref{fig:eval_tiny} (b) dargestellte Boxplot zeigt, das signifikant größere Distanzen erkannt wurden als sie in den realen Messungen vorkommen.
 
 % ---------------------- section -----------------------
 \section{Evaluierung Samplepoint Detection}
@@ -197,8 +197,8 @@ Die bereits beschriebene hohe Dichte der Samplepoints und deren geringe Größe 
 
 
 \noindent
-\textbf{Winziges Hindernis:}\\
-Die anfangs anfänglich aufgestellte These, dass sich die Verteilung sowie Größe der Samplepoints positiv auf die Erkennung diverser Hindernisse auswirkt wird mit den Ergebnissen des winzigen Hindernisses bestätigt. Diagramm \ref{fig:sample_eval_tiny} (a) belegt diese Aussage. Es wurden alle 12 Hindernisse ohne signifikante Differenz in den Distanzen erkannt. Trotz dessen ist die Detektion dieser bei Entfernungen von mehr als 60 Zentimetern stark von der Orientierung des Objektes, dem Hintergrund sowie den verwendeten Parametern zur Berechnung der Disparity Map abhängig. Da die geringe Auflösung der Kameras keine detaillierte Aufnahme der Textur des Hindernisses zulässt ist es möglich das das Objekt aufgrund der Blockgröße des \emph{SGBM} mit dem Hintergrund zusammen gematcht wird. 
+\textbf{Kleines Hindernis:}\\
+Die anfangs anfänglich aufgestellte These, dass sich die Verteilung sowie Größe der Samplepoints positiv auf die Erkennung diverser Hindernisse auswirkt wird mit den Ergebnissen des kleinen Hindernisses bestätigt. Diagramm \ref{fig:sample_eval_tiny} (a) belegt diese Aussage. Es wurden alle 12 Hindernisse ohne signifikante Differenz in den Distanzen erkannt. Trotz dessen ist die Detektion dieser bei Entfernungen von mehr als 60 Zentimetern stark von der Orientierung des Objektes, dem Hintergrund sowie den verwendeten Parametern zur Berechnung der Disparity Map abhängig. Da die geringe Auflösung der Kameras keine detaillierte Aufnahme der Textur des Hindernisses zulässt ist es möglich das das Objekt aufgrund der Blockgröße des \emph{SGBM} mit dem Hintergrund zusammen gematcht wird. 
 
 \begin{figure}[h]
 	\centering
@@ -212,13 +212,13 @@ Die anfangs anfänglich aufgestellte These, dass sich die Verteilung sowie Grö�
 \end{figure}
 
 \noindent
-Weiterhin ist auch die statistische Auswertung der Distanzen in Boxplot \ref{fig:sample_eval_tiny} (b) ein Zeichen für die robuste Erkennung winziger Hindernisse. Lediglich das untere Quartil der berechneten Entfernungen weicht um ca. 6 Zentimeter von den realen Werten ab.
+Weiterhin ist auch die statistische Auswertung der Distanzen in Boxplot \ref{fig:sample_eval_tiny} (b) ein Zeichen für die robuste Erkennung kleiner Hindernisse. Lediglich das untere Quartil der berechneten Entfernungen weicht um ca. 6 Zentimeter von den realen Werten ab.
 
 % ---------------------- section -----------------------
 \section{Weitere Versuche}
 \label{sec:further_tests}
 
-Hinsichtlich der verschiedenen möglichen Faktoren welche eine erfolgreiche Erkennung beeinflussen können wurden im Rahmen der Evaluation beider Algorithmen weitere kleinere Tests durchgeführt. Jene umfassen die Erkennung winziger Hindernisse unter Veränderung der Größe des Matching-Blocks. Weiterhin wird die Erkennung kritischer Umgebungen (durchsichtige, reflektierende und homogener Flächen) getestet. Anschließend erfolgt eine Einschätzung welche minimale Größe auf bestimmte von einem Subimage/Samplepoint erkannt werden kann. Das während des Tests genutzte Setup wurde während der Aufnahme nicht bewegt. Das Objekt befand sich für jede Blockgröße an der jeweiligen Distanz. Zur Durchführung der Tests wurde das in Abschnitt \ref{sec:evaluierung_subimage} und\ref{sec:evaluierung_samplepoint} genutzte Winizige Hindernis verwendet.
+Hinsichtlich der verschiedenen möglichen Faktoren welche eine erfolgreiche Erkennung beeinflussen können wurden im Rahmen der Evaluation beider Algorithmen weitere kleinere Tests durchgeführt. Jene umfassen die Erkennung kleiner Hindernisse unter Veränderung der Größe des Matching-Blocks. Weiterhin wird die Erkennung kritischer Umgebungen (durchsichtige, reflektierende und homogener Flächen) getestet. Anschließend erfolgt eine Einschätzung welche minimale Größe auf bestimmte von einem Subimage/Samplepoint erkannt werden kann. Das während des Tests genutzte Setup wurde während der Aufnahme nicht bewegt. Das Objekt befand sich für jede Blockgröße an der jeweiligen Distanz. Zur Durchführung der Tests wurde das in Abschnitt \ref{sec:evaluierung_subimage} und\ref{sec:evaluierung_samplepoint} genutzte Winizige Hindernis verwendet.
 	
 \noindent
 \subsection{Veränderung der \emph{SGBM} Block Größe}
@@ -320,21 +320,22 @@ Die Änderung der Blockgröße hat auch bei der Samplepoint Detection keinen sig
 \end{figure}
 
 \noindent
-Dabei lässt sich in allen Bildern welche im Abstand von 100 Zentimetern aufgenommen erkennen, dass das eigentliche Hindernis nicht mehr gefunden wurde, sondern die Befestigung dessen das erkannte Hindernis repräsentiert. Ein Grund für diese \enquote{falsch}-Erkennung könnte auch hier die Verwendung des Mittelwertes, sowie der nicht beachtete Raum zwischen den einzelnen Samplepoints sein. Bei einem Radius von 2 Pixeln beträgt dieser ebenfalls 2 Pixel. Eine Verzerrung der Werte durch den Hintergrund ist in diesem Fall unwahrscheinlich, die Verbindung der Distanz sowie der geringen Aufnahmeauflösung der Kameras führt eher dazu, dass das Hindernis mit dem Hintergrund \enquote{verschmilzt}. Die plausibelste Fehlerquelle ist daher am wahrscheinlichsten die zugrunde liegende Disparity Map.
+Dabei lässt sich in allen Bildern welche im Abstand von 100 Zentimetern aufgenommen erkennen, dass das eigentliche Hindernis nicht mehr gefunden wurde, sondern die Befestigung dessen das erkannte Hindernis repräsentiert. Ein Grund für diese \enquote{falsch}-Erkennung könnte auch hier die Verwendung des Mittelwertes, sowie der nicht beachtete Raum zwischen den einzelnen Samplepoints sein. Bei einem Radius von 2 Pixeln beträgt dieser ebenfalls 2 Pixel. Eine Verzerrung der Werte durch den Hintergrund ist in diesem Fall unwahrscheinlich, die Verbindung der Distanz sowie der geringen Aufnahmeauflösung der Kameras führt eher dazu, dass das Hindernis vor dem Hintergrund als Teil dessen wirkt. Die plausibelste Fehlerquelle ist daher am wahrscheinlichsten die zugrunde liegende Disparity Map.
 
 % ---------------------- section -----------------------
 \section{something decribing evaluation of evaluation}
 \label{sec:evaluation_last}
 
+Die in den Abschnitten \ref{sec:evaluierung_subimage} und \ref{sec:evaluierung_samplepoint} erlangten Ergebnisse belegen die generelle Funktionsweise beider Algorithmen. Die Grundidee der Methoden gleicht sich in einigen Punkten, ebenso die Resultate. Beide Algorithmen liefern robuste Ergebnisse unter der Voraussetzung einer gewissen Hindernisgröße, wobei das kleine Objekt die größte Anforderung an diese stellt. 
 
 
 
 
-% zeigt das beide algorithmen in bestimmten bereichen funktionieren
+% zeigt das beide algorithmen funktionieren wenn die hindernisse eine bestimmte größe besitzen bereichen funktionieren
 % Funktionsweise der subimage d. in abhähingkeit der hindernisgröße
 	% größe der subimages --> kann nur bis uz einer bestimmten gr¨øße valide ergebnisse innerhalb der gefahrenzone liefern
 	% 
-	
+% bewegung ist wichtig zur Erkennung der Hindernisse diese sorgt für die nötige dynamik um die hindernisse robust zu erkennen
 	
 % pointclouds liefern guten metrischen eindruck des Sichtbereiches in weltkoordinaten
 % 
