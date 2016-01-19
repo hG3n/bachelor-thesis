@@ -37,7 +37,7 @@ Groß   		&   -    & 53.5  & 43.0   & 2300.5 \\
 \hline
 Mittel 		& 	-    & 16.0  & 14.5   & 232.0\\
 \hline
-Klein		& 2.5	 &   -   &   -    & 19.6 \\
+Klein		&  2.5	 &   -   &   -    & 19.6 \\
 \hline	
 \end{tabular}
 \caption{Maße der verschiedenen genutzten Hindernisse}
@@ -70,8 +70,8 @@ Im ersten Test wurde das große Hindernis gewählt, dabei wurde mithilfe der dar
 \begin{figure}[h]
 	\centering
 	\begin{tabular}{cc}
-	\includegraphics[width=7cm]{img/evaluation/sub_big_bar}&
-	\includegraphics[width=7cm]{img/evaluation/sub_big_box}\\
+	\includegraphics[width=7cm]{img/evaluation/diagrams/sub_big_bar}&
+	\includegraphics[width=7cm]{img/evaluation/diagrams/sub_big_box}\\
 	 (a) & (b)
 	\end{tabular}
 	\caption{}
@@ -100,8 +100,8 @@ Auch im in Abbildung \ref{fig:eval_big} (b) abgebildeten Boxplot lässt sich erk
 \begin{figure}[h]
 	\centering
 	\begin{tabular}{cc}
-	\includegraphics[width=7cm]{img/evaluation/sub_medium_bar}&
-	\includegraphics[width=7cm]{img/evaluation/sub_medium_box}\\
+	\includegraphics[width=7cm]{img/evaluation/diagrams/sub_medium_bar}&
+	\includegraphics[width=7cm]{img/evaluation/diagrams/sub_medium_box}\\
 	(a) &  (b)
 	\end{tabular}
     \caption{}
@@ -131,8 +131,8 @@ Selbiges Resultat lässt sich in den Frames 2, 6 und 7 erkennen. In Frame 9 dage
 \begin{figure}[h]
 	\centering
 	\begin{tabular}{cc}
-	\includegraphics[width=7cm]{img/evaluation/sub_tiny_bar}&
-	\includegraphics[width=7cm]{img/evaluation/sub_tiny_box}\\
+	\includegraphics[width=7cm]{img/evaluation/diagrams/sub_tiny_bar}&
+	\includegraphics[width=7cm]{img/evaluation/diagrams/sub_tiny_box}\\
 	(a)	& (b)
 	\end{tabular}
     \caption{}
@@ -156,8 +156,8 @@ Die Erkennung großer Objekte der Samplepoint Detection weist nahezu keine Fehle
 \begin{figure}[h]
 	\centering
 	\begin{tabular}{cc}
-	\includegraphics[width=7cm]{img/evaluation/sample_big_bar}&
-	\includegraphics[width=7cm]{img/evaluation/sample_big_box}\\
+	\includegraphics[width=7cm]{img/evaluation/diagrams/sample_big_bar}&
+	\includegraphics[width=7cm]{img/evaluation/diagrams/sample_big_box}\\
 	 (a) & (b)
 	\end{tabular}
 	\caption{}
@@ -170,8 +170,8 @@ Die Erkennung großer Objekte der Samplepoint Detection weist nahezu keine Fehle
 \begin{figure}[h]
 	\centering
 	\begin{tabular}{cc}
-	\includegraphics[width=7cm]{img/evaluation/sample_medium_bar}&
-	\includegraphics[width=7cm]{img/evaluation/sample_medium_box}\\
+	\includegraphics[width=7cm]{img/evaluation/diagrams/sample_medium_bar}&
+	\includegraphics[width=7cm]{img/evaluation/diagrams/sample_medium_box}\\
 	 (a) & (b)
 	\end{tabular}
 	\caption{}
@@ -203,8 +203,8 @@ Die anfangs anfänglich aufgestellte These, dass sich die Verteilung sowie Grö�
 \begin{figure}[h]
 	\centering
 	\begin{tabular}{cc}
-	\includegraphics[width=7cm]{img/evaluation/sample_tiny_bar}&
-	\includegraphics[width=7cm]{img/evaluation/sample_tiny_box}\\
+	\includegraphics[width=7cm]{img/evaluation/diagrams/sample_tiny_bar}&
+	\includegraphics[width=7cm]{img/evaluation/diagrams/sample_tiny_box}\\
 	 (a) & (b)
 	\end{tabular}
 	\caption{}
@@ -312,10 +312,9 @@ Die Änderung der Blockgröße hat auch bei der Samplepoint Detection keinen sig
 	\begin{tabular}{ccc}
 	\includegraphics[width=4cm]{img/evaluation/distance_sample/_test_0_disparity}&
 	\includegraphics[width=4cm]{img/evaluation/distance_sample/_test_1_disparity}&
-	\includegraphics[width=4cm]{img/evaluation/distance_sample/_test_2_disparity}\\
-	(a) Distanz 50cm &  (b) Distanz 100cm & (c) Distanz 150cm
+	\includegraphics[width=4cm]{img/evaluation/distance_sample/_test_2_disparity}
 	\end{tabular}
-	\caption{Testset unter Verwendung einer Blockgröße von 13 Pixeln}
+	\caption{Testset unter Verwendung einer Blockgröße von 13 Pixeln in verschiedenen Distanzen (50 cm bis 150 cm sv.l.n.r.)9}
 	\label{fig:distance_sample_images}
 \end{figure}
 
@@ -326,9 +325,13 @@ Dabei lässt sich in allen Bildern welche im Abstand von 100 Zentimetern aufgeno
 \section{something decribing evaluation of evaluation}
 \label{sec:evaluation_last}
 
-Die in den Abschnitten \ref{sec:evaluierung_subimage} und \ref{sec:evaluierung_samplepoint} erlangten Ergebnisse belegen die generelle Funktionsweise beider Algorithmen. Die Grundidee der Methoden gleicht sich in einigen Punkten, ebenso die Resultate. Beide Algorithmen liefern robuste Ergebnisse unter der Voraussetzung einer gewissen Hindernisgröße, wobei das kleine Objekt die größte Anforderung an diese stellt. 
+Die in den Abschnitten \ref{sec:evaluierung_subimage} und \ref{sec:evaluierung_samplepoint} erlangten Ergebnisse belegen die generelle Funktionsweise beider Algorithmen. Die Grundidee der Methoden gleicht sich in einigen Punkten, ebenso die Resultate. Beide Algorithmen liefern robuste Ergebnisse unter der Voraussetzung einer gewissen Hindernisgröße, wobei das kleine Objekt die größte Anforderung an diese stellt. Die Detektion des großen sowie mittleren Hindernisses ergab in allen Versuchen die Ergebnisse mit den niedrigsten Differenzen zwischen berechneten und gemessenen Entfernungen.\\
 
+\noindent
+Das Konzept der Subimage Detection ist in Bezug auf große und mittlere Hindernisse auch als robust einzustufen, jedoch ist die Berechnung des Medians der Matrizen auch der größte Konflikt. Weist der Hintergrund eines Objektes sehr geringe Disparitäten auf, so besteht die Möglichkeit das der Hintergrund den Mittelwert eines einzelnen Subimages insofern beeinflusst, dass das Hindernis (innerhalb dieser Submatrix) nicht mehr erkannt werden kann. Dies ließ sich bei nahezu allen Versuchen und Hindernisgrößen beobachten. Im Fall der großen und mittleren Hindernisse stellt dies keinen Konflikt dar, da die Fläche der Hindernisse trotzallem für eine Erkennung ausreicht. Ungeachtet dessen stellt gerade dieser Konflikt ein Problem in der Erkennung einzelner kleiner Hindernisse dar.
 
+\noindent
+ 
 
 
 % zeigt das beide algorithmen funktionieren wenn die hindernisse eine bestimmte größe besitzen bereichen funktionieren
