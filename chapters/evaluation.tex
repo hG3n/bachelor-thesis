@@ -191,12 +191,12 @@ Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} 
 	\end{figure}
 	
 	\noindent
-	Die bereits beschriebene hohe Dichte der Samplepoints und deren geringe Größe hilft auch hier wieder den Stab als Hindernis zu erkennen (siehe Abbildung \ref{fig:sample_eval_medium_fails} (b))
+	Die bereits beschriebene hohe Dichte der Samplepoints und deren geringe Größe hilft auch hier wieder den Stab als Hindernis zu erkennen (siehe Abbildung \ref{fig:sample_eval_medium_fails} (b))\\
 
 
 	\noindent
 	\textbf{Winziges Hindernis:}\\
-
+	Die anfangs anfänglich aufgestellte These, dass sich die Verteilung sowie Größe der Samplepoints positiv auf die Erkennung diverser Hindernisse auswirkt wird mit den Ergebnissen des winzigen Hindernisses bestätigt. Diagramm \ref{fig:sample_eval_tiny} (a) belegt diese Aussage. Es wurden alle 12 Hindernisse ohne signifikante Differenz in den Distanzen erkannt. Trotz dessen ist die Detektion dieser bei Entfernungen von mehr als $60\ cm$ stark von der Orientierung des Objektes, dem Hintergrund sowie den verwendeten Parametern zur Berechnung der Disparity Map abhängig. Da die geringe Auflösung der Kameras keine detaillierte Aufnahme der Textur des Hindernisses zulässt ist es möglich das das Objekt aufgrund der Blockgröße des \emph{SGBM} mit dem Hintergrund zusammen gematcht wird. 
 
 	\begin{figure}[h]
 		\centering
@@ -208,4 +208,8 @@ Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} 
 		\caption{}
 	    \label{fig:sample_eval_tiny}
 	\end{figure}
+	
+	\noindent
+	Weiterhin ist auch die statistische Auswertung der Distanzen in Boxplot \ref{fig:sample_eval_tiny} (b) ein Zeichen für die robuste Erkennung winziger Hindernisse. Lediglich das untere Quartil der berechneten Entfernungen weicht um ca. $6\ cm$ von den realen Werten ab.
+	
 
