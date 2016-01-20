@@ -16,17 +16,12 @@ Im folgenden Kapitel werden beide Methoden detailliert beleuchtet. Zu Beginn wir
 % ---------------------- section -----------------------
 \section{Preprocessing}
 \label{sec:preprocessing}
-Der Ablauf der Hinderniserkennung ist in beiden entwickelten Methoden gleichbleibend. Die dafür benötigen Preprocessing Schritte gleichen sich demnach ebenfalls und werden im folgenden erläutert.\\
+Der Ablauf der Hinderniserkennung ist in beiden entwickelten Methoden gleich. Die dafür benötigen Preprocessing Schritte gleichen sich demnach ebenfalls und werden im folgenden erläutert.\\
 
 \noindent
 \textbf{Region of Interest der Disparity Map:}\\
-Zu Beginn des Algorithmus muss der durch die Baseline verursachte nicht matchbare Bereich entfernt werden. Dies geschieht nach der Wahl der in(REF) beschriebenen Parameter der SGBM. Dieser sogenannte Pixelshift berechnet sich aus der Hälfte der Anzahl der zu berechnenden Disparitäten. Sollte dieser einen ungeraden Wert ergeben so wird er um 1 erhöht. Generell ist der Pixelshift so gewählt das die Dimensionen der Disparity Map durch 8 Teilbar sind. Dieser Wert hat sich während der Entwicklung als robuster Wert erwiesen. Weiterhin dient es zur späteren Verteilung der Samplepoints.\\
+Zu Beginn des Algorithmus muss der durch die Baseline verursachte nicht matchbare Bereich entfernt werden. Dies geschieht nach der Wahl der in (\ref{subsec:stereo_matching_sgbm}) beschriebenen Parameter der SGBM. Dieser sogenannte Pixelshift berechnet sich aus der Hälfte der Anzahl der zu berechnenden Disparitäten. Sollte dieser einen ungeraden Wert ergeben so wird er um 1 erhöht. Generell ist der Pixelshift so gewählt das die Dimensionen der Disparity Map durch 8 Teilbar sind. Dieser Wert hat sich während der Entwicklung als robuster Wert erwiesen. Weiterhin dient es zur späteren Verteilung der Samplepoints.\\
 
-	% pixelschift durch numdispt/2 bestimmt
-	% sofern dieser ungerade 1 addiert zur weiteren vorgehensweise
-	% horizontaler pixelshift so gewählt das die dimensionen der disparity map durch 8 teilbar bleiben
-	% dies hat sich während der entwicklung als robuster und zuverlässiger wert erwiesen.
-	
 	\begin{figure}[h]
 		\centering
 		\begin{tabular}{cc}
@@ -55,18 +50,6 @@ Um die Algorithmen ressourcensparend zu gestalten wird während der Erkennung mi
 
 \noindent
 Dieser Prozess findet in der späteren Initialisierung der Algorithmen Verwendung bei welcher die metrischen Angaben der Erkennungsreichweite in Disparitäten zurückgerechnet werden. Als Referenz wir dazu die Position des Bildhauptpunktes berechnet welcher sich im Ursprung des Weltkoordinatensystems befindet. Diese Vorgehensweise spart in der späteren Hinderniserkennung Ressourcen, da nicht für jedes Subimage bzw. jeden Samplepoint die Weltkoordinate berechnet werden muss. Stattdessen können die Disparitäten direkt verglichen werden. Dies ist in beiden Algorithmen derselbe Schritt.\\
-
-% TODO invertierung distanz zu disparität
-	% um ressourcenschonend zu arbeiten wird nicht mit distanzen gearbeitet sondern mit disparitäten
-	% daher wichtig zu wissen welche disparität der distanz der range entspricht
-	% dafuer wird die in REF beschriebene distanzberechnung invertiert
-	% mithilfe diesre rechnnung --> einzelne Pixel werte der disparuty map berechnen
-	% als referenz wird der pricipal point gew¨åhlt welcher sich im falle des benutteen sustems nahezu im bildmittelpunkt befindet
-	% RECHNUNG
-	% dies vorgehensweise spart rechenkraft da nun nicht fuer djedes erkannte hidnerniss eine distanz berechnet werden muss
-	%stattdessen wird einfach der Disparity wert genutzt welcher direkt zur verfugung steht
-	% bei beiden algorithmen derselbe schritt
-
 
 % ---------------------- section -----------------------
 \section{Subimage Detection}
@@ -123,27 +106,27 @@ Es werden demnach nur positive Disparitäten betrachtet was auch dazu führt das
 \noindent
 Die eigentliche Hinderniserkennung erfolgt in jedem Frame. Wobei der Term Frame hierbei nicht nach einem von der Kamera aufgenommenen Bild, sondern eine neue Disparity Map definiert. Da die Bildgröße pro Einzelbild stetig ist besteht keine Nötigkeit die einzelnen Segmente erneut zu generieren. Es genügt also die Mittelwerte eines jeden Subimages anhand der neuen Disparity Map zu aktualisieren. Daraufhin wird geprüft ob sich einer oder mehrere der Subimage Mittelwerte innerhalb der Gefahrenzone befinden. Die Gefahrenzone wird zur Initialisierung der Erkennung berechnet. Mit Hilfe der in Abschnitt \ref{sec:preprocessing} beschriebenen Invertierung der Distanzberechnung müssen zu Beginn die minimale sowie maximale Distanz der Erkennung auf einen Tiefenwert zurückgerechnet werden. Diese Rückrechnung ist ausschlaggebend für die schnelle Erkennung der Tiefe. Im Falle einer weiteren Segmentierung müsste die Berechnung der Distanz als Teil der Weltkoordinate für jedes Subimage einzeln erfolgen, was gerade bei der Samplepoint Detecion zum Tragen kommt, sollen die Distanzen für ca. $6000$ Punkte (bei voller Auflösung in Abhängigkeit der verwendeten Parameter des SGBM) berechnet werden.\\
 
-% TODO subimage detection pseudocode verbessern
+%
 \begin{algorithm}[h]
-\label{alg:mean_disparity_detection}
 \begin{algorithmic}[1]
     \Procedure{detectObstacles}{$submatrix$}
 		\State $found\_points \gets 0$
 		\State $found\_obstacles \gets 0$
 		\For{$value$ in $mean\_disparities$}
 			\If{$value < range_{min}$ AND $value > range_{max}$}
-				\State $temp\_Subimage \gets Subimage\_vector[index_{value}]$
-				\State $found\_obstacles \gets found\_obstacles.append(value)$
-				\State $coordinate \gets calc\_coordinate(temp\_Subimage$
-				\State $found\_points \gets found\_points.append(coordinate)$
+				\State{$temp\_Subimage \gets Subimage\_vector[value]$}
+				\State{push $temp\_Subimage$ to $found\_obstacles$}
+				\State{calculate $coordinate$ for $temp\_Subimage$}
+				\State{push $coordinate$ to $found\_points$}
 			\EndIf
 		\EndFor
 		\If{$size$ of $found\_points \neq$ $0$}
-			\State $write pointcloud for current found_obstacle$
+			\State{write pointcloud for current found\_obstacle container}
 		\EndIf 
     \EndProcedure
 \end{algorithmic}
 \caption{Ablauf der Hinderniserkennung}
+\label{alg:mean_disparity_detection}
 \end{algorithm}
 
 \noindent
