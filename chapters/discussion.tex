@@ -1,4 +1,4 @@
-Im Rahmen des Kapitels \enquote{Evaluation} wurden beide entwickelten Methoden in verschiedenen Versuchen getestet. Die erlangten Ergebnisse beider Algorithmen unterscheiden sich in diversen Bereichen. Eine Diskussion sowie Auswertung der Evaluation findet in diesem Kapitel statt. Dabei wird zunächst auf die erlangten Ergebnisse eingegangen indem die Resultate diskutiert und bewertet werden. Anschliessend erfolgt eine Gegenüberstellung beider Algorithmen in Hinsicht auf die Robustheit der Erkennung sowie deren Performance.
+Im Rahmen des Kapitels \enquote{Evaluation} wurden beide entwickelten Methoden in verschiedenen Versuchen getestet. Die erlangten Ergebnisse beider Algorithmen unterscheiden sich in diversen Bereichen. Es erfolg somit eine Gegenüberstellung beider Algorithmen in Hinsicht auf die Robustheit der Erkennung sowie deren Performance.
 
 % generell ist zu sagen das die mean besser funktioniert wenn die hindernisse nicht vor einem weit entfernten hintergrund platziert werden
 
@@ -19,8 +19,21 @@ Im Rahmen des Kapitels \enquote{Evaluation} wurden beide entwickelten Methoden i
 \label{sec:gegenueberstellung}
 
 \subsection{Robustheit}
-\label{subsec:discussion_robsutness}
+\label{subsec:discussion_robustness}
+Wie die Evaluation bereits aufzeigt ist die Erkennung unterschiedlicher Hindernisgrößen als robust anzusehen. Beide Algorithmen erkennen sowohl große als auch kleine Hindernisse innerhalb der definierten Gefahrenzone. Die ermittelten Distanzen weisen zwar kleine Ungenauigkeiten auf, jedoch sind diese eher ein Resultat von Messungenauigkeiten sowie der verwendeten Bildgröße. Auch die dahingehend erstellten Punktwolken liefern genaue Positionsinformationen ausgehend von der aktuellen Weltposition der Drohne. Jene liegen im Rahmen dieser Arbeit nicht vor da dies als ein anderer Teil des SLAM Forschungsfeldes anzusehen ist.\\
 
+% TODO Bilder pointcloud mean und sample desselben Objektes
+
+\noindent
+Bei der Erkennung kleiner Hindernisse ist jedoch zu erkennen, dass die entwickelte Samplepoint Detection wesentlich robustere Ergebnisse liefert als die Subimage Detection. Dies resultiert vornehmlich aus der signifikant kleineren Anzahl an Pixeln. Dadurch sind diese weniger empfänglich für Verzerrungen der berechneten Distanz wie Subimages. Enthält ein einziger Samplepoint zu wenige Daten um als Hindernis angesehen zu werden, so ist die Wahrscheinlichkeit das seine Nachbarn diese Information enthalten bzw. erfassen konnten höher als beispielsweise die benachbarten Subimages. Dies ist auch als der große Vorteil der Samplepoint Detection anzusehen.\\
+
+\noindent
+Weiterhin ließ sich während der Versuchsdurchführung deutlich erkennen, dass Bewegungen einen wesentlich Bestandteil der Hinderniserkennung darstellt. Wurden die Hindernisse bewegt, konnte gerade im Fall der Subimage Detection festgestellt werden, dass die Erkennung kleiner Hindernisse signifikant besser funktionierte wenn das Objekt Bewegung aufweist. Dadurch eliminieren sich bereits beschriebene Konfliktfälle in denen sich das zu erkennende Hindernis an der Kreuzung mehrerer Subimages befand. Die Bewegung sorgte in diesem Fall dafür das die Hindernisse in mehr Frames erkannt wurden als in einer statischen Szene. Selbiges Phänomen trat auch bei der Samplepoint Detection auf.\\
+
+\noindent
+Eine Veränderung der \emph{SGBM} Blockgröße brachte keine signifikanten Verbesserung bei beiden Algorithmen. Lediglich die bereits in Abschnitt \ref{sec:evaluation_Diskussion} erläuterte Verbesserung bei 13 Pixeln brachte eine geringe Verbesserung der berechneten Distanz. 
+
+% Auf eine genaue Positionierung jedes erkannten Hindernisses sowie eine Segmentierung nach erkannten Bereichen wurde bewusst verzichtet, da die berechneten dreidimensionalen Koordinaten als solche für eine weitere Hindernisvermeidung ausreichen.
 % bisschen mehr statistik kram
 % welcher ist wo signifikant besser
 	% bezug auf hindernisgroesse
