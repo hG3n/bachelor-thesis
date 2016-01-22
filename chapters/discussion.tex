@@ -18,6 +18,19 @@ Im Rahmen des Kapitels \enquote{Evaluation} wurden beide entwickelten Methoden i
 \section{Gegenüberstellung beider Algorithmen}
 \label{sec:gegenueberstellung}
 
+\subsection{Performance}
+\label{subsec:discussion_performance}
+
+Hinsichtlich der Performance werden verschiedene Punkte betrachtet, zunächst die Framerate der Disparity Map Berechnung, weiterhin die Framerate der gesamten Erkennung (Anwenden der Disparity ROI, Update der jeweiligen Werte, Hindernis Erkennung). gi
+
+% hinsichtlich performance verschiedene Punkte betrachtet
+% erkennung pro frame im mittel
+% framerate der Disparity berechnung
+% gesamte framerate und ausblick auf die darurch erreichbare performance
+% evtl auslagern und eigenne section machen da beide direkt gegenübergestllt werden können.
+    
+% resizing der initalbilder zur performance verbesserung
+
 \subsection{Robustheit}
 \label{subsec:discussion_robustness}
 Wie die Evaluation bereits aufzeigt ist die Erkennung unterschiedlicher Hindernisgrößen als robust anzusehen. Beide Algorithmen erkennen sowohl große als auch kleine Hindernisse innerhalb der definierten Gefahrenzone. Die ermittelten Distanzen weisen zwar kleine Ungenauigkeiten auf, jedoch sind diese eher ein Resultat von Messungenauigkeiten sowie der verwendeten Bildgröße. Auch die dahingehend erstellten Punktwolken liefern genaue Positionsinformationen ausgehend von der aktuellen Weltposition der Drohne. Jene liegen im Rahmen dieser Arbeit nicht vor da dies als ein anderer Teil des SLAM Forschungsfeldes anzusehen ist.\\
@@ -31,7 +44,9 @@ Bei der Erkennung kleiner Hindernisse ist jedoch zu erkennen, dass die entwickel
 Weiterhin ließ sich während der Versuchsdurchführung deutlich erkennen, dass Bewegungen einen wesentlich Bestandteil der Hinderniserkennung darstellt. Wurden die Hindernisse bewegt, konnte gerade im Fall der Subimage Detection festgestellt werden, dass die Erkennung kleiner Hindernisse signifikant besser funktionierte wenn das Objekt Bewegung aufweist. Dadurch eliminieren sich bereits beschriebene Konfliktfälle in denen sich das zu erkennende Hindernis an der Kreuzung mehrerer Subimages befand. Die Bewegung sorgte in diesem Fall dafür das die Hindernisse in mehr Frames erkannt wurden als in einer statischen Szene. Selbiges Phänomen trat auch bei der Samplepoint Detection auf.\\
 
 \noindent
-Eine Veränderung der \emph{SGBM} Blockgröße brachte keine signifikanten Verbesserung bei beiden Algorithmen. Lediglich die bereits in Abschnitt \ref{sec:evaluation_Diskussion} erläuterte Verbesserung bei 13 Pixeln brachte eine geringe Verbesserung der berechneten Distanz. 
+Eine Veränderung der \emph{SGBM} Blockgröße hatte keine signifikanten Auswirkungen auf die Robustheit beider Algorithmen. Lediglich die bereits in Abschnitt \ref{sec:evaluation_Diskussion} erläuterten Ergebnisse bei 13 Pixeln brachte eine geringe Verbesserung der berechneten Distanz.\\
+
+\noindent
 
 % Auf eine genaue Positionierung jedes erkannten Hindernisses sowie eine Segmentierung nach erkannten Bereichen wurde bewusst verzichtet, da die berechneten dreidimensionalen Koordinaten als solche für eine weitere Hindernisvermeidung ausreichen.
 % bisschen mehr statistik kram
@@ -40,18 +55,8 @@ Eine Veränderung der \emph{SGBM} Blockgröße brachte keine signifikanten Verbe
 	% wahrscheinlichkeit das hindernis schlecht uz erkennen aber trotzdem wird es erkannt
 
 % bei statischen szenen schlechtere erkennung, bewegung hilft jedoch hindernisse zu erkennen, da diese durch die in der evaluierung angesprochenen bereiche (kreuzungen, nicht betrachteter bereich) durchwanderen und somit eine erkennung auslösen.
-
+ 
 % bewegung fundamental wichtig
 
 
-\subsection{Performance}
-\label{subsec:discussion_performance}
-
-% hinsichtlich performance verschiedene Punkte betrachtet
-% erkennung pro frame im mittel
-% framerate der Disparity berechnung
-% gesamte framerate und ausblick auf die darurch erreichbare performance
-% evtl auslagern und eigenne section machen da beide direkt gegenübergestllt werden können.
-    
-% resizing der initalbilder zur performance verbesserung
 
