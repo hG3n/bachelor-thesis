@@ -241,27 +241,27 @@ Um die Auswirkungen der Blockgröße auf die Distanzberechnung zu testen wurden 
 \hline
 Blockgröße & berechnete Distanz & real gemessene Distanz \\
 \hline\hline
-7          & 120.659306         & 50                     \\
+7          & 120.6          		& 50                     \\
            &  -                 & 100                    \\
            &  -                 & 150                    \\
 \hline
-9          & 105.872901         & 50                     \\
+9          & 105.8          		& 50                     \\
            &  -                 & 100                    \\
            &  -                 & 150                    \\
 \hline
-11         & 98.989448          & 50                     \\
+11         & 98.9           		& 50                     \\
            &  -                 & 100                    \\
            &  -                 & 150                    \\
 \hline
-13         & 85.267674          & 50                     \\
+13         & 85.2          		& 50                     \\
            &  -                 & 100                    \\
            &  -                 & 150                    \\
 \hline
-15         & 112.185425         & 50                     \\
+15         & 112.1		        & 50                     \\
            &  -                 & 100                    \\
            &  -                 & 150                    \\
 \hline
-21         & 108.672094         & 50                     \\
+21         & 108.6         		& 50                     \\
            &  -                 & 100                    \\
            &  -                 & 150                    \\
 \hline
@@ -345,20 +345,7 @@ Die Erkennung von Hindernissen mit Hilfe der Samplepoints ist ebenfalls eine rob
 In Kapitel \ref{chp:developed_algorithms} wurden die Abläufe und Funktionsweisen der einzelnen Algorithmen detailliert beleuchtet. Der dabei erläuterte finale Prozess einer Hinderniserkennung (also eines verarbeiteten Disparity Frames) beinhaltet die Erstellung einer Pointcloud bestehend aus den erkannten Hindernissen.\\
 
 \noindent
-Eine Veränderung der SGBM Blockgröße brachte keine signifikanten Verbesserungen in der Hinderniserkennung mit sich. Im Fall der Subimage Detection wurden kleine Hindernisse weder besser noch schlechter erkannt. Ab eine Distanz von mehr als 50 Zentimetern erfolgte keine weitere Detektion. Auch die Ergebnisse der Samplepoint Detection veränderten sich nicht signifikant. Jegliche Differenz zwischen den erkannten und berechneten Distanzen resultiert daher eher aus der zugrunde liegenden Disparity Map. Trotz dessen erscheinen die Erkennung bei einer Blockgröße von 13 Pixeln als am präzisesten. Auf eine Durchführung der Parameteränderung unter Benutzung des mittleren sowie großen Hindernisses wurde aufgrund der robusten Ergebnisse beider bewusst verzichtet.
+Eine Veränderung der SGBM Blockgröße brachte keine signifikanten Verbesserungen in der Hinderniserkennung mit sich. Im Fall der Subimage Detection wurden kleine Hindernisse weder besser noch schlechter erkannt. Ab eine Distanz von mehr als 50 Zentimetern erfolgte keine weitere Detektion. Auch die Ergebnisse der Samplepoint Detection veränderten sich nicht signifikant. Jegliche Differenz zwischen den erkannten und berechneten Distanzen resultiert daher eher aus der zugrunde liegenden Disparity Map. Trotz dessen erscheinen die Erkennung bei einer Blockgröße von 13 Pixeln als am präzisesten. Auf eine Durchführung der Parameteränderung unter Benutzung des mittleren sowie großen Hindernisses wurde aufgrund der robusten Ergebnisse beider bewusst verzichtet.\\
 
-% samplepoints robust
-% bereich zwischen den samplepoints weniger kritisch da er nur 2 -4 pixel beträgt
-% robuste Ergebnisse auch bei kleinen hindernissen
-% jedoch wird auch hier nicht immer das eigentliche hindernis erkannt
-% hohe auflösung in der finalen pointcloud
-
-
-% zeigt das beide algorithmen funktionieren wenn die hindernisse eine bestimmte größe besitzen bereichen funktionieren
-% Funktionsweise der subimage d. in abhähingkeit der hindernisgröße
-	% größe der subimages --> kann nur bis uz einer bestimmten gr¨øße valide ergebnisse innerhalb der gefahrenzone liefern
-	% 
-% bewegung ist wichtig zur Erkennung der Hindernisse diese sorgt für die nötige dynamik um die hindernisse robust zu erkennen
-	
-% pointclouds liefern guten metrischen eindruck des Sichtbereiches in weltkoordinaten
-% 
+% veränderung der samplepoint pixelgröße
+\noindent
