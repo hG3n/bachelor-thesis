@@ -38,7 +38,7 @@ Hinsichtlich der Performance der entwickelten Systeme wurden verschiednen Punkte
 \end{enumerate}
 
 \noindent
-Zu Beginn ist ein essenzieller Schritt die Geschwindigkeit der Disparity Map Berechnung zu analysieren. Dabei wurden beide Kameras im gebinnten Modus getestet. Die Aufnahmerate der Kameras beträgt dabei 50 Frames pro Sekunde bei einer Verschlusszeit von 10000 µs. Die unter Veränderung der Blockgröße erhaltenen Parameter sind in Tabelle \ref{tbl:disparity_framerate} dargestellt. Aus dieser ist zu erkennen, dass eine Modifikation dieses Parameters nur marginale Änderungen in der Geschwindigkeit auftreten.
+Zu Beginn ist ein essenzieller Schritt die Geschwindigkeit der Disparity Map Berechnung zu analysieren. Dabei wurden beide Kameras im gebinnten Modus getestet. Die Aufnahmerate der Kameras beträgt dabei 50 Frames pro Sekunde bei einer Verschlusszeit von 10000 µs. Die unter Veränderung der Blockgröße erhaltenen Parameter sind in Tabelle \ref{tbl:disparity_framerate} dargestellt. Aus dieser ist zu erkennen, dass eine Modifikation dieses Parameters nur marginale Änderungen in der Geschwindigkeit auftreten. Die folgendenen gemessenen Werte sind die durchschnittliche Framerate aus 1000 Einzelbildern.
 
 \begin{table}[h]
 	\centering
@@ -57,12 +57,12 @@ Zu Beginn ist ein essenzieller Schritt die Geschwindigkeit der Disparity Map Ber
 \end{table}
 
 \noindent
-Die dabei gemessene Bildwiederholrate von 24 Einzelbildern pro Sekunde ist eine gute Voraussetzung für die Hinderniserkennung. Unter der Annahme das es zu keiner Verlangsamung dieser kommt ist es möglich sich mit Einer Geschwindigkeit von $12\frac{m}{s}$ zu bewegen und für jeden zurückgelegten Meter 2 berechnete Disparity Maps zu erhalten. Eine solche Geschwindigkeit ist bei besagter Framerate nicht die präferierte Geschwindigkeit jedoch potentiell möglich. Zudem in weiteren Schritten mehr Zeit für die Entwicklung einer Vermeidungsstrategie in Betracht gezogen werden muss.\\
+Die dabei gemessene Bildwiederholrate von 24 Einzelbildern pro Sekunde ist eine gute Voraussetzung für die Hinderniserkennung. Unter der Annahme das es zu keiner Verlangsamung dieser kommt ist es möglich sich mit Einer Geschwindigkeit von $12\frac{m}{s}$ zu bewegen und für jeden zurückgelegten Meter 2 berechnete Disparity Maps zu erhalten. Eine solche Geschwindigkeit ist bei besagter Framerate nicht die präferierte Geschwindigkeit jedoch potentiell möglich. Zudem in weiteren Schritten mehr Zeit für die Hinderniserkennung sowie die Entwicklung einer Vermeidungsstrategie in Betracht gezogen werden muss.\\
 
 \noindent
 Die Geschwindigkeit der eigentlichen Hinderniserkennung ist ebenfalls ein wesentlicher Faktor in der Betrachtung der gesamten Performance. Dazu wurden besaget Tests durchgeführt. Die daraus erhaltenen Ergebnisse für die Subimage Detection finden sich in Tabelle \ref{tbl:subimage_framerate}.
 
-%TODO FIX THIRD ROW 
+%TODO FIX VALUES
 \begin{table}[h]
 \centering
 \begin{tabular}{|l|c|c|}
@@ -80,7 +80,7 @@ Szenario & Zeit pro Frame (Detection) & Detection fps \\ \hline\hline
 \end{table}
 
 \noindent
-Aus dieser wird ersichtlich, dass Szenario 1(a), welches einer echten Anwendung am nächsten kommt, bereits eine Framerate von 173 Einzelbildern pro Sekunde aufweist. Die darauf folgendenTests bestätigen die Annahme, dass keine wesentlich langsamere Framerate aufgrund der Hinderniserkennung zu erwarten ist. Im schlechtesten Fall, einem Hindernis welches den gesamtem Sichtbereich einnimmt ist die kombinierte Framerate nicht geringer als XXX wie die folgende Rechnung aufzeigt. Dabei entsprechen die genutzten Werte denen aus \ref{tbl:disparity_framerate} mit 13 Pixeln Blockgröße sowie \ref{tbl:subimage_framerate} 1(b). 
+Aus dieser wird ersichtlich, dass Szenario 1(a), welches einer echten Anwendung am nächsten kommt, bereits eine Framerate von 173 Einzelbildern pro Sekunde aufweist. Die darauf folgendenTests bestätigen die Annahme, dass keine wesentlich langsamere Framerate aufgrund der Hinderniserkennung zu erwarten ist. Im schlechtesten Fall, einem Hindernis welches den gesamtem Sichtbereich einnimmt ist die kombinierte Framerate nicht geringer als 20.96 wie die folgende Rechnung aufzeigt. Dabei entsprechen die genutzten Werte denen aus \ref{tbl:disparity_framerate} mit 13 Pixeln Blockgröße sowie \ref{tbl:subimage_framerate} 1(b). 
 
 \begin{equation}
 \label{eq:fps_calculation}
@@ -92,8 +92,12 @@ Aus dieser wird ersichtlich, dass Szenario 1(a), welches einer echten Anwendung 
 \end{equation}
 
 \noindent
+Die somit verloren gegangenen Frames sorgen noch immer für eine schnelle Erkennung von Hindernissen. Die hohe Framerate in 2(b) resultiert aus der Funktionsweise der detectObstacles Funktion. Jene berechnet nur eine Pointcloud wenn die aktualisierten Werte innerhalb der Gefahrenzone liegen. Ohne vorhandene Hindernisse passiert somit nichts.\\
 
+\noindent
+Die nachfolgende Tabelle (\ref{tbl:samplepoint_framerate}) stellt die Ergebnisse des Versuches für die Samplepoint Detection dar. Auf den ersten Blick sind die erreichten Framerates (mit Ausnahme der Aktualisierung, sowie der Hinderniserkennung) generell niedriger als jene der Subimage Detection. 
 
+%TODO FIX VALUES
 \begin{table}[h]
 \centering
 \begin{tabular}{|l|l|l|}
@@ -110,20 +114,19 @@ Szenario & Zeit pro Frame (Detection) & Detection fps \\ \hline\hline
 \label{tbl:samplepoint_framerate}
 \end{table}
 
-% hinsichtlich performance verschiedene Punkte betrachtet
-% erkennung pro frame im mittel
-% framerate der Disparity berechnung
-% gesamte framerate und ausblick auf die darurch erreichbare performance
-% evtl auslagern und eigenne section machen da beide direkt gegenübergestllt werden können.
-    
-% resizing der initalbilder zur performance verbesserung
+\noindent
+Gerade die ermittelte Framerate in 1(b) gibt Anlass zu der Annahme, dass die Samplepoint Detection mehr Rechenleistung benötigt. Dies resultiert aus der Anzahl der zu betrachtenden Objekte. Im Vergleich zur Subimage Detection werden nicht nur 81 Bereiche betrachtet, sondern X. Auch im Echtwelt Szenario finden sich 30 Einzelbilder weniger pro Sekunde. Lediglich das Update sowie die Erkennung ohne Hindernisse erfolgt schneller. Die höhere Geschwindigkeit in der Aktualisierung resultiert aus der geringeren Anzahl an Pixeln welche betrachtet werden müssen. Nach der in \ref{eq:fps_calculation} erläuterten Rechnung ergibt sich bei der Samplepoint Detection eine durchschnittliche Framerate von $19,60$ Bildern/s.
+
+% TODO INSERT NUM SAMPEOIUNTS HERE
+
+   
+% TODO resizing der initalbilder zur performance verbesserung
 
 \subsection{Robustheit}
 \label{subsec:discussion_robustness}
 Wie die Evaluation bereits aufzeigt ist die Erkennung unterschiedlicher Hindernisgrößen als robust anzusehen. Beide Algorithmen erkennen sowohl große als auch kleine Hindernisse innerhalb der definierten Gefahrenzone. Die ermittelten Distanzen weisen zwar kleine Ungenauigkeiten auf, jedoch sind diese eher ein Resultat von Messungenauigkeiten sowie der verwendeten Bildgröße. Auch die dahingehend erstellten Punktwolken liefern genaue Positionsinformationen ausgehend von der aktuellen Weltposition der Drohne. Jene liegen im Rahmen dieser Arbeit nicht vor da dies als ein anderer Teil des SLAM Forschungsfeldes anzusehen ist.\\
 
 % TODO Bilder pointcloud mean und sample desselben Objektes
-
 \noindent
 Bei der Erkennung kleiner Hindernisse ist jedoch zu erkennen, dass die entwickelte Samplepoint Detection wesentlich robustere Ergebnisse liefert als die Subimage Detection. Dies resultiert vornehmlich aus der signifikant kleineren Anzahl an Pixeln. Dadurch sind diese weniger empfänglich für Verzerrungen der berechneten Distanz wie Subimages. Enthält ein einziger Samplepoint zu wenige Daten um als Hindernis angesehen zu werden, so ist die Wahrscheinlichkeit das seine Nachbarn diese Information enthalten bzw. erfassen konnten höher als beispielsweise die benachbarten Subimages. Dies ist auch als der große Vorteil der Samplepoint Detection anzusehen.\\
 
