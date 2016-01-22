@@ -21,7 +21,94 @@ Im Rahmen des Kapitels \enquote{Evaluation} wurden beide entwickelten Methoden i
 \subsection{Performance}
 \label{subsec:discussion_performance}
 
-Hinsichtlich der Performance werden verschiedene Punkte betrachtet, zunächst die Framerate der Disparity Map Berechnung, weiterhin die Framerate der gesamten Erkennung (Anwenden der Disparity ROI, Update der jeweiligen Werte, Hindernis Erkennung). 
+Hinsichtlich der Performance der entwickelten Systeme wurden verschiednen Punkte betrachtet. Die zugrunde liegende Berechnung der Disparity Map ist der wohl wichtigste Faktor. Ist dieser Prozess langsam, so ist auch die Performance der Hinderniserkennung eingeschränkt. Weiterhin wird auch die Performance der einzelnen Methoden untersucht. Dabei werden folgende Situationen untersucht:
+\begin{enumerate}
+	\item Analyse der gesamten Schleife des Hauptprogramms
+	\begin{enumerate}
+		\item Hindernisse bewegen sich durch die Gefahrenzone
+		\item der gesamte Sichtbereich ist mit einem Hindernis gefüllt
+		\item es befindet sich kein Hindernis in der Gefahrenzone
+	\end{enumerate}
+	\item Analyse einzelner Erkennungssschritte
+	\begin{enumerate}
+		\item Geschwindigkeit der Update Funktion
+		\item Geschwindigkeit der detectObstacles Funktion ohne Hindernisse
+		\item Geschwindigkeit der detectObstacles Funktion mit einem Hindernis im gesamten Sichtbereich
+	\end{enumerate}
+\end{enumerate}
+
+\noindent
+Zu Beginn ist ein essenzieller Schritt die Geschwindigkeit der Disparity Map Berechnung zu analysieren. Dabei wurden beide Kameras im gebinnten Modus getestet. Die Aufnahmerate der Kameras beträgt dabei 50 Frames pro Sekunde bei einer Verschlusszeit von 10000 µs. Die unter Veränderung der Blockgröße erhaltenen Parameter sind in Tabelle \ref{tbl:disparity_framerate} dargestellt. Aus dieser ist zu erkennen, dass eine Modifikation dieses Parameters nur marginale Änderungen in der Geschwindigkeit auftreten.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|c|c|}
+	\hline
+	Block Größe & Zeit pro Frame & Frames pro Sekunde \\ \hline
+	7           & 0.0412         & 24.21            \\ \hline
+	9           & 0.0420         & 23.77            \\ \hline
+	11          & 0.0413         & 24.17            \\ \hline
+	13          & 0.0410         & 24.36            \\ \hline
+	15          & 0.0412         & 24.22            \\ \hline
+	21          & 0.0413         & 24.17            \\ \hline
+	\end{tabular}
+	\caption{Blockgröße und daraus resultierende Frameraten}
+	\label{tbl:disparity_framerate}
+\end{table}
+
+\noindent
+Die dabei gemessene Bildwiederholrate von 24 Einzelbildern pro Sekunde ist eine gute Voraussetzung für die Hinderniserkennung. Unter der Annahme das es zu keiner Verlangsamung dieser kommt ist es möglich sich mit Einer Geschwindigkeit von $12\frac{m}{s}$ zu bewegen und für jeden zurückgelegten Meter 2 berechnete Disparity Maps zu erhalten. Eine solche Geschwindigkeit ist bei besagter Framerate nicht die präferierte Geschwindigkeit jedoch potentiell möglich. Zudem in weiteren Schritten mehr Zeit für die Entwicklung einer Vermeidungsstrategie in Betracht gezogen werden muss.\\
+
+\noindent
+Die Geschwindigkeit der eigentlichen Hinderniserkennung ist ebenfalls ein wesentlicher Faktor in der Betrachtung der gesamten Performance. Dazu wurden besaget Tests durchgeführt. Die daraus erhaltenen Ergebnisse für die Subimage Detection finden sich in Tabelle \ref{tbl:subimage_framerate}.
+
+%TODO FIX THIRD ROW 
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+Szenario & Zeit pro Frame (Detection) & Detection fps \\ \hline\hline
+1(a)     & 0.0057                     & 173.35        \\ \hline
+1(b)     & 0.0067                     & 147.69        \\ \hline
+1(c)     & 0.0067                     & 147.69        \\ \hline\hline
+2(a)     & 0.0021                     & 469.93        \\ \hline
+2(b)     & 0.0001                     & 8759.63       \\ \hline
+2(c)     & 0.0042                     & 234.64        \\ \hline
+\end{tabular}
+\caption{Gemessene Einzelbilder pro Sekunde sowie Gesamtframerate}
+\label{tbl:subimage_framerate}
+\end{table}
+
+\noindent
+Aus dieser wird ersichtlich, dass Szenario 1(a), welches einer echten Anwendung am nächsten kommt, bereits eine Framerate von 173 Einzelbildern pro Sekunde aufweist. Die darauf folgendenTests bestätigen die Annahme, dass keine wesentlich langsamere Framerate aufgrund der Hinderniserkennung zu erwarten ist. Im schlechtesten Fall, einem Hindernis welches den gesamtem Sichtbereich einnimmt ist die kombinierte Framerate nicht geringer als XXX wie die folgende Rechnung aufzeigt. Dabei entsprechen die genutzten Werte denen aus \ref{tbl:disparity_framerate} mit 13 Pixeln Blockgröße sowie \ref{tbl:subimage_framerate} 1(b). 
+
+\begin{equation}
+\label{eq:fps_calculation}
+\begin{aligned}
+	fps &= \frac{1}{t_{frame}}\\
+	t_{frame} &= 0.0410 + 0.0067 = 0.0477\\
+	fps &= \frac{1}{0.0477} = 20,96
+\end{aligned}
+\end{equation}
+
+\noindent
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+Szenario & Zeit pro Frame (Detection) & Detection fps \\ \hline\hline
+1(a)     & 0.0074           			  & 133.61         \\ \hline
+1(b)     & 0.0100           			  & 99.33          \\ \hline
+1(c)     & 0.0016           			  & 606.84         \\ \hline\hline
+2(a)     & 0.0015           			  & 647.07         \\ \hline
+2(b)     & 0.0015           		  	  & 647.07         \\ \hline
+2(c)     & 0.0083           	 		  & 120.33         \\ \hline
+\end{tabular}
+\caption{Gemessene Einzelbilder pro Sekunde sowie Gesamtframerate}
+\label{tbl:samplepoint_framerate}
+\end{table}
 
 % hinsichtlich performance verschiedene Punkte betrachtet
 % erkennung pro frame im mittel
