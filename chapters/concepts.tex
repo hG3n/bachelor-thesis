@@ -79,13 +79,12 @@ Diesen Prozess veranschaulicht Abbildung \ref{fig:block_matching} . Durch den Fo
 
 \subsection{Semi Global Block Matching}
 \label{subsec:stereo_matching_sgbm}
-Das im Rahmen dieser Arbeit verwendete Verfahren zur Berechnung von Disparity Maps ist der in der freien Computer Vision Library implementierte Semi Global Block Matching Algorithmus. Diese leicht abgewandelte Implementierung des Semi Global Matching Algorithmus von Hirschmüller et. al \cite{hirschmuller2005sgm} zeichnet sich sowohl durch seine Genauigkeit, als auch durch seine performante Berechnung aus. Unter Zuhilfenahme dieses Verfahren ist es möglich, Disparity Maps in Echtzeit mit sehr guter Framerate zu berechnen. Im Folgenden wird zunächst die grundlegende Funktionsweise des SGM erläutert. Im Anschluss daran werden die Unterschiede zum SGBM herausgearbeitet sowie eine kurze Erklärung der Parameter dessen vorgenommen.\\
+Das im Rahmen dieser Arbeit verwendete Verfahren zur Berechnung von Disparity Maps ist der in der freien Computer Vision Bibliothek OpenCV \cite{opencv} implementierte \emph{Semi Global Block Matching} Algorithmus. Diese leicht abgewandelte Implementierung des \emph{Semi Global Matching} (SGM) Algorithmus von Hirschmüller et. al \cite{hirschmuller2005sgm} zeichnet sich sowohl durch seine Genauigkeit, als auch durch seine performante Berechnung aus. Unter Zuhilfenahme dieses Verfahren ist es möglich, Disparitätenkarten in Echtzeit zu berechnen. Im Folgenden wird zunächst die grundlegende Funktionsweise des SGM erläutert. Im Anschluss daran werden die Unterschiede zum SGBM herausgearbeitet sowie eine kurze Erklärung der Parameter dessen vorgenommen.\\
 
 %TODO: footnote Mutal Information fixen
 \noindent
 \textbf{SGM:} \\
-Die grundlegende Idee des Semi-Global Matching Algorithmus besteht in dem pixelweisen Matching von Mutual Information \footnote{Mutual Information(MI), zu deutsch Transinformationen, beschreiben den statistischen Zusammenhang zweier Zufallsgrößen. Genauer gesagt beschreiben sie die Höhe des Informationsgehaltes einer Zufallsvariable aus anderen zufällig gewählten Werten.}. Die globale zweidimensionale Smoothness Einschränkung wird dabei mithilfe mehrerer eindimensionaler Einschränkungen erzeugt. Ausgangsvorraussetzung dafür sind verschiedene Bilder derselben Szene mit vorhandener und bekannter Epipolargeometrie. 
-Zunächst werden für jeden Pixel $P$ aus der Intensität $I_{bp}$ sowie der vermuteten Korrespondenz $I_{mq}$ auf der Epipolarlinie $q=e_{bm}(pd)$ die Matching Kosten berechnet. Die eigentliche Berechnung dieser erfolgt dann mit Hilfe von Mutual Information berechnet.
+Die grundlegende Idee des Semi-Global Matching Algorithmus besteht in dem pixelweisen Matching von Mutual Information \footnote{\emph{Mutual Information}(MI), zu deutsch Transinformationen, beschreiben den statistischen Zusammenhang zweier Zufallsgrößen. Genauer gesagt beschreiben sie die Höhe des Informationsgehaltes einer Zufallsvariable aus anderen zufällig gewählten Werten.}. Ausgangsvorraussetzung dafür sind verschiedene Bilder derselben Szene mit vorhandener und bekannter Epipolargeometrie. Ein weiteres Kernelement des SGM ist die Anwendung eines globalen zweidimensionalen Glattheitskriteriums, was durch die Kombination mehrerer eindimensionaler Beschränkungen approximiert wird. Zunächst werden für jeden Pixel $P$ aus der Intensität $I_{bp}$ sowie der vermuteten Korrespondenz $I_{mq}$ auf der Epipolarlinie $q=e_{bm}(pd)$ die Matching Kosten berechnet. Die Berechnung dieser erfolgt dann mit Hilfe von Mutual Information.
 
 \begin{equation}\label{eq:mutual_information_1}
 MI_{I_1,I_2} = \sum_{p} mi_{I_1,I_2}(I_{1p},I_{2p})
@@ -95,14 +94,10 @@ mi_{I_1,I_2} (i,k) = h_{I_1}(i)+h_{I_2}(k)-h_{I_1,I_2}(i,k)
 \end{equation}
 
 \noindent
-Zur Berechnung der MI mithilfe der in \ref{eq:mutual_information_1} und \ref{eq:mutual_information_2} dargestellten Formeln wird zunächst eine Initial Disparity Map benötigt. Diese wird nach Kim et al’s \cite{zureiki2008stereo} Ansatz zufällig gewählt, um die Kosten berechnen zu können. Dies ist insbesondere für iterative Verfahren geeignet, da andernfalls die Berechnung verlangsamt werden könnte. Zur Steigerung der Performanz wird die Disparity Map zunähst nur auf halber Auflösung berechnet,  wodurch der Rechenaufwand um den Faktor $2 \cdot 3$ reduziert wird.Zur Vermeidung falscher Kostenberechnungen durch auftretende Noise innerhalb des Bildes nimmt der Algorithmus weitere Einschränkungen vor. Dabei werden die benachbarten Disparitäten in die Berechnung \ref{eq:disparity_calculation} mit einbezogen.
-
-\begin{equation}\label{eq:disparity_calculation}
- foo = foo
-\end{equation}
+Zur Berechnung der MI mithilfe der in \ref{eq:mutual_information_1} und \ref{eq:mutual_information_2} dargestellten Formeln wird zunächst eine initiale Disparitätenkarte benötigt. Diese wird nach dem Ansatz von Kim et al \cite{lee2012intelligent} zufällig gewählt, um die Kosten berechnen zu können. Zur Steigerung der Performanz wird die Disparitätenkarte zunähst nur auf halber Auflösung berechnet, wodurch der Rechenaufwand um den Faktor $8$ reduziert wird. Zur Vermeidung falscher Kostenberechnungen durch auftretendes Rauschen innerhalb des Bildes werden benachbarte Disparitäten mit in die Berechnungen einbezogen.\\
 
 \noindent
-Das letzte Problem besteht in der Berechnung der Korrespondenz sowie der daraus resultierenden Disparitäten. Dabei wird nach der Disparität $D$ mit der geringsten berechneten Energiefunktion gesucht. Anstatt nun einfach den minimalsten Pfad der Kosten zu summieren, werden alle Richtungen zur aktuellen Disparität mit einbezogen (siehe Abbildung \ref{fig:sgm_directions}).
+Das letzte Problem besteht in der Berechnung der Korrespondenz sowie der daraus resultierenden Disparitäten. Dabei wird nach der Disparität $D$ mit der geringsten berechneten Energiefunktion gesucht. Anstatt nun einfach den minimalsten Pfad der Kosten zu summieren, werden zusätzlich auch andere Richtungen zur aktuellen Disparität mit einbezogen (siehe Abbildung \ref{fig:sgm_directions}).
 
 \begin{figure}[h]
 	\begin{center}
@@ -113,22 +108,22 @@ Das letzte Problem besteht in der Berechnung der Korrespondenz sowie der daraus 
 \end{figure}
 
 \noindent
-Zur Berechnung valider Werte sollten dabei mindestens 8 Richtungen vorliegen; -  eine vermehrte Anzahl an Richtungen, etwa 16, ist dabei vorteilhaft. Die berechnete Disparität ergibt sich aus den minimalen Kosten anhand dieser Pfade. Dabei gilt: “Je mehr Übereinstimmungen in den Kosten, desto wahrscheinlicher ist es, dass $D$ zur Intensität $I$ gehört”.\\
+Zur Berechnung valider Werte sollten dabei mindestens 8 Richtungen vorliegen, eine vermehrte Anzahl an Richtungen, etwa 16, ist dabei vorteilhaft. Die berechnete Disparität ergibt sich aus den minimalen Kosten anhand dieser Pfade.\\
 
 \noindent
 \textbf{SGBM:} \\
-Der Semi Global Block Matching Algorithmus ist ein in der Computer Vision Library OpenCV implementiertes Verfahren zur schnellen Berechnung von Disparity Maps. Die Grundlage dafür bietet Hirschmüller et al.’s SGM \cite{hirschmueller2008sgm} mit den folgenden grundlegenden Änderungen:
+Der \emph{Semi Global Block Matching} Algorithmus ist ein in der Computer Vision Library OpenCV implementiertes Verfahren zur schnellen Berechnung von Disparitätenkarten. Die Grundlage dafür bietet Hirschmüller et al.’s SGM \cite{hirschmueller2008sgm} mit den folgenden grundlegenden Änderungen:
 
 \begin{enumerate}[label=C.\arabic*]
 	\item Statt den originalen 8 bzw. 16 Richtungen werden nur 5 betrachtet. \label{item:differences_directions}
 	\item Es werden  standartm\"assig keine einzelnen Pixel sondern Blöcke verglichen. \label{item:differences_matching}
 	\item Anstelle der Mutual Information Kostenfunktion wird das von Birchfield et al. vorgestellte Sub-Pixel Dissimilarity Measurement Verfahren verwendet \cite{birchfield-tomasi}.
-	\item Pre und Post Processing Elemente des \emph{StereoBM} \cite{opencv_doc} werden verwendet.
+	\item Verschiedene Schritte der Vor- und Nachprozessierung des \emph{StereoBM} Algorithmus werden verwendet, dazu zählen Filtermethoden wie quatdratische Interpolation oder Sprenkelfilter.
 \end{enumerate}
 
 \noindent
 %TODO: Parameter anpassung wichtig!, sgbm hirschmueller Mode!
-Dies erlaubt dem Algorithmus eine schnelle Berechnung der Disparitäten auf einem qualitativ hochwertigen Niveau. Der geringe Verlust an Qualität kann in Anbetracht der Berechnung in Echtzeit vernachlässigt werden.
+Dies ermöglicht eine schnelle Berechnung der Disparitäten auf einem qualitativ hochwertigen Niveau. Der geringe Verlust an Qualität, hervorgerufen durch die geringere Anzahl an betrachteten Richtungen, kann in Anbetracht der Berechnung in Echtzeit vernachlässigt werden.
 
 \begin{figure}[h]
 \centering
@@ -165,6 +160,7 @@ Dies erlaubt dem Algorithmus eine schnelle Berechnung der Disparitäten auf eine
 
 \noindent
 Abbildung \ref{fig:disparity_comparison} stellt die originalen Bildern der Szene (\cite{middlebury_data}), die mithilfe von strukturiertem Licht aufgenommenen Ground Truth Bilder sowie die jeweiligen berechneten Tiefenkarten durch den SGM und den SGBM dar. Aus dieser ist der Qualitaetsverlust des SGBM beim Tsukuba- sowie beim Teddy Datensatz zu erkennen. Trotz dessen sind die Grundformen sowie die berechnete Tiefe klar erkennbar. Grundlegend bietet der SGBM eine sowohl qualitativ hochwertige Berechnung von Tiefenkarten. Kleinere qualitative Einbußen können daher bei steigender Performanz akzeptiert werden.\\
+% TODO JENS letzter satz
 
 \noindent
 Weiterhin existiert eine Reihe verschiedener Parameter welche die Berechnung der Disparity Map aktiv beeinflussen. Im folgenden werden die zur Initialisierung obligatorischen Parameter in ihrer Funktionsweise grob beschrieben.
@@ -181,7 +177,7 @@ Weiterhin existiert eine Reihe verschiedener Parameter welche die Berechnung der
 % ---------------------- section -----------------------
 \section{mvStereoVision Framework}
 \label{sec:framework}
-Das verwendete Framework zur Bildaufnahme und Disparity Map Berechnung wurde im Rahmen des Projektes “SLAM for UAV” entwickelt. Dieses bedient sich der von Matrix Vision zur Verfügung gestellte Library \cite{matrixvision} zur Kommunikation mit den Kameras, sowie OpenCV \cite{opencv} zur Verarbeitung der Bilder. Die wesentlichen Funktionen werden im folgenden näher beleuchtet.\\
+Das verwendete Framework zur Bildaufnahme und Disparity Map Berechnung wurde bedient sich der von Matrix Vision zur Verfügung gestellte Bibliothek \cite{matrixvision} zur Kommunikation mit den Kameras, sowie OpenCV \cite{opencv} zur Verarbeitung der Bilder. Die wesentlichen Funktionen werden im folgenden näher beleuchtet.\\
 
 \noindent
 \textbf{Bildaufnahme:}\\
@@ -192,7 +188,7 @@ Die Aufnahme der einzelnen Bilder beginnt bei einer Anfrage an die Kamera nach d
 	\begin{center}
 		\includegraphics[width=6cm]{img/framework_pipeline.pdf}
 	\end{center}
-	\caption{Pipeline zur Bildaufnahme, Disparity Map Berechnung sowie weiteren Verarbeitung}
+	\caption{Ablauf der Bildaufnahme, Disparity Map Berechnung sowie weiteren Verarbeitung}
 	\label{fig:framework_pipeline}
 \end{figure}
 
@@ -216,10 +212,10 @@ Zugrundeliegend bei der Distanzberechnung ist die Reprojektionsmatrix $Q$ welche
       0 & 0 & a & b
     \end{bmatrix}
 \end{equation}
-Dabei beschreiben $-C_x$ und $-C_y$ die beiden negativen Koordinaten des Bildhauptpunktes der linken Kamera sofern dies als Referenz vorlag, der Parameter $f$ die Brennweite der linken Kamera. $T_x$ ist die horizontale Translation zwischen beiden Kameras. Die in der Q-Matrix enthaltenen Parameter sind mit Ausnahme von $C_x'$ alle die der linken Kamera. Es wird angenommen das sich die beiden Strahlen der Bildhauptpunkte in der Unendlichkeit schneiden woraus sich der Parameter $0$ in der unteren rechten Ecke berechnet. Zur Einfacheren Darstellung und Erläuterung werden die Baseline der Kamera $\frac{-1}{T_x}$ im folgenden als $a$ sowie die Darstellung beider Bildhauptpunkte $\frac{C_x - C_x'}{T_x}$ als $b$ notiert.\\
+Dabei beschreiben $-C_x$ und $-C_y$ die beiden negativen Koordinaten des Bildhauptpunktes der Referenzkamera, beispielsweise der linken. Der Parameter $f$ die Brennweite der linken Kamera. $T_x$ ist die horizontale Translation zwischen beiden Kameras. Die in der Q-Matrix enthaltenen Parameter sind mit Ausnahme von $C_x'$ alle die der linken Kamera. Es wird angenommen das sich die beiden Strahlen der Bildhauptpunkte in der Unendlichkeit schneiden. Dies führt zu einer Annäherung des unteren rechten Parameters an $0$. Zur Einfacheren Darstellung und Erläuterung werden die Baseline der Kamera $\frac{-1}{T_x}$ im folgenden als $a$ sowie die Darstellung beider Bildhauptpunkte $\frac{C_x - C_x'}{T_x}$ als $b$ notiert.\\
 
 \noindent
-Eine Eigenschaft der Reprojektionsmatrix ist die einfache Berechnung von dreidimensionalen Weltkoordinaten. Diese Berechnung ist in Formel \ref{eq:distance_calculation} abgebildet.
+Eine Eigenschaft der Reprojektionsmatrix ist die einfache Berechnung von dreidimensionalen Weltkoordinaten. Diese Berechnung erfolgt mittels Gleichung \ref{eq:distance_calculation}.
 
 \begin{equation}\label{eq:distance_calculation}
     \begin{aligned}
@@ -235,8 +231,7 @@ Eine Eigenschaft der Reprojektionsmatrix ist die einfache Berechnung von dreidim
 \end{equation}
 
 \noindent
-Die eigentliche Berechnung der einzelnen Parameter ergibt sich somit aus der Multiplikation des transponierten Vektors, welcher sowohl die Koordinaten des Pixels als auch die Disparität dessen enthält, und der Reprojektions Matrix. Die dabei benötigten Operationen werden im folgenden genauer beleuchtet.
-
+Die eigentliche Berechnung der einzelnen Parameter ergibt sich somit aus der Multiplikation des transponierten Vektors, welcher sowohl die Koordinaten des Pixels als auch die Disparität dessen enthält, mit der Reprojektionsmatrix. Die dreidimensionalen Koordinaten ergeben sich damit aus:
 
 \begin{equation}
   \begin{aligned}
