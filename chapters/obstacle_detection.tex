@@ -19,8 +19,8 @@ Im folgenden Kapitel werden beide Methoden detailliert beleuchtet. Zu Beginn wir
 Der Ablauf der Hinderniserkennung ist in beiden entwickelten Methoden gleich. Die dafür benötigen Preprocessing Schritte gleichen sich demnach ebenfalls und werden im folgenden erläutert.\\
 
 \noindent
-\textbf{Region of Interest der Disparity Map:}\\
-Zu Beginn des Algorithmus muss der durch die Baseline verursachte nicht matchbare Bereich entfernt werden. Dies geschieht nach der Wahl der in (\ref{subsec:stereo_matching_sgbm}) beschriebenen Parameter der SGBM. Dieser sogenannte Pixelshift berechnet sich aus der Hälfte der Anzahl der zu berechnenden Disparitäten. Sollte dieser einen ungeraden Wert ergeben so wird er um 1 erhöht. Generell ist der Pixelshift so gewählt das die Dimensionen der Disparity Map durch 8 Teilbar sind. Dieser Wert hat sich während der Entwicklung als robuster Wert erwiesen. Weiterhin dient es zur späteren Verteilung der Samplepoints.\\
+\textbf{ROI der Disparitätenkarte:}\\
+Zu Beginn des Algorithmus muss der durch die Basislinie verursachte nicht matchbare Bereich entfernt werden. Dieser Schritt dient einerseits zur Veränderung der Disparitätenkarte  Dies geschieht nach der Wahl der in (\ref{subsec:stereo_matching_sgbm}) beschriebenen Parameter der SGBM. Dieser sogenannte Pixelshift berechnet sich aus der Hälfte der Anzahl der zu berechnenden Disparitäten. Sollte dieser einen ungeraden Wert ergeben so wird er um 1 erhöht. Generell ist der Pixelshift so gewählt das die Dimensionen der Disparity Map durch 8 Teilbar sind. Dieser Wert hat sich während der Entwicklung als robuster Wert erwiesen.\\
 
 	\begin{figure}[h]
 		\centering
@@ -37,7 +37,11 @@ Zu Beginn des Algorithmus muss der durch die Baseline verursachte nicht matchbar
 	
 \noindent
 \textbf{Berechnung der Disparität aus gegebener Distanz:}\\
-Um die Algorithmen ressourcensparend zu gestalten wird während der Erkennung mit den reinen Disparitäten gearbeitet. Da die Disparitäten in Abhängigkeit der Bildgröße sowie der Q-Matrix berechnet werden ergibt kann kein fest definierter Disparitätenwert für eine Distanz bestimmt werden. Für diesen Prozess wird die in Anschnitt \ref{sec:framework} beschriebene Distanzberechnung invertiert. Mithilfe der in Formel \ref{eq:backward_calculation} dargestellten Berechnung können nun die jeweilige Position sowie die dazugehörige Disparität berechnet werden. 
+\noindent
+Dieser Prozess findet in der späteren Initialisierung der Algorithmen Verwendung bei welcher die metrischen Angaben der Erkennungsreichweite in Disparitäten zurückgerechnet werden. Als Referenz wir dazu die Position des Bildhauptpunktes berechnet welcher sich im Ursprung des Weltkoordinatensystems befindet. Diese Vorgehensweise spart in der späteren Hinderniserkennung Ressourcen, da nicht für jedes Subimage bzw. jeden Samplepoint die Weltkoordinate berechnet werden muss. Stattdessen können die Disparitäten direkt verglichen werden. Dies ist in beiden Algorithmen derselbe Schritt.\\
+
+\noindent
+Um die Algorithmen ressourcensparend zu gestalten wird bei der Erkennung mit den reinen Disparitäten gearbeitet. Da die Disparitäten in Abhängigkeit der Bildgröße sowie der Q-Matrix berechnet werden, kann kein fest definierter Disparitätenwert für eine Distanz bestimmt werden. Für diesen Prozess wird die in Anschnitt \ref{sec:framework} beschriebene Distanzberechnung invertiert. Mithilfe der in Formel \ref{eq:backward_calculation} dargestellten Berechnung können nun die jeweilige Position sowie die dazugehörige Disparität berechnet werden. 
 
 \begin{equation}
   \label{eq:backward_calculation}
@@ -48,8 +52,6 @@ Um die Algorithmen ressourcensparend zu gestalten wird während der Erkennung mi
   \end{aligned}
 \end{equation}
 
-\noindent
-Dieser Prozess findet in der späteren Initialisierung der Algorithmen Verwendung bei welcher die metrischen Angaben der Erkennungsreichweite in Disparitäten zurückgerechnet werden. Als Referenz wir dazu die Position des Bildhauptpunktes berechnet welcher sich im Ursprung des Weltkoordinatensystems befindet. Diese Vorgehensweise spart in der späteren Hinderniserkennung Ressourcen, da nicht für jedes Subimage bzw. jeden Samplepoint die Weltkoordinate berechnet werden muss. Stattdessen können die Disparitäten direkt verglichen werden. Dies ist in beiden Algorithmen derselbe Schritt.\\
 
 % ---------------------- section -----------------------
 \section{Subimage Detection}
