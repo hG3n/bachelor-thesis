@@ -7,7 +7,7 @@ Die vorliegende Arbeit ist im Forschungsgebiet Robotik angesiedelt und behandelt
 Ein wichtiges Kriterium in der Entwicklung autonomer Roboter ist die Erkennung von Hindernissen in Echtzeit. Dabei muss jedoch zuerst definiert werden was vom System als potentielles Hindernis erkannt werden soll. Prinzipiell sind alle Objekte welche sich in der unmittelbaren Nähe des Systems befinden eine Gefahrenquelle. Im Fall eines Kamera-basierten Systems mit lediglich einer Hauptblickrichtung, ist die Detektion jedoch beschränkt, so dass eine Einschränkung der zugelassenen Manöver, z.B. auf eine Bewegung lediglich in Blickrichtung der Kamera, erfolgen sollte. Dies schließt eine Kollision mit Objektn außerhalb des Sichtfeldes aus. Auch sehr weit entfernte Objekte sind prinzipiell nicht als Hindernis anzusehen, wobei die maximal zu betrachtende Gefahrendistanz abhängig von der aktuellen Bewegungsgeschwindigkeit angepasst werden sollte. Unter Betrachtung dieser Gesichtspunkte wird ein Hindernis innerhalb dieser Arbeit als ein Objekt definiert welches sich innerhalb eines definierten Distanzbereichs und innerhalb des Sichtfeldes der Kamera befindet.\\
 
 \noindent
-Die hauptsächliche Anwendung des im Rahmen dieser Arbeit entwickelten Systems zielt auf die autonome Navigation von Unbemannten Flugsystemen ab. Weitere Anwendungsbereiche können sowohl komplexerer als auch einfacherer Natur sein. Prinzipiell ist es möglich die entwickelten Algorithmen und Methoden im Automobil Bereich zu verwenden um beispielsweise Objekte vor oder Hinter dem Kraftfahrzeug zu erkennen und die Distanz zu berechnen. 
+Die hauptsächliche Anwendung des im Rahmen dieser Arbeit entwickelten Systems zielt auf die autonome Navigation von Unbemannten Flugsystemen ab. Weitere Anwendungsbereiche können sowohl komplexerer als auch einfacherer Natur sein. Prinzipiell ist es möglich die entwickelten Algorithmen und Methoden im Automobil Bereich zu verwenden um beispielsweise Objekte vor oder hinter dem Kraftfahrzeug zu erkennen und deren Distanz zu ermitteln.  
 
 % TODO neues Beispiel
 %Weiterhin ist es vorstellbar grobe kartographische Höhen Klassifikationen vorzunehmen, um Bild basiert eine Höhenkarte geographischer Areale zu erstellen. Das jeweilige Anwendungsszenario richtet sich jedoch dabei nach der verwendeten Hardware. 
@@ -27,7 +27,7 @@ Für die Implementierung der Algorithmen wurde die freie Computer Vision Bibliot
 	\includegraphics[width=6cm]{img/pelican} &
 	\includegraphics[width=6cm]{img/camera}
 	\end{tabular}
-	\caption{AscTec Pelika (links), MatrixVision BlueFOX mv-MLC200wC (rechts)}
+	\caption{AscTec Pelikan (links), MatrixVision BlueFOX mv-MLC200wC (rechts)}
 	\label{img:pelican}
 \end{figure}
 
@@ -35,9 +35,6 @@ Für die Implementierung der Algorithmen wurde die freie Computer Vision Bibliot
 \section{Ziel der Arbeit}
 \label{sec:ziel_der_arbeit}
 Basierend auf photogrammetrischen Konzepten ist es möglich, räumliche Tiefe aus zweidimensionalen Bilddaten zu berechnen. Generell werden mindestens zwei Bilder aus unterschiedlichen Standpunkten für die Berechnung dreidimensionaler Informationen benötigt. Das daraus resultierende Problem welches bei der Benutzung einer Kamera entsteht ist die oft ungenau Schätzung der relativen Orientierung sowie die damit einher gehende Skalierung. Bei der Verwendung eines Stereosystems ist die relative Orientierung beider Kameras zueinander bereits bekannt, was eine direkte Berechnung metrischer Koordinaten ermöglicht. Da Zuverlässigkeit sowie Genauigkeit vor allem im Kontext der Navigation in Innenräumen sehr wichtig ist wurde in dieser Arbeit auf ein Stereo-Setup gesetzt.
-% TODO nochmal rüber lesen
-
-%Unter Betrachtung dieser Techniken wurde im Rahmen dieser Arbeit \\
 
 \noindent
 Vor diesem Hintergrund werden zunächst einige State of the Art Methoden der Hinderniserkennung beschrieben wobei dabei zwischen aktiven und passiven optischen Systemen unterschieden wird. Diese Einteilung dient einerseits dafür einen Überblick über bereits bestehende Techniken sowie implementierte Systeme zu erhalten, andererseits um auch die Vor- und Nachteile der jeweiligen Technik herauszuarbeiten. Kapitel \ref{chp:concepts} behandelt die dieser Arbeit zugrundeliegenden Konzepte und Algorithmen. Des Weiteren wird das im Rahmen dieser Arbeit implementierte Framework sowie dessen Funktionsweise erläutert. Im Anschluss daran beschreibt Kapitel \ref{chp:developed_algorithms} die beiden entwickelten Methoden zur bildbasierten Hinderniserkennung und deren Implementierung detailliert. Anschließend erfolgt die Evaluation beider Verfahren unter den Gesichtspunkten Robustheit sowie der Performance. Dabei wird die Erkennung verschiedener Hindernisgrößen getestet, 

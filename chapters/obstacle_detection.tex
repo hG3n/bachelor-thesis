@@ -20,7 +20,7 @@ Der Ablauf der Hinderniserkennung ist in beiden entwickelten Methoden gleich. Di
 
 \noindent
 \textbf{ROI der Disparitätenkarte:}\\
-Zu Beginn des Algorithmus muss der durch die Basislinie verursachte nicht matchbare Bereich entfernt werden. Dieser Schritt dient einerseits zur Veränderung der Disparitätenkarte  Dies geschieht nach der Wahl der in (\ref{subsec:stereo_matching_sgbm}) beschriebenen Parameter der SGBM. Dieser sogenannte Pixelshift berechnet sich aus der Hälfte der Anzahl der zu berechnenden Disparitäten. Sollte dieser einen ungeraden Wert ergeben so wird er um 1 erhöht. Generell ist der Pixelshift so gewählt das die Dimensionen der Disparity Map durch 8 Teilbar sind. Dieser Wert hat sich während der Entwicklung als robuster Wert erwiesen.\\
+Zu Beginn des Algorithmus muss der durch die Translation der Bilder auf der Basislinie verursachte nicht matchbare Bereich entfernt werden. Dies geschieht nach der Wahl der in \ref{subsec:stereo_matching_sgbm} beschriebenen Parameter der SGBM. Dieser sogenannte \emph{Pixelshift} berechnet sich aus der Hälfte der Anzahl der zu berechnenden Disparitäten. Sollte dieser einen ungeraden Wert ergeben so wird er um 1 erhöht. Generell ist der \emph{Pixelshift} so gewählt das die Dimensionen der Disparity Map durch 8 dividierbar sind. Dieser Wert hat sich während der Entwicklung als robuster Wert erwiesen.\\
 
 	\begin{figure}[h]
 		\centering
@@ -28,12 +28,12 @@ Zu Beginn des Algorithmus muss der durch die Basislinie verursachte nicht matchb
 			\includegraphics[height=4cm]{img/evaluation/dmap_noroi} &
 			\includegraphics[height=4cm]{img/evaluation/dmap_roi}
 		\end{tabular}
-		\caption{Darstellung der Disparity ROI. Der rote Bereich markiert den Pixelshift}
+		\caption{Darstellung der Disparity ROI. Der rote Bereich markiert den \emph{Pixelshift}.}
 		\label{fig:dmap_roi}
 	\end{figure}
 
 	\noindent
-	Abbildung \ref{fig:dmap_roi} zeigt den Pixelshift in der finalen Disparity Map. Der \emph{SGBM} berechnet zwar Werte innerhalb des Bereiches welcher nicht zu erkennen ist, jedoch geschieht dies in Abhängigkeit der aktuellen Szene. Ist es nicht möglich in diesem Informationen zu berechnen so werden die Disparitäten entweder \enquote{geraten} oder als schwarzer Bereich mit negativen Werten ausgedrückt. Aus Gründen der Performance wird dieser daher entfernt um keine Berechnungen an Informationslosen Pixeln durchzuführen.\\
+	Abbildung \ref{fig:dmap_roi} zeigt den \emph{Pixelshift} in der finalen Disparity Map. Der \emph{SGBM} berechnet zwar Werte innerhalb des Bereiches welcher nicht zu erkennen ist, jedoch geschieht dies in Abhängigkeit der aktuellen Szene. Ist es nicht möglich in diesem Informationen zu berechnen so werden die Disparitäten entweder \enquote{geraten} oder als schwarzer Bereich mit negativen Werten ausgedrückt. Aus Gründen der Performance wird dieser daher entfernt um keine Berechnungen an Informationslosen Pixeln durchzuführen.\\
 	
 \noindent
 \textbf{Berechnung der Disparität aus gegebener Distanz:}\\
