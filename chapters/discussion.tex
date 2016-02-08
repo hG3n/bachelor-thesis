@@ -75,7 +75,7 @@ Szenario & Zeit pro Frame (Detection) & Detection fps \\ \hline\hline
 2(b)     & 0.0001                     & 8759.63       \\ \hline
 2(c)     & 0.0042                     & 234.64        \\ \hline
 \end{tabular}
-\caption{Gemessene Einzelbilder pro Sekunde sowie Gesamtframerate}
+\caption{Gemessene Einzelbilder pro Sekunde sowie Gesamtframerate der \emph{Subimage Detecion}}
 \label{tbl:subimage_framerate}
 \end{table}
 
@@ -97,7 +97,7 @@ Die somit verloren gegangenen Frames sorgen noch immer für eine schnelle Erkenn
 \noindent
 Die nachfolgende Tabelle (\ref{tbl:samplepoint_framerate}) stellt die Ergebnisse des Versuches für die Samplepoint Detection dar. Auf den ersten Blick sind die erreichten Framerates (mit Ausnahme der Aktualisierung, sowie der Hinderniserkennung) generell niedriger als jene der Subimage Detection. 
 
-%TODO FIX VALUES
+%TODO FIX VALUES\
 \begin{table}[h]
 \centering
 \begin{tabular}{|l|c|c|}
@@ -110,21 +110,75 @@ Szenario & Zeit pro Frame (Detection) & Detection fps \\ \hline\hline
 2(b)     & 0.0015           		  	  & 647.07         \\ \hline
 2(c)     & 0.0083           	 		  & 120.33         \\ \hline
 \end{tabular}
-\caption{Gemessene Einzelbilder pro Sekunde sowie Gesamtframerate}
+\caption{Gemessene Einzelbilder pro Sekunde sowie Gesamtframerate der \emph{Samplepoint Detection}}
 \label{tbl:samplepoint_framerate}
 \end{table}
 
 \noindent
-Gerade die ermittelte Framerate in 1(b) gibt Anlass zu der Annahme, dass die Samplepoint Detection mehr Rechenleistung benötigt. Dies resultiert aus der Anzahl der zu betrachtenden Objekte. Im Vergleich zur Subimage Detection werden nicht nur 81 Bereiche betrachtet, sondern X. Auch im Echtwelt Szenario finden sich 30 Einzelbilder weniger pro Sekunde. Lediglich das Update sowie die Erkennung ohne Hindernisse erfolgt schneller. Die höhere Geschwindigkeit in der Aktualisierung resultiert aus der geringeren Anzahl an Pixeln welche betrachtet werden müssen. Nach der in \ref{eq:fps_calculation} erläuterten Rechnung ergibt sich bei der Samplepoint Detection eine durchschnittliche Framerate von $19,6$ Bildern/s.
+Gerade die ermittelte Framerate in 1(b) gibt Anlass zu der Annahme, dass die Samplepoint Detection mehr Rechenleistung benötigt. Dies resultiert aus der Anzahl der zu betrachtenden Objekte. Im Vergleich zur Subimage Detection werden nicht nur 81 Bereiche betrachtet, sondern X. Auch im Echtwelt Szenario finden sich 30 Einzelbilder weniger pro Sekunde. Lediglich das Update sowie die Erkennung ohne Hindernisse erfolgt schneller. Die höhere Geschwindigkeit in der Aktualisierung resultiert aus der geringeren Anzahl an Pixeln welche betrachtet werden müssen. Nach der in \ref{eq:fps_calculation} erläuterten Rechnung ergibt sich bei der Samplepoint Detection eine durchschnittliche Framerate von $19,6$ Bildern/s.\\
 
-% TODO INSERT NUM SAMPEOIUNTS HERE   
-% TODO resizing der initalbilder zur performance verbesserung
+\noindent
+Zur Steigerung der Performance wurden in einem weiteren Test die initialen Bilder zur Berechnung der Disparitätenkarte um den Faktor 1/2 skaliert, wobei alle restlichen verwendeten Parameter unverändert waren. Die dadurch erhaltenen Ergebnisse sind in den Tabellen \ref{tbl:performance_scaled_subimage} und \ref{tbl:performance_scaled_samplepoint} abgebildet.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+Szenario & Zeit pro Frame (Detection) & Detection fps \\ \hline\hline
+1(b)     & 0.0026                     & 381.62    \\ \hline
+1(c)     & 0.0007                     & 1318.17   \\ \hline\hline
+2(a)     & 0.0007                     & 1328.21   \\ \hline
+2(b)     & 0.000006                   & 174916.76 \\ \hline
+2(c)     & 0.0019                     & 515.10    \\ \hline
+\end{tabular}
+\caption{Gemessene Einzelbilder pro Sekunde sowie Gesamtframerate mit skalierten Ausgangsbildern der \emph{Subimage Detection}}
+\label{tbl:performance_scaled_subimage}
+\end{table}
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+Szenario & Zeit pro Frame (Detection) & Detecion fps \\ \hline
+1(b)     & 0.0023                     & 418.96   \\ \hline
+1(c)     & 0.0016                     & 612.04   \\ \hline
+2(a)     & 0.0004                     & 2132.13  \\ \hline
+2(b)     & 0.0015                     & 666.52   \\ \hline
+2(c)     & 0.0024                     & 403.07   \\ \hline
+\end{tabular}
+\caption{Gemessene Einzelbilder pro Sekunde sowie Gesamtframerate mit skalierten Ausgangsbildern der \emph{Samplepoint Detection}}
+\label{tbl:performance_scaled_samplepoint}
+\end{table}
+
+\noindent
+Aus diesen ist deutlich ersichtlich, dass eine verringerte Größe der Ausgangsbilder die Framerate immens steigert. Dies resultiert hauptsächlich aus der Berechnung der zugrundeliegenden Disparitätenkarte. Diese ist in dieser Konfiguration auf durchschnittlich $94$ Einzelbilder pro Sekunde angestiegen. Dieser Wert ist jedoch nur In Abhängigkeit der Wiederholrate der Aufnahme zu erreichen. Im horizontalen sowie vertikalen Binning Modus liegt diese durchschnittlich bei $60 - 66$ Bilder pro Sekunde. Für eine Erkennung in Szenario 1(c) ergeben sich demnach die folgenden möglichen Werte bei beiden Methoden:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+Subimage Detection:    & 75,53 \\
+Samplepoint Detection: & 77,28
+\end{tabular}
+\end{table}
 
 \subsection{Robustheit}
 \label{subsec:discussion_robustness}
 Wie die Evaluation bereits aufzeigt ist die Erkennung unterschiedlicher Hindernisgrößen als robust anzusehen. Beide Algorithmen erkennen sowohl große als auch kleine Hindernisse innerhalb der definierten Gefahrenzone. Die ermittelten Distanzen weisen zwar kleine Ungenauigkeiten auf, jedoch sind diese eher ein Resultat von Messungenauigkeiten sowie der verwendeten Bildgröße. Auch die dahingehend erstellten Punktwolken liefern genaue Positionsinformationen ausgehend von der aktuellen Weltposition der Drohne. Jene liegen im Rahmen dieser Arbeit nicht vor da dies als ein anderer Teil des SLAM Forschungsfeldes anzusehen ist.\\
 
-% TODO Bilder pointcloud mean und sample desselben Objektes
+\begin{figure}[h]
+	\centering
+	\begin{tabular}{cc}
+		\includegraphics[height=4cm]{img/subimage_pcl} &
+		\includegraphics[height=4cm]{img/sample_pcl}\\
+		Subimage Pointclound  &
+		Samplepoint Pointclound
+	\end{tabular}
+	\caption{}
+	\label{fig:obstacle_pointclouds}
+\end{figure}
+% TODO pointclouds neu aufnehmen
+
 \noindent
 Bei der Erkennung kleiner Hindernisse ist jedoch zu erkennen, dass die entwickelte Samplepoint Detection wesentlich robustere Ergebnisse liefert als die Subimage Detection. Dies resultiert vornehmlich aus der signifikant kleineren Anzahl an Pixeln. Dadurch sind diese weniger empfänglich für Verzerrungen der berechneten Distanz wie Subimages. Enthält ein einziger Samplepoint zu wenige Daten um als Hindernis angesehen zu werden, so ist die Wahrscheinlichkeit das seine Nachbarn diese Information enthalten bzw. erfassen konnten höher als beispielsweise die benachbarten Subimages. Dies ist auch als der große Vorteil der Samplepoint Detection anzusehen.\\
 
