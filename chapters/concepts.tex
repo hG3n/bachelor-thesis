@@ -166,7 +166,6 @@ Das verwendete Framework zur Bildaufnahme und Disparity Map Berechnung wurde bed
 Die Aufnahme der einzelnen Bilder beginnt bei einer Anfrage an die Kamera nach den jeweiligen Rohdaten. Diese werden anschliessend mithilfe der durch die Kalibrierung ermittelten Parameter entzerrt und rektifiziert und liegen so zur weiteren Verarbeitung bereit. Die Aufnahme der Bilder erfolgt dabei in separaten Threads um unabhängig von weiteren Berechnungen Bilder aufzunehmen. Die Berechnung der Disparity Map erfolg ebenfalls in einem eigenen Thread. Sofern eine neue Disparity Map vorliegt wird innerhalb des Hauptprogramms mit Hilfe eines Wahrheitswertes darüber informiert das diese vorliegt. Der gesamte Prozess wird in Abbildung \ref{fig:framework_pipeline} visualisiert.\\
 
 \begin{figure}[h]
-	% TODO add another state for further processing
 	\begin{center}
 		\includegraphics[width=6cm]{img/framework_pipeline.pdf}
 	\end{center}

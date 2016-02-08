@@ -8,7 +8,7 @@ Ein wichtiges Kriterium in der Entwicklung autonomer Roboter ist die Erkennung v
 
 \noindent
 Die hauptsächliche Anwendung des im Rahmen dieser Arbeit entwickelten Systems zielt auf die autonome Navigation von Unbemannten Flugsystemen ab. Weitere Anwendungsbereiche können sowohl komplexerer als auch einfacherer Natur sein. Prinzipiell ist es möglich die entwickelten Algorithmen und Methoden im Automobil Bereich zu verwenden um beispielsweise Objekte vor oder hinter dem Kraftfahrzeug zu erkennen und deren Distanz zu ermitteln. Weiterhin ist es möglich die aufgenommenen Punktwolken im Nachhinein zur groben dreidimensionalen Rekonstruktion der Umgebung zu verwenden. 
-% TODO neues Beispiel vielleicht
+% TODO beispiel erweitern ?
 
 \section{Hardwarekomponenten}
 \label{sec:setup}
@@ -18,7 +18,6 @@ Die aktive Entwicklung der Methoden und Algorithmen erfolgte im Hinblick auf ein
 Es handelt sich dabei um einen Quadrocopter der speziell für Forschungszwecke entwickelt wurde. Er ist mit einem Bordcomputer ausgestattet, der die nötige Leistung für die Entwicklung der Algorithmen bereitstellt (3rd Generation Intel Core i7). Weiterhin wurden zwei MatrixVision BlueFOX mv-MLC200wC Industriekameras \cite{matrixvision} als visuelles System verwendet. Die maximale Auflösung beider Kameras beträgt $752\times480$ bei 60 möglichen Bildern pro Sekunde, in Abhängigkeit verschiedener Parameter (verwendetet Verschlusszeit, aufgenommene Bitrate, u. a). Für den Echtzeit-Aspekt des Systems werden beide Kameras in einem horizontalen und vertikalen Binning-Modus verwendet. Dies halbiert die Anzahl der Bildpunkte in beiden Dimensionen auf $376\times240$, wodurch der Berechnungsaufwand verringert und die die Aufnahmerate der Kameras auf bis zu 170 Einzelbilder pro Sekunde maximiert wird.
 \noindent
 Für die Implementierung der Methoden wurde die freie Computer Vision Bibliothek OpenCV \cite{opencv} verwendet. Diese stellt benötigte algebraische Grundoperationen sowie bestimmte Algorithmen, welche im Rahmen dieser Arbeit genutzt wurden, zur Verfügung.
-	% TODO Setup erweitern --> mehr?!
 \begin{figure}[h]
 	\centering
 	\begin{tabular}{cc}
