@@ -23,10 +23,8 @@ Ein aufgenommenes Testset besteht aus jeweils 12 Testbildern. Für jede Methode 
 % TODO checken welche tests final noch in der arbeit enthalten sind
 Weitere Tests beinhalten die Erkennung kleiner Hindernisse unter Veränderung der \emph{SGBM} Parameter. Dabei wird unter anderem untersucht ob beispielsweise eine verringerte Blockgröße Einfluss auf die Erkennung kleiner Bereiche nimmt. Da die Samplepoint Detection den Radius als modifizierbaren Parameter mit sich bringt, wird auch dahingehend untersucht inwiefern die Wahl eines anderen Radius die Ergebnisse der Erkennung beeinflusst. Des Weiteren wird die Zeit für die Hinderniserkennung eines Frames untersucht um eine durchschnittliche Zeit für die Erkennung sowie die daraus resultierende Framerate zu ermitteln. Dies geschieht durch die Erkennung eines Hindernisses, welches sich über das gesamte Bild ausbreitet, sowie für nur ein Teilelement jeder Erkennungsmethode (Subimage, Samplepoint). Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} umgehen können. Dazu zählen die Erkennung bei spiegelnden, reflektierenden und durchsichtigen Flächen, sowie die Erkennung schwach texturierter Hindernisse. Der letzte Test umfasst die Steigerung der Performance hinsichtlich der Veränderung der ursprünglichen Bildgröße bei der Erstellung der Disparitätenkarte.\\
 
-% TODO bilder pre scaling 
 % TODO weitere tests: spiegelnde flächen bilder aufnehmen und nach winkel evaluieren ob ein Hindernis erkannt wird
 % TODO samplpoint radius veränderung
-% TODO 
 
 % TODO BILDER AUFNEHMEN
 
@@ -35,8 +33,8 @@ Weitere Tests beinhalten die Erkennung kleiner Hindernisse unter Veränderung de
 \label{sec:evaluierung_subimage}
 
  % TODO FIX COVERED AREAS AS RESULT OF BIGGER FONT SIZE
-Hinsichtlich der Robustheit werden beide Algorithmen nach demselben Schema untersucht. Der in Abschnitt \ref{sec:test_setup} beschriebene Testablauf erwähnt 3 verschiedene Hindernisgrößen. Tabelle \ref{tbl:obstacle_sizes} zeigt sowohl die Maße der Hindernisse als auch deren Fläche in $cm/cm^2$ auf. Weiterhin werden die verwendeten Hindernisse in Abbildung REF dargestellt.
-% TODO hindernisform: bilder warum benutzt
+Hinsichtlich der Robustheit werden beide Algorithmen nach demselben Schema untersucht. Der in Abschnitt \ref{sec:test_setup} beschriebene Testablauf erwähnt 3 verschiedene Hindernisgrößen. Tabelle \ref{tbl:obstacle_sizes} zeigt sowohl die Maße der Hindernisse als auch deren Fläche in $cm/cm^2$ auf. Weiterhin werden die verwendeten Hindernisse in Abbildung \ref{fig:test_obstacles} dargestellt.
+
 \begin{table}[h]
 \centering
 \begin{tabular}{|l|c|c|c|c|}
@@ -53,6 +51,13 @@ Klein		&  2.5	 &   -   &   -    & 19.6 \\
 \caption{Maße der verschiedenen genutzten Hindernisse}
 \label{tbl:obstacle_sizes}
 \end{table}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=7cm]{img/test_obstacles}
+	\caption{Verwendete Test Hindernisse}
+	\label{fig:test_obstacles}
+\end{figure}
 
 
 \noindent
