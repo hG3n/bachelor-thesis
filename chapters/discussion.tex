@@ -167,18 +167,21 @@ Samplepoint Detection: & 77,28
 \label{subsec:discussion_robustness}
 Wie die Evaluation bereits aufzeigt ist die Erkennung unterschiedlicher Hindernisgrößen als robust anzusehen. Beide Algorithmen erkennen sowohl große als auch kleine Hindernisse innerhalb der definierten Gefahrenzone. Die ermittelten Distanzen weisen zwar kleine Ungenauigkeiten auf, jedoch sind diese eher ein Resultat von Messungenauigkeiten sowie der verwendeten Bildgröße. Auch die dahingehend erstellten Punktwolken liefern genaue Positionsinformationen ausgehend von der aktuellen Weltposition der Drohne. Jene liegen im Rahmen dieser Arbeit nicht vor da dies als ein anderer Teil des SLAM Forschungsfeldes anzusehen ist.\\
 
-\begin{figure}[h]
-	\centering
-	\begin{tabular}{cc}
-		\includegraphics[height=4cm]{img/subimage_pcl} &
-		\includegraphics[height=4cm]{img/sample_pcl}\\
-		Subimage Pointclound  &
-		Samplepoint Pointclound
-	\end{tabular}
-	\caption{}
-	\label{fig:obstacle_pointclouds}
-\end{figure}
-% TODO pointclouds neu aufnehmen
+\begin{table}[h]
+\centering
+\begin{tabular}{m{2cm} m{4cm} m{4cm}}
+    & \begin{center} {\scriptsize Subimage Detection} \end{center}
+    & \begin{center} {\scriptsize Samplepoint Detection} \end{center}\\
+	{ \scriptsize Front}
+	& \includegraphics[width=4cm]{img/pointclouds/pcl_sample_front}
+	& \includegraphics[width=4cm]{img/pointclouds/pcl_sub_front}\\
+	{ \scriptsize Oben}
+	& \includegraphics[width=4cm]{img/pointclouds/pcl_sample_top}
+	& \includegraphics[width=4cm]{img/pointclouds/pcl_sub_top}
+\end{tabular}
+\caption{Gespeicherte Hindernis Punktwolke desselben Objektes beider Methoden.}
+\label{fig:obstacle_pointclouds}
+\end{table}
 
 \noindent
 Bei der Erkennung kleiner Hindernisse ist jedoch zu erkennen, dass die entwickelte Samplepoint Detection wesentlich robustere Ergebnisse liefert als die Subimage Detection. Dies resultiert vornehmlich aus der signifikant kleineren Anzahl an Pixeln. Dadurch sind diese weniger empfänglich für Verzerrungen der berechneten Distanz wie Subimages. Enthält ein einziger Samplepoint zu wenige Daten um als Hindernis angesehen zu werden, so ist die Wahrscheinlichkeit das seine Nachbarn diese Information enthalten bzw. erfassen konnten höher als beispielsweise die benachbarten Subimages. Dies ist auch als der große Vorteil der Samplepoint Detection anzusehen.\\
