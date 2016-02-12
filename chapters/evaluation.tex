@@ -21,10 +21,13 @@ Ein aufgenommenes Testset besteht aus jeweils 12 Testbildern. Für jede Methode 
 
 \noindent
 % TODO checken welche tests final noch in der arbeit enthalten sind
-Weitere Tests beinhalten die Erkennung kleiner Hindernisse unter Veränderung der \emph{SGBM} Parameter. Dabei wird unter anderem untersucht ob beispielsweise eine verringerte Blockgröße Einfluss auf die Erkennung kleiner Bereiche nimmt. Da die Samplepoint Detection den Radius als modifizierbaren Parameter mit sich bringt, wird auch dahingehend untersucht inwiefern die Wahl eines anderen Radius die Ergebnisse der Erkennung beeinflusst. Des Weiteren wird die Zeit für die Hinderniserkennung eines Frames untersucht um eine durchschnittliche Zeit für die Erkennung sowie die daraus resultierende Framerate zu ermitteln. Dies geschieht durch die Erkennung eines Hindernisses, welches sich über das gesamte Bild ausbreitet, sowie für nur ein Teilelement jeder Erkennungsmethode (Subimage, Samplepoint). Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} umgehen können. Dazu zählen die Erkennung bei spiegelnden, reflektierenden und durchsichtigen Flächen, sowie die Erkennung schwach texturierter Hindernisse. Der letzte Test umfasst die Steigerung der Performance hinsichtlich der Veränderung der ursprünglichen Bildgröße bei der Erstellung der Disparitätenkarte.\\
+Weitere Tests beinhalten die Erkennung kleiner Hindernisse unter Veränderung der \emph{SGBM} Parameter. Dabei wird unter anderem untersucht ob beispielsweise eine verringerte Blockgröße Einfluss auf die Erkennung kleiner Bereiche nimmt. Da die Samplepoint Detection den Radius als modifizierbaren Parameter mit sich bringt, wird auch dahingehend untersucht inwiefern die Wahl eines anderen Radius die Ergebnisse der Erkennung beeinflusst. Des Weiteren wird die Zeit für die Hinderniserkennung eines Frames untersucht um eine durchschnittliche Zeit für die Erkennung sowie die daraus resultierende Framerate zu ermitteln. Dies geschieht durch die Erkennung eines Hindernisses, welches sich über das gesamte Bild ausbreitet, sowie für nur ein Teilelement jeder Erkennungsmethode (Subimage, Samplepoint). Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} umgehen können. Dazu zählen die Erkennung bei reflektierenden und durchsichtigen Flächen.\\
+
+\noindent
+Die im Rahmen der Tests aufgenommenen Bilder wurden in einzelnen Fällen in Hinsicht auf bessere Sichtbarkeit bearbeitet. Die aufgenommenen Disparitätenkarten sind aufgrund der Normalisierung und hohen Distanzen oft sehr dunkel. Deshalb wurden die Helligkeit dieser verändert. Weiter Modifikationen der Bilder wurden nicht vorgenommen.
 
 % TODO weitere tests: spiegelnde flächen bilder aufnehmen und nach winkel evaluieren ob ein Hindernis erkannt wird
-% TODO samplpoint radius veränderung
+
 % TODO BILDER AUFNEHMEN
 
 % ---------------------- section -----------------------
@@ -40,11 +43,11 @@ Hinsichtlich der Robustheit werden beide Algorithmen nach demselben Schema unter
 \hline
 Hindernis   & Radius & Länge & Breite & Fläche \\
 \hline
-Groß   		&   -    & 53.5  & 43.0   & 2300.5 \\
+1 (Groß)   	&   -    & 53.5  & 43.0   & 2300.5 \\
 \hline
-Mittel 		& 	-    & 16.0  & 14.5   & 232.0\\
+2 (Mittel) 	& 	-    & 16.0  & 14.5   & 232.0\\
 \hline
-Klein		&  2.5	 &   -   &   -    & 19.6 \\
+3 (Klein)	&  2.5	 &   -   &   -    & 19.6 \\
 \hline	
 \end{tabular}
 \caption{Maße der verschiedenen genutzten Hindernisse}
@@ -165,7 +168,7 @@ Durch die wesentlich höhere Anzahl an betrachteten Bereichen innerhalb der Disp
 
 \noindent
 \textbf{Großes Hindernis:}\\
-Die Erkennung großer Objekte der Samplepoint Detection weist nahezu keine Fehler auf. Abbildung \ref{fig:sample_eval_big} zeigt das jede der 12 Ausrichtungen des Objektes erkannt wurden. Die dabei auftretenden Differenzen zwischen der berechneten sowie gemessenen Distanz sind auf Messungenauigkeiten zurückzuführen. Auch in Grenzbereichen nahe dem Rand des Gefahrenbereichs wurden die Hindernisse erkannt. 
+Die Erkennung großer Objekte der Samplepoint Detection weist nahezu keine Fehler auf. Abbildung \ref{fig:sample_eval_big} zeigt das jede der 12 Ausrichtungen des Objektes erkannt wurden. Die dabei auftretenden Differenzen zwischen der berechneten sowie gemessenen Distanz sind auf Messungenauigkeiten zurückzuführen. Auch in Grenzbereichen nahe dem Rand des Gefahrenbereichs wurden die Hindernisse erkannt.\\
 
 \begin{figure}[h]
 	\centering
@@ -232,10 +235,10 @@ Weiterhin ist auch die statistische Auswertung der Distanzen in Boxplot \ref{fig
 \section{Weitere Versuche}
 \label{sec:further_tests}
 
-Hinsichtlich der verschiedenen möglichen Faktoren welche eine erfolgreiche Erkennung beeinflussen können wurden im Rahmen der Evaluation beider Algorithmen weitere Tests durchgeführt. Jene umfassen die Erkennung kleiner Hindernisse unter Veränderung der Größe des Matching-Blocks. Weiterhin wird die Erkennung kritischer Umgebungen (durchsichtige, reflektierende und homogener Flächen) getestet. Anschließend erfolgt ein weiter Versuch welcher auf die Veränderung des Samplepoint Radius und die damit verbundenen Änderungen in der Erkennung abzielt. Das während des Tests genutzte Setup wurde während der Aufnahme nicht verändert. Auch das Objekt befand sich für jede Blockgröße an der jeweiligen Distanz. Zur Durchführung der Tests wurde das in Abschnitt \ref{sec:evaluierung_subimage} und\ref{sec:evaluierung_samplepoint} genutzte kleine Hindernis verwendet.
+Hinsichtlich der verschiedenen möglichen Faktoren welche eine erfolgreiche Erkennung beeinflussen können wurden im Rahmen der Evaluation beider Algorithmen weitere Tests durchgeführt. Jene umfassen die Erkennung kleiner Hindernisse unter Veränderung der Größe des Matching-Blocks. Weiterhin wird die Erkennung kritischer Umgebungen (durchsichtige und  reflektierende Flächen) getestet. Anschließend erfolgt ein weiter Versuch welcher auf die Veränderung des Samplepoint Radius und die damit verbundenen Änderungen in der Erkennung abzielt. Das während des Tests genutzte Setup wurde während der Aufnahme nicht verändert. Auch das Objekt befand sich für jede Blockgröße an der jeweiligen Distanz. Zur Durchführung der Tests wurde das in Abschnitt \ref{sec:evaluierung_subimage} und \ref{sec:evaluierung_samplepoint} genutzte kleine Hindernis verwendet.
 
 \noindent
-\subsection{Veränderung der \emph{SGBM} Block Größe}
+\subsection{Erkennung unter Veränderung der \emph{SGBM} Block Größe}
 \label{subsec:block_size_change}
 
 \textbf{Subimage Detecion:}\\
@@ -335,6 +338,82 @@ Die Änderung der Blockgröße hat auch bei der Samplepoint Detection keinen sig
 \noindent
 Dabei lässt sich in allen Bildern welche im Abstand von 100 Zentimetern aufgenommen erkennen, dass das eigentliche Hindernis nicht mehr gefunden wurde, sondern die Befestigung dessen das erkannte Hindernis repräsentiert. Ein Grund für diese \enquote{falsch}-Erkennung könnte auch hier die Verwendung des Mittelwertes, sowie der nicht beachtete Raum zwischen den einzelnen Samplepoints sein. Bei einem Radius von 2 Pixeln beträgt dieser ebenfalls 2 Pixel. Eine Verzerrung der Werte durch den Hintergrund ist in diesem Fall unwahrscheinlich, die Verbindung der Distanz sowie der geringen Aufnahmeauflösung der Kameras führt eher dazu, dass das Hindernis vor dem Hintergrund als Teil dessen wirkt. Die plausibelste Fehlerquelle ist daher am wahrscheinlichsten die zugrunde liegende Disparitätenkarte.
 
+\subsection{Erkennung von reflektierenden und durchsichtigen Bereichen}
+\label{subsec:test_reflection_translucency}
+
+Die Erkennung von Hindernissen bei reflektierenden sowie durchsichtigen Flächen wurde mit vier verschiedenen Tests untersucht. Zunächst wurde untersucht wie sich das System bei durchsichtigen Flächen (etwa Fensterglas) verhält. Anschliessend wurde die Erkennung bei reflektierenden Flächen untersucht sowohl im 90$^\circ$ Winkel, also mit direkter Sicht auf das zu erkennende Hindernis als auch unter verschiedenen Winkeln. Weiterhin wurde untersucht inwiefern sich das System bei einer Kombination beider Problemstellungen verhält. Die verwendete Methode zur Hinderniserkennung ist in allen folgenden Tests die Samplepoint Detection. Die Gefahrenzone wurde auf $0,1$ bis $1,0$ Meter definiert.\\
+
+\noindent
+Zur Untersuchung reflektierender Flächen wurde der spiegelnde Bildschirm eines Fernsehers genutzt. Da die Berechnung von Disparitätenkarten auch unter nicht optimalen Lichtverhältnissen robuste Ergebnisse liefert (Abbildung \ref{fig:dark_disparity}) stellt auch die Schwarze Grundfarbe des spiegelnden Objektes kein Konflikt dar. Trotz dessen wurde die Belichtungszeit der Kameras auf 60 - 70 ms gesetzt, was zwar die Performance beeinflusst jedoch die erhaltenen Bilder erheblich verbessert.
+
+\begin{figure}[h]
+	\centering
+	\begin{tabular}{ccc}
+		\includegraphics[width=5cm]{img/brightness/bright_left} &
+		\includegraphics[width=5cm]{img/brightness/middle_left} \\
+		(a1) &
+		(b1)\\
+		\includegraphics[width=5cm]{img/brightness/bright_dis} &
+		\includegraphics[width=5cm]{img/brightness/middle_dis} \\
+		(a2) &
+		(b2)
+	\end{tabular}
+	\caption{Vergleich zwischen einer hellen aufgenommenen Szene in (a1) und (a2) sowie den dazu gehörigen Disparitätenkarten in (a2) und (b2).}
+	\label{fig:dark_disparity}
+\end{figure}
+
+\noindent
+Die aufgenommenen Ergebnisse zeigen auf das Hindernisse erkannt wurden, jedoch ist der Ursprung dieser nicht eindeutig zu erkennen. Abbildung \ref{fig:reflection_only} stellt die berechneten und aufgenommenen Distanzen gegenüber. Aus diesen sind ebenfalls deutlich die Fehler innerhalb der Berechnung zu erkennen.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=7cm]{img/reflection/reflection_bar}
+	\caption{}
+	\label{fig:reflection_only}	
+\end{figure}
+
+\noindent
+Ein weitere durchgeführter Versuch beinhaltet die Veränderung des Winkels zwischen Kamera und reflektierender Ebene. Die ausgehende Vermutung ist die Erkennung dieser aufgrund diverser Lichtreflexionen. Dazu wurden die Bilder aus 3 verschiedenen Winkeln (45, 22,5 und 12,25$^\circ$) aufgenommen.
+% TODO ausdenken woher die komischen werte kommen
+ Dabei repräsentieren die einzelnen Versuche die jeweiligen Winkel in aufsteigender Reihenfolge. Die gemessenen Distanzen repräsentieren jeweils die Hypotenuse des rechtwinkligen Dreiecks welches durch die Kameras und die beiden Punkte auf der Reflexionsebene gespannt wird. Die direkten Distanzen entsprechen somit (in selbiger Reihenfolge) 84, 56 und 53 Zentimeter 
+\noindent
+Aus diesen wird ersichtlich, dass kein Hindernis valide erkannt werden konnte. Die erkannten Hindernispunkte resultieren aus Fehlern durch die zugrunde liegenden Bilder.\\
+
+\noindent
+Eine Kombination von Reflexion und Durchsichtigkeit brachte ebenfalls keine validen Ergebnisse. In den ersten fünf Versuchen wurden zwar Hindernisse erkannt, jedoch weitaus näher, als sie sich eigentlich befunden haben. Zudem wurden Hindernisse erkannt obwohl  sich keines innerhalb der Gefahrenzone befunden hat. Ab Versuch 5 befand sich das Fenster innerhalb der Gefahrenzone. Die in Abbildung REF abgebildeten Disparitätenkarten zeigen jedoch das zumeist nur wenige Punkte erkannt wurden welche nicht das Objekt als ganzes abbilden. Die gefundenen Hindernisse sind das Resultat eines reflektierten Lichts auf dem Glas. Abbildung \ref{fig:combined} zeigt eben diese Ergebnisse. 
+
+\begin{figure}
+	\centering
+	\includegraphics[width=7cm]{img/reflection/combined_bar}
+	\caption{}
+	\label{fig:combined}
+\end{figure} 
+
+% garnichts erkennbar
+% spiegelungen von licht etc 
+% bild bei dunkelheit und schlechtem licht mit guter dmap um zu zeigen das es nicht an der dunkelheit liegt
+
+% spiegelungen im screen teilweise erkannt.
+% winkel verbessert berechnung nicht wirkich
+% beriche neben dem screen werden klar erkannt
+% screen an sich nur dunkelheut und mismatches
+% verschiedene winkel 45, 22,5 12,5 
+
+% spiegelung und reflexion 
+% reflektierte objekte teilweise erkannt 
+% in abhängigkeit von der camera -> reflection plane + reflection plane -> obj
+% generell sehr viele falschberechnungen
+% 
+
+
+\subsection{Erkennung unter Veränderung des Samplepoint Radius}
+\label{subsec:test_samplepoint_radius}
+
+Im Gegensatz zur Subimages bietet die Verwendung von Samplepoints neben der Gefahrenzone die Größe des Radius als veränderlichen Parameter. Im Rahmen der Evaluierung wurde getestet welche Auswirkung die Modifikation dessen auf die Erkennung hat. Dazu wurden die Konfigurationen 0 - 4 (0 indiziert dabei keinen Radius und somit die Verwendung eines einzelnen Pixels) mit jeweils fünf verschiedenen Positionen des kleinen Hindernisses gestestet. Hindernis 1 und 2 wurden aufgrund der vorherigen robusten Ergebnisse in diesem Test nicht betrachtet.\\
+
+\noindent
+Die Veränderung des Samplepoint Radius brachte lediglich bei der Verwendung eines einzelnen Pixels eine wahrzunehmende Veränderung mit sich. Das Hindernis wurde bei größeren Entfernungen zwar besser erkannt, jedoch wurden ebenfalls Bereiche mit Fehlinformationen als Hindernis gedeutet.
+
 % ---------------------- section -----------------------
 \section{Diskussion}
 \label{sec:evaluation_Diskussion}
@@ -343,10 +422,10 @@ Dabei lässt sich in allen Bildern welche im Abstand von 100 Zentimetern aufgeno
 Die in den Abschnitten \ref{sec:evaluierung_subimage} und \ref{sec:evaluierung_samplepoint} erlangten Ergebnisse belegen die generelle Funktionsweise beider Algorithmen. Die Grundidee der Methoden gleicht sich in einigen Punkten, ebenso die Resultate. Beide Algorithmen liefern robuste Ergebnisse unter der Voraussetzung einer gewissen Hindernisgröße, wobei das kleine Objekt die größte Anforderung an diese stellt. Die Detektion des großen sowie mittleren Hindernisses ergab in allen Versuchen die Ergebnisse mit den niedrigsten Differenzen zwischen berechneten und gemessenen Entfernungen.\\
 
 \noindent
-Das Konzept der Subimage Detection ist in Bezug auf große und mittlere Hindernisse als robust einzustufen, jedoch ist die Berechnung des Medians der Matrizen auch der größte Konflikt. Weist der Hintergrund eines Objektes sehr geringe Disparitäten auf, so besteht die Möglichkeit das der Hintergrund den Mittelwert eines einzelnen Subimages insofern beeinflusst, dass das Hindernis (innerhalb dieser Submatrix) nicht mehr erkannt werden kann. Dies ließ sich bei nahezu allen Versuchen und Hindernisgrößen beobachten. Im Fall der großen und mittleren Hindernisse stellt dies keinen Konflikt dar, da die Fläche der Hindernisse trotzdem für eine Erkennung ausreicht. Ungeachtet dessen stellt gerade dieser Konflikt ein Problem in der Erkennung einzelner kleiner Hindernisse dar.\\
+Das Konzept der Subimage Detection ist in Bezug auf große und mittlere Hindernisse als robust einzustufen, jedoch ist die Berechnung des Mittelwertes der Matrizen auch der größte Konflikt. Weist der Hintergrund eines Objektes sehr geringe Disparitäten auf, so besteht die Möglichkeit das der Hintergrund den Mittelwert eines einzelnen Subimages insofern beeinflusst, dass das Hindernis (innerhalb dieser Submatrix) nicht mehr erkannt werden kann. Dies ließ sich bei nahezu allen Versuchen und Hindernisgrößen beobachten. Im Fall der großen und mittleren Hindernisse stellt dies keinen Konflikt dar, da die Fläche der Hindernisse trotzdem für eine Erkennung ausreicht. Ungeachtet dessen stellt gerade dieser Konflikt ein Problem in der Erkennung einzelner kleiner Hindernisse dar.\\
 
 \noindent
-Die Erkennung von Hindernissen mit Hilfe der Samplepoints ist ebenfalls eine robuste Methode. Dabei reicht die Anzahl der umfassenden Pixel eines jeden aus um selbst kleine Hindernisse zu erkennen. Der nicht beachtete Bereich zwischen den Samplepoints kann entweder 6, 4, 2 oder keinen Pixel betragen, in Abhängigkeit des verwendeten Radius. Dies reicht jedoch nicht immer um das eigentliche Hindernis zu erkennen. In vielen Fällen wurde das eigentliche Hindernis nicht mehr direkt erkannt, sondern die Befestigung dessen. Wie bereits in Abschnitt \ref{sec:evaluierung_samplepoint} angedeutet liegt das Problem dabei in der zugrunde liegenden Disparitätenkarte. Der hintere Bereich der Szene unterscheidet sich farblich nicht signifikant vor der Farbe des Hindernisses. Zudem ist das Objekt bei einer Entfernung von 150 Zentimetern so klein das es höchstwahrscheinlich vom Blockmatching Algorithmus übergangen oder mit benachbarten Bereichen verbunden wird.\\
+Die Erkennung von Hindernissen mit Hilfe der Samplepoints ist ebenfalls eine robuste Methode. Dabei reicht die Anzahl der umfassenden Pixel eines jeden aus um selbst kleine Hindernisse zu erkennen. Der nicht beachtete Bereich zwischen den Samplepoints kann entweder 6, 4, 2 oder keinen Pixel betragen, in Abhängigkeit des verwendeten Radius. Dies reicht jedoch nicht immer um das eigentliche Hindernis zu erkennen. In vielen Fällen wurde das eigentliche Hindernis nicht mehr direkt erkannt, sondern die Befestigung dessen. Wie bereits in Abschnitt \ref{sec:evaluierung_samplepoint} angedeutet liegt das Problem dabei in der zugrunde liegenden Disparitätenkarte. Der hintere Bereich der Szene unterscheidet sich farblich nicht signifikant vor der Farbe des Hindernisses. Zudem ist das Objekt bei einer Entfernung von 150 Zentimetern so klein das es höchstwahrscheinlich durch die verwendete Blockgröße nicht erkannt oder mit benachbarten Bereichen verbunden wird.\\
 
 \noindent
 In Kapitel \ref{chp:developed_algorithms} wurden die Abläufe und Funktionsweisen der einzelnen Algorithmen detailliert beschrieben. Der dabei erläuterte finale Prozess einer Hinderniserkennung (also eines verarbeiteten Disparity Frames) beinhaltet die Erstellung einer Pointcloud bestehend aus den erkannten Hindernissen.\\
@@ -354,6 +433,7 @@ In Kapitel \ref{chp:developed_algorithms} wurden die Abläufe und Funktionsweise
 \noindent
 Eine Veränderung der SGBM Blockgröße brachte keine signifikanten Verbesserungen in der Hinderniserkennung mit sich. Im Fall der Subimage Detection wurden kleine Hindernisse weder besser noch schlechter erkannt. Ab eine Distanz von mehr als 50 Zentimetern erfolgte keine weitere Detektion. Auch die Ergebnisse der Samplepoint Detection veränderten sich nicht maßgeblich. Jegliche Differenz zwischen den erkannten und berechneten Distanzen resultiert daher eher aus der zugrunde liegenden Disparitätenkarte. Trotz dessen erscheinen die Erkennung bei einer Blockgröße von 13 Pixeln als am präzisesten. Auf eine Durchführung der Parameteränderung unter Benutzung des mittleren sowie großen Hindernisses wurde aufgrund der robusten Ergebnisse beider bewusst verzichtet.\\
 
-% spiegelnd durchsichtig foo
-% veränderung der samplepoint pixelgröße
+% spiegelnd durchsichtig
+
 \noindent
+Die Anpassung des Subimage Radius brachte ebenfalls keine signifikanten Verbesserungen in der Erkennung. Zwar wurde Hindernis 3 bei größeren Entfernungen besser erkannt, jedoch ging damit auch die Erkennung von Bereichen welche falsche Werte enthalten als Hindernis einher. Dieser ungewünschte Nebeneffekt kann bei eine realen Anwendung zu Falschentscheidungen von Seiten der Hindernisvermeidung führen und somit im schlimmsten Fall zum Ausfall des UAV. 
