@@ -21,7 +21,7 @@ Im Rahmen des Kapitels \enquote{Evaluation} wurden beide entwickelten Methoden i
 \subsection{Performance}
 \label{subsec:discussion_performance}
 
-Hinsichtlich der Performance der entwickelten Systeme wurden verschiednen Punkte betrachtet. Die zugrunde liegende Berechnung der Disparity Map ist der wohl wichtigste Faktor. Ist dieser Prozess langsam, so ist auch die Performance der Hinderniserkennung eingeschränkt. Weiterhin wird auch die Performance der einzelnen Methoden untersucht. Dabei werden folgende Situationen untersucht:
+Hinsichtlich der Performance der entwickelten Systeme wurden verschiednen Punkte betrachtet. Die zugrunde liegende Berechnung der Disparitätenkarte ist der wohl wichtigste Faktor. Ist dieser Prozess langsam, so ist auch die Performance der Hinderniserkennung eingeschränkt. Weiterhin wird auch die Performance der einzelnen Methoden untersucht. Dabei werden folgende Situationen untersucht:
 \begin{enumerate}
 	\item Analyse der gesamten Schleife des Hauptprogramms
 	\begin{enumerate}
@@ -38,7 +38,7 @@ Hinsichtlich der Performance der entwickelten Systeme wurden verschiednen Punkte
 \end{enumerate}
 
 \noindent
-Zu Beginn ist ein essenzieller Schritt die Geschwindigkeit der Disparity Map Berechnung zu analysieren. Dabei wurden beide Kameras im gebinnten Modus getestet. Die Aufnahmerate der Kameras beträgt dabei 50 Frames pro Sekunde bei einer Verschlusszeit von 10000 µs. Die unter Veränderung der Blockgröße erhaltenen Parameter sind in Tabelle \ref{tbl:disparity_framerate} dargestellt. Aus dieser ist zu erkennen, dass eine Modifikation dieses Parameters nur marginale Änderungen in der Geschwindigkeit auftreten. Die folgendenen gemessenen Werte sind die durchschnittliche Framerate aus 1000 Einzelbildern.
+Zu Beginn ist ein essenzieller Schritt die Geschwindigkeit der Berechnung der Disparitätenkarte zu analysieren. Dabei wurden beide Kameras im gebinnten Modus getestet. Die Aufnahmerate der Kameras beträgt dabei 50 Frames pro Sekunde bei einer Verschlusszeit von 10000 µs. Die unter Veränderung der Blockgröße erhaltenen Parameter sind in Tabelle \ref{tbl:disparity_framerate} dargestellt. Aus dieser ist zu erkennen, dass eine Modifikation dieses Parameters nur marginale Änderungen in der Geschwindigkeit auftreten. Die folgenden gemessenen Werte sind die durchschnittliche Framerate aus 1000 Einzelbildern.
 
 \begin{table}[h]
 	\centering
@@ -57,7 +57,7 @@ Zu Beginn ist ein essenzieller Schritt die Geschwindigkeit der Disparity Map Ber
 \end{table}
 
 \noindent
-Die dabei gemessene Bildwiederholrate von 24 Einzelbildern pro Sekunde ist eine gute Voraussetzung für die Hinderniserkennung. Unter der Annahme das es zu keiner Verlangsamung dieser kommt ist es möglich sich mit Einer Geschwindigkeit von $12\frac{m}{s}$ zu bewegen und für jeden zurückgelegten Meter 2 berechnete Disparity Maps zu erhalten. Eine solche Geschwindigkeit ist bei besagter Framerate nicht die präferierte Geschwindigkeit jedoch potentiell möglich. Zudem in weiteren Schritten mehr Zeit für die Hinderniserkennung sowie die Entwicklung einer Vermeidungsstrategie in Betracht gezogen werden muss.\\
+Die dabei gemessene Bildwiederholrate von 24 Einzelbildern pro Sekunde ist eine gute Voraussetzung für die Hinderniserkennung. Unter der Annahme das es zu keiner Verlangsamung dieser kommt ist es möglich sich mit Einer Geschwindigkeit von $12\frac{m}{s}$ zu bewegen und für jeden zurückgelegten Meter 2 berechnete Disparitätenkarten zu erhalten. Eine solche Geschwindigkeit ist bei besagter Framerate nicht die präferierte Geschwindigkeit jedoch potentiell möglich. Zudem in weiteren Schritten mehr Zeit für die Hinderniserkennung sowie die Entwicklung einer Vermeidungsstrategie in Betracht gezogen werden muss.\\
 
 \noindent
 Die Geschwindigkeit der eigentlichen Hinderniserkennung ist ebenfalls ein wesentlicher Faktor in der Betrachtung der gesamten Performance. Dazu wurden besaget Tests durchgeführt. Die daraus erhaltenen Ergebnisse für die Subimage Detection finden sich in Tabelle \ref{tbl:subimage_framerate}.
@@ -92,7 +92,7 @@ Aus dieser wird ersichtlich, dass Szenario 1(a), welches einer echten Anwendung 
 \end{equation}
 
 \noindent
-Die somit verloren gegangenen Frames sorgen noch immer für eine schnelle Erkennung von Hindernissen. Die hohe Framerate in 2(b) resultiert aus der Funktionsweise der detectObstacles Funktion. Jene berechnet nur eine Pointcloud wenn die aktualisierten Werte innerhalb der Gefahrenzone liegen. Ohne vorhandene Hindernisse passiert somit nichts.\\
+Die somit verloren gegangenen Frames sorgen noch immer für eine schnelle Erkennung von Hindernissen. Die hohe Framerate in 2(b) resultiert aus der Funktionsweise der \emph{detectObstacles} Funktion. Jene berechnet nur eine Pointcloud wenn die aktualisierten Werte innerhalb der Gefahrenzone liegen. Ohne vorhandene Hindernisse passiert somit nichts.\\
 
 \noindent
 Die nachfolgende Tabelle (\ref{tbl:samplepoint_framerate}) stellt die Ergebnisse des Versuches für die Samplepoint Detection dar. Auf den ersten Blick sind die erreichten Framerates (mit Ausnahme der Aktualisierung, sowie der Hinderniserkennung) generell niedriger als jene der Subimage Detection. 
