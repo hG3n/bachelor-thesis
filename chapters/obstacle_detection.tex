@@ -3,6 +3,12 @@ Im Rahmen dieser Arbeit wurden zwei Ansätze zur Erkennung von Hindernissen in E
 \noindent
 Im folgenden Kapitel werden beide Methoden detailliert beleuchtet. Zu Beginn wird die zugrunde liegende Klassenstruktur beschrieben. In Abschnitt \ref{sec:mean_disparity_detection} die \emph{Subimage Detection} erläutert, wobei auf das grundlegende Konzept sowie den Algorithmus zur Erkennung selber eingegangen wird. Selbiges gilt für die \emph{Samplepoint Detection} in Abschnitt \ref{sec:samplepoint_detection}.
 
+% ---------------------- section -----------------------
+\section{Applikationsstruktur}
+\label{sec:structure}
+
+Die grundlegende Struktur beider im Rahmen dieser Arbeit entwickelten Methoden ist dieselbe. Die abstrakte Klasse \emph{ObstacleDetection} (siehe Abbildung \ref{fig:obstacle_detection_structure} vererbt alle grundlegenden, für die Erkennung auf Basis von Einzelbildern benötigten Methoden an je eine abgeleitete Klasse, welche eine Methode der Hinderniserkennung repräsentiert. Zu diesen zählen die Funktionen \emph{build} und \emph{detectObstacles}. Die Ausführung beider in jedem Frame ist essenziell notwendig um die benötigten Daten innerhalb jedes Einzelbildes vorliegen zu haben. Dabei dient die \emph{build} Funktion zur Aktualisierung der zugrundeliegenden Teilbereiche der Disparitätenkarte. Anschliessend wird in der Funktion \emph{detectObstacles} für jeden Wert überprüft ob sich dieser innerhalb der definierten Gefahrenzone befindet. Zusätzlich zu den Funktionen der Basisklasse besitzt jede Methode eine Funktion zur Initialisierung dieser. Bei dieser wird die eigentliche Struktur der Subimages und Samplepoints erstellt, sowie die aktuelle Gefahrenzone definiert. Im Fall der Samplepoint Detection wird ausserdem der Radius dieser festgelegt.
+
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=13cm]{img/class_structure}
@@ -10,7 +16,7 @@ Im folgenden Kapitel werden beide Methoden detailliert beleuchtet. Zu Beginn wir
 	\caption{Klassenstruktur der Hinderniserkennung}
 	\label{fig:obstacle_detection_structure}
 \end{figure}
-% TODO add text explaining the class structure
+
 
 % ---------------------- section -----------------------
 \section{Preprocessing}
