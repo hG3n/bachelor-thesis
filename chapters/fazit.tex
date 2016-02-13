@@ -1,10 +1,21 @@
-Lorim ipsum dolor sit amet.
+Im Rahmen dieser Arbeit wurden zwei Methoden zur Erkennung von Hindernissen in Echtzeit entwickelt. Die grundlegende Funktionsweise beider Methoden unterscheidet sich nur in der Verwendung ihrer zugrundeliegenden Datenstruktur. Trotzdessen ist im Lauf der Entwicklung ein deutlicher Unterschied in der Robustheit sowie der Performance zu erkennen gewesen. In zukünftigen Arbeiten sollten beide Methoden in realen Szenarien getestet werden.\\
+
+\noindent
+Die während der Evaluation erhaltenen Daten deuten auf eine robuste Funktionsweise beider Methoden hin. Die getestete Performance ist, gerade bei zusätzlich skalierten Bildern so gut, dass prinzipiell auch Echtzeitanwendungen bei hoher Geschwindigkeit denkbar sind. Weiterhin erlaubt gerade die hohe Performance zusätzliche Berechnungen zur Verbesserung der Hinderniserkennung.\\
+
+\noindent
+Zur Verbesserung der Ergebnisse ist zudem die Entwicklung eines eigenen Algorithmus zur Berechnung der Disparitätenkarte denkbar. Dieser sollte sowohl schnelle als auch robuste Ergebnisse liefern, wobei die visuelle Qualität nicht die oberste Priorität ist. Eine Parallelisierung dessen ist dabei zur Verbesserung der Performance überlegenswert.\\
+
+\noindent
+Weiterhin ist die Integration des entwickelten Systems in einen ROS Node zur weitergehenden Verwendung durch SLAM Algorithmen ein wichtiger Bestandteil zukünftiger Arbeiten. Damit verbunden ist gleichzeitig die Entwicklung eines Systems zur Hindernisvermeidung unter Verwendung der erstellten Punktwolken. In Kombination mit der aktuellen Position sowie Rotation der Drohne im Raum ist die darauffolgende Kartographierung gefundener Hindernisse möglich.\\
+
+\noindent
 
 
 
 % performance sehr gut
 % nicht parallelisiert --> einerseits genug raum fuer SLAM algorithmen oä, andererseits weniger performance in der hinderniserkennung jedoch gut daher wahrscheinlich egal
-% tests des aktuellen systems in während echter fluege, auswertung der daten frame by frame
+
 % erkennung kleiner hindernissc im binning mode muss verbessert werden oder performance des ungebinnten höher
 % implementierung in ros node weiterleitung der ergebnisse mithilfe von messages kp wie das geht
 % limitierungen klären
