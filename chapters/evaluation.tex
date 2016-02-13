@@ -20,7 +20,6 @@ Der zu erkennende Bereich wurde auf $0,2$ bis $1,5$ Meter definiert. Dies entspr
 Ein aufgenommenes Testset besteht aus jeweils 12 Testbildern. Für jede Methode wurden drei verschiedene Hindernisgrößen getestet, groß, mittel und kleine Hindernisse. Anhand dieser wird ausgewertet welche minimale, maximale sowie mittlere Disparität, und daraus resultierende Distanz erkannt wird.\\
 
 \noindent
-% TODO checken welche tests final noch in der arbeit enthalten sind
 Weitere Tests beinhalten die Erkennung kleiner Hindernisse unter Veränderung der \emph{SGBM} Parameter. Dabei wird unter anderem untersucht ob beispielsweise eine verringerte Blockgröße Einfluss auf die Erkennung kleiner Bereiche nimmt. Da die Samplepoint Detection den Radius als modifizierbaren Parameter mit sich bringt, wird auch dahingehend untersucht inwiefern die Wahl eines anderen Radius die Ergebnisse der Erkennung beeinflusst. Des Weiteren wird die Zeit für die Hinderniserkennung eines Frames untersucht um eine durchschnittliche Zeit für die Erkennung sowie die daraus resultierende Framerate zu ermitteln. Dies geschieht durch die Erkennung eines Hindernisses, welches sich über das gesamte Bild ausbreitet, sowie für nur ein Teilelement jeder Erkennungsmethode (Subimage, Samplepoint). Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} umgehen können. Dazu zählen die Erkennung bei reflektierenden und durchsichtigen Flächen.\\
 
 \noindent
@@ -340,10 +339,10 @@ Dabei lässt sich in allen Bildern welche im Abstand von 100 Zentimetern aufgeno
 \subsection{Erkennung von reflektierenden und durchsichtigen Bereichen}
 \label{subsec:test_reflection_translucency}
 
-Die Erkennung von Hindernissen bei reflektierenden sowie durchsichtigen Flächen wurde mit vier verschiedenen Tests untersucht. Zunächst wurde untersucht wie sich das System bei durchsichtigen Flächen (etwa Fensterglas) verhält. Anschliessend wurde die Erkennung bei reflektierenden Flächen untersucht sowohl im 90$^\circ$ Winkel, also mit direkter Sicht auf das zu erkennende Hindernis als auch unter verschiedenen Winkeln. Weiterhin wurde untersucht inwiefern sich das System bei einer Kombination beider Problemstellungen verhält. Die verwendete Methode zur Hinderniserkennung ist in allen folgenden Tests die Samplepoint Detection. Die Gefahrenzone wurde auf $0,1$ bis $1,0$ Meter definiert.\\
+Die Erkennung von Hindernissen bei reflektierenden sowie durchsichtigen Flächen wurde mit drei verschiedenen Tests untersucht. Zunächst wurde untersucht wie sich das System bei spiegelnden Flächen (etwa Fensterglas) verhält. Anschliessend wurde die Erkennung bei reflektierenden Flächen untersucht sowohl im 90$^\circ$ Winkel, also mit direkter Sicht auf das zu erkennende Hindernis als auch unter diversen anderen Winkeln. Weiterhin wurde untersucht inwiefern sich das System bei einer Kombination beider Problemstellungen verhält. Die verwendete Methode zur Hinderniserkennung ist in allen folgenden Tests die Samplepoint Detection. Die Gefahrenzone wurde auf $0,1$ bis $1,0$ Meter definiert.\\
 
 \noindent
-Zur Untersuchung reflektierender Flächen wurde der spiegelnde Bildschirm eines Fernsehers genutzt. Da die Berechnung von Disparitätenkarten auch unter nicht optimalen Lichtverhältnissen robuste Ergebnisse liefert (Abbildung \ref{fig:dark_disparity}) stellt auch die Schwarze Grundfarbe des spiegelnden Objektes kein Konflikt dar. Trotz dessen wurde die Belichtungszeit der Kameras auf 60 - 70 ms gesetzt, was zwar die Performance beeinflusst jedoch die erhaltenen Bilder erheblich verbessert.
+Zur Untersuchung reflektierender Flächen wurde der spiegelnde Bildschirm eines Fernsehers genutzt. Da die Berechnung von Disparitätenkarten auch unter nicht optimalen Lichtverhältnissen robuste Ergebnisse liefert (Abbildung \ref{fig:dark_disparity}) stellt auch die Schwarze Grundfarbe des spiegelnden Objektes kein Konflikt dar. Trotz dessen wurde die Belichtungszeit der Kameras auf 60 - 70 ms gesetzt, was zwar die Performance beeinflusst jedoch die erhaltenen Bilder erheblich verbesse\\rt.
 
 \begin{figure}[h]
 	\centering
@@ -372,11 +371,17 @@ Die aufgenommenen Ergebnisse zeigen auf das Hindernisse erkannt wurden, jedoch i
 \end{figure}
 
 \noindent
-Ein weitere durchgeführter Versuch beinhaltet die Veränderung des Winkels zwischen Kamera und reflektierender Ebene. Die ausgehende Vermutung ist die Erkennung dieser aufgrund diverser Lichtreflexionen. Dazu wurden die Bilder aus 3 verschiedenen Winkeln (45, 22,5 und 12,25$^\circ$) aufgenommen.
-% TODO ausdenken woher die komischen werte kommen
- Dabei repräsentieren die einzelnen Versuche die jeweiligen Winkel in aufsteigender Reihenfolge. Die gemessenen Distanzen repräsentieren jeweils die Hypotenuse des rechtwinkligen Dreiecks welches durch die Kameras und die beiden Punkte auf der Reflexionsebene gespannt wird. Die direkten Distanzen entsprechen somit (in selbiger Reihenfolge) 84, 56 und 53 Zentimeter 
+Ein weitere durchgeführter Versuch beinhaltet die Veränderung des Winkels zwischen Kamera und reflektierender Ebene. Die ausgehende Vermutung ist die Erkennung dieser aufgrund diverser Lichtreflexionen. Dazu wurden die Bilder aus 3 verschiedenen Winkeln (45, 22,5 und 12,25$^\circ$) aufgenommen unter Verwendung der Mitte der Basislinie als Rotationszentrum. Dabei repräsentieren die einzelnen Versuche die jeweiligen Winkel in absteigender Reihenfolge. Die gemessenen Distanzen repräsentieren jeweils die Hypotenuse des rechtwinkligen Dreiecks welches durch die Kameras und die beiden Punkte auf der Reflexionsebene gespannt wird. Abbildung \ref{fig:rotation_angle} stellt die erlangten Ergebnisse dar.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=7cm]{img/reflection/angle_bar}
+	\caption{}
+	\label{fig:rotation_angle}
+\end{figure}
+
 \noindent
-Aus diesen wird ersichtlich, dass kein Hindernis valide erkannt werden konnte. Die erkannten Hindernispunkte resultieren aus Fehlern durch die zugrunde liegenden Bilder.\\
+Aus diesen wird ersichtlich, dass kein Hindernis valide erkannt werden konnte. Die Differenz zwischen gemessenen und berechnetn Distanzen deutet auf Fehler in der Berechnung der Disparitätenkarte aufgrund der Reflexion hin.\\
 
 \noindent
 Eine Kombination von Reflexion und Durchsichtigkeit brachte ebenfalls keine validen Ergebnisse. In den ersten fünf Versuchen wurden zwar Hindernisse erkannt, jedoch weitaus näher, als sie sich eigentlich befunden haben. Zudem wurden Hindernisse erkannt obwohl  sich keines innerhalb der Gefahrenzone befunden hat. Ab Versuch 5 befand sich das Fenster innerhalb der Gefahrenzone. Die in Abbildung REF abgebildeten Disparitätenkarten zeigen jedoch das zumeist nur wenige Punkte erkannt wurden welche nicht das Objekt als ganzes abbilden. Die gefundenen Hindernisse sind das Resultat eines reflektierten Lichts auf dem Glas. Abbildung \ref{fig:combined} zeigt eben diese Ergebnisse. 
@@ -386,23 +391,7 @@ Eine Kombination von Reflexion und Durchsichtigkeit brachte ebenfalls keine vali
 	\includegraphics[width=7cm]{img/reflection/combined_bar}
 	\caption{}
 	\label{fig:combined}
-\end{figure} 
-
-% garnichts erkennbar
-% spiegelungen von licht etc 
-% bild bei dunkelheit und schlechtem licht mit guter dmap um zu zeigen das es nicht an der dunkelheit liegt
-
-% spiegelungen im screen teilweise erkannt.
-% winkel verbessert berechnung nicht wirkich
-% beriche neben dem screen werden klar erkannt
-% screen an sich nur dunkelheut und mismatches
-% verschiedene winkel 45, 22,5 12,5 
-
-% spiegelung und reflexion 
-% reflektierte objekte teilweise erkannt 
-% in abhängigkeit von der camera -> reflection plane + reflection plane -> obj
-% generell sehr viele falschberechnungen
-% 
+\end{figure}
 
 
 \subsection{Erkennung unter Veränderung des Samplepoint Radius}
@@ -432,7 +421,9 @@ In Kapitel \ref{chp:developed_algorithms} wurden die Abläufe und Funktionsweise
 \noindent
 Eine Veränderung der SGBM Blockgröße brachte keine signifikanten Verbesserungen in der Hinderniserkennung mit sich. Im Fall der Subimage Detection wurden kleine Hindernisse weder besser noch schlechter erkannt. Ab eine Distanz von mehr als 50 Zentimetern erfolgte keine weitere Detektion. Auch die Ergebnisse der Samplepoint Detection veränderten sich nicht maßgeblich. Jegliche Differenz zwischen den erkannten und berechneten Distanzen resultiert daher eher aus der zugrunde liegenden Disparitätenkarte. Trotz dessen erscheinen die Erkennung bei einer Blockgröße von 13 Pixeln als am präzisesten. Auf eine Durchführung der Parameteränderung unter Benutzung des mittleren sowie großen Hindernisses wurde aufgrund der robusten Ergebnisse beider bewusst verzichtet.\\
 
-% spiegelnd durchsichtig
+\noindent
+Die Erkennung reflektierender und durchsichtiger Flächen führte zu gewissen Konflikten. Hindernisse wurden in nahezu jedem Versuch erkannt, jedoch nur in seltenen Fällen korrekt. Dies kann aus der homogenen Textur der verwendeten Bilder resultieren, welches jedoch unwahrscheinlich ist (siehe Abbildung \ref{fig:dark_disparity}). Der genaue Ursprung der erkannten Hindernispunkte ist nahezu unmöglich zu identifizieren, da die berechnete Disparitätenkarte keine genaue Lokalisierung von Formen der Szene zulässt.\\
+
 
 \noindent
 Die Anpassung des Subimage Radius brachte ebenfalls keine signifikanten Verbesserungen in der Erkennung. Zwar wurde Hindernis 3 bei größeren Entfernungen besser erkannt, jedoch ging damit auch die Erkennung von Bereichen welche falsche Werte enthalten als Hindernis einher. Dieser ungewünschte Nebeneffekt kann bei eine realen Anwendung zu Falschentscheidungen von Seiten der Hindernisvermeidung führen und somit im schlimmsten Fall zum Ausfall des UAV. 
