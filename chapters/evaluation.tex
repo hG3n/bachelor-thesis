@@ -6,22 +6,22 @@ Um die Funktionsweise beider Methoden zu belegen wurden diese sowohl auf ihre Ro
 
 Bei der Durchführung der Tests befinden sich die Kameras statisch im Raum. Um sicher zu stellen, dass sich die Position der Kameras während der einzelnen Versuche nicht verändert wurden diese auf einer Eisenplatte mittels eines Laborstativs magnetisch befestigt (siehe Abbildung \ref{fig:setup}) Die zu erkennenden Hindernisse werden innerhalb und ausserhalb der zu erkennenden Reichweite platziert, wobei die Ausrichtung der Hindernisse teils zufällig, teils bewusst an kritischen Positionen erfolgt um ein reales Anwendungsszenarien passend zu simulieren. Ein aufgenommenes Testset besteht dabei aus beiden Bildern der Kamera, der normalisierten Disparitätenkarte sowie eine komplette Punktwolke dieser um etwaige Fehler der Algorithmen leichter erkennen zu können, sowie den einzelnen Punktwolken der Hinderniserkennung. Weiterhin werden diverse Parameter gespeichert, wie die Anzahl der erkannten Hinderniselemente sowie deren Disparitäten.\\
 
-\begin{figure}[h]
-	\centering
-	\begin{tabular}{ccc}
-		\includegraphics[height=5cm]{img/camera_setup_front} & 
-		\quad \quad \quad \quad \quad \quad \quad & 
-		\includegraphics[height=5cm]{img/camera_setup_side} \\
-		(a) & & (b)
-	\end{tabular}
-	\caption{Ansicht des Kamera frontal (a) und von der Seite (b).}
-	\label{fig:setup}
-\end{figure}
+%\begin{figure}[h]
+%	\centering
+%	\begin{tabular}{ccc}
+%		\includegraphics[height=5cm]{img/camera_setup_front} & 
+%		\quad \quad \quad \quad \quad \quad \quad & 
+%		\includegraphics[height=5cm]{img/camera_setup_side} \\
+%		(a) & & (b)
+%	\end{tabular}
+%	\caption{Ansicht des Kamera frontal (a) und von der Seite (b).}
+%	\label{fig:setup}
+%\end{figure}
 
 \noindent
 Der zu erkennende Bereich wurde auf $0,2$ bis $1,5$ Meter definiert. Dies entspricht einem Szenario in welchem das System auch aufgrund der hohen Framerate der Erkennung angewendet werden kann. Eine Erweiterung dessen auf beispielsweise $2.0$ Meter wurde nicht durchgeführt, da der Algorithmus auch bei großen Entfernungen robuste Werte in der Distanzberechnung liefert \cite{hilleralhallak}. Das nach der Anwendung der ROI auf die Disparitätenkarte erhaltene Sichtfeld (siehe \ref{sec:preprocessing}) beträgt $50^{\circ}$ auf horizontaler Achse und $38^{\circ}$ vertikal. Dies ist in Abbildung \ref{fig:field_of_view} visualisiert.
 	
-	\begin{figure}
+	\begin{figure}[h]
 		\centering
 		\includegraphics[width=8cm]{img/viewport}
 		\caption{Im Bild ist das nach der Rektifizierung sowie Beschneidung der ROI erhaltene Sichtfeld visualisiert. Das Mesh innerhalb des Kamera Frustums repräsentiert die gerenderte Pointcloud eines Hindernisses}
@@ -29,23 +29,14 @@ Der zu erkennende Bereich wurde auf $0,2$ bis $1,5$ Meter definiert. Dies entspr
 	\end{figure}
 
 \noindent
-Ein aufgenommenes Testset besteht aus jeweils 12 Testbildern. Für jede Methode wurden drei verschiedene Hindernisgrößen getestet, groß, mittel und kleine Hindernisse. Anhand dieser wird ausgewertet welche minimale, maximale sowie mittlere Disparität, und daraus resultierende Distanz erkannt wird.\\
+Ein aufgenommenes Testset besteht aus jeweils 12 Testbildern. Für jede Methode wurden drei verschiedene Hindernisgrößen getestet, groß, mittel und kleine Hindernisse (dargestellt in Abbildung \ref{fig:test_obstacles}. Anhand dieser wird ausgewertet welche minimale, maximale sowie mittlere Disparität, und daraus resultierende Distanz erkannt wird. Um eine bessere Vorstellung der Größe der verwendeten Hindernisse zu erhalten werden die Dimensionen dieser in Tabelle \ref{tbl:obstacle_sizes} aufgeführt. Ein großer Abstand zwischen Hindernis 2 und 3 ist dabei gewünscht um die Erkennung sehr kleiner Hindernisse zu untersuchen. \\
 
-\noindent
-Weitere Tests beinhalten die Erkennung kleiner Hindernisse unter Veränderung der \emph{SGBM} Parameter. Dabei wird unter anderem untersucht ob beispielsweise eine verringerte Blockgröße Einfluss auf die Erkennung kleiner Bereiche nimmt. Da die Samplepoint Detection den Radius als modifizierbaren Parameter mit sich bringt, wird auch dahingehend untersucht inwiefern die Wahl eines anderen Radius die Ergebnisse der Erkennung beeinflusst. Des Weiteren wird die Zeit für die Hinderniserkennung eines Frames untersucht um eine durchschnittliche Zeit für die Erkennung sowie die daraus resultierende Framerate zu ermitteln. Dies geschieht durch die Erkennung eines Hindernisses, welches sich über das gesamte Bild ausbreitet, sowie für nur ein Teilelement jeder Erkennungsmethode (Subimage, Samplepoint). Zudem wird geprüft inwiefern die Algorithmen mit Limitierungen des \emph{SGBM} umgehen können. Dazu zählen die Erkennung bei reflektierenden und durchsichtigen Flächen.\\
-
-\noindent
-Die im Rahmen der Tests aufgenommenen Bilder wurden in einzelnen Fällen in Hinsicht auf bessere Sichtbarkeit bearbeitet. Die aufgenommenen Disparitätenkarten sind aufgrund der Normalisierung und hohen Distanzen oft sehr dunkel. Deshalb wurden die Helligkeit dieser verändert. Weiter Modifikationen der Bilder wurden nicht vorgenommen.
-
-% TODO weitere tests: spiegelnde flächen bilder aufnehmen und nach winkel evaluieren ob ein Hindernis erkannt wird
-
-% TODO BILDER AUFNEHMEN
-
-% ---------------------- section -----------------------
-\section{Evaluierung Subimage Detection}
-\label{sec:evaluierung_subimage}
-
-Hinsichtlich der Robustheit werden beide Algorithmen nach demselben Schema untersucht. Der in Abschnitt \ref{sec:test_setup} beschriebene Testablauf erwähnt 3 verschiedene Hindernisgrößen. Tabelle \ref{tbl:obstacle_sizes} zeigt sowohl die Maße der Hindernisse als auch deren Fläche in $cm/cm^2$ auf. Weiterhin werden die verwendeten Hindernisse in Abbildung \ref{fig:test_obstacles} dargestellt.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=6cm]{img/test_obstacles}
+	\caption{Verwendete Test Hindernisse}
+	\label{fig:test_obstacles}
+\end{figure}
 
 \begin{table}[h]
 \centering
@@ -64,20 +55,21 @@ Hindernis   & Radius & Länge & Breite & Fläche \\
 \label{tbl:obstacle_sizes}
 \end{table}
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=7cm]{img/test_obstacles}
-	\caption{Verwendete Test Hindernisse}
-	\label{fig:test_obstacles}
-\end{figure}
-
+\noindent
+Weitere Tests beinhalten die Erkennung kleiner Hindernisse unter Veränderung der SGBM Parameter. Dabei wird unter anderem untersucht ob beispielsweise eine verringerte Blockgröße Einfluss auf die Erkennung kleiner Bereiche nimmt. Da die \textit{Samplepoint Detection} den Radius als modifizierbaren Parameter mit sich bringt, wird auch dahingehend untersucht inwiefern die Wahl eines anderen Radius die Ergebnisse der Erkennung beeinflusst. Zudem wird die Funktionsfähigkeit der Methoden bei reflektierenden sowie durchsichtigen Flächen untersucht.\\
 
 \noindent
-Während der Tests wurde für jedes aufgenommene Einzelbild die reale Distanz gemessen. Der dabei verwendete Referenzpunkt befand sich in der Mitte des zu erkennenden Hindernisses, da diese nicht zwangsläufig orthogonal zur Bildebene platziert wurden. Somit entspricht die gemessene Distanz der mittleren Distanz welche sich aus allen gefundenen Bereichen eines Bildes zusammensetzt. Während der Aufnahme sind die jeweiligen Einzelbilder der linken und rechten Kamera sowie die berechnete Disparitätenkarte sichtbar. Zudem ist ein weiterer Anzeigemodus verfügbar welcher die gefundenen Hindernisse innerhalb der Tiefenkarte markiert (siehe Abbildung \ref{fig:test_viewing}). Weiterhin kann jede erstellte Hindernis-Pointcloud im Nachhinein gerendert werden um einen überblick über die Ergebnisse des Algorithmus zu erhalten.\\
+Die im Rahmen der Tests aufgenommenen Bilder wurden in einzelnen Fällen in Hinsicht auf bessere Sichtbarkeit bearbeitet. Die aufgenommenen Disparitätenkarten sind aufgrund der Normalisierung und hohen Distanzen oft sehr dunkel. Deshalb wurden die Helligkeit dieser verändert. Weiter Modifikationen der Bilder wurden nicht vorgenommen.
+
+% ---------------------- section -----------------------
+\section{Evaluierung der Robustheit}
+\label{sec:robustness_evaluation}
+
+Hinsichtlich der Robustheit werden beide Algorithmen nach demselben Schema untersucht. Während der Tests wurde für jedes aufgenommene Einzelbild die reale Distanz gemessen. Der dabei verwendete Referenzpunkt befand sich in der Mitte des zu erkennenden Hindernisses, da diese nicht zwangsläufig orthogonal zur Bildebene platziert wurden. Somit entspricht die gemessene Distanz der mittleren Distanz welche sich aus allen gefundenen Bereichen eines Bildes zusammensetzt. Während der Aufnahme sind die jeweiligen Einzelbilder der linken und rechten Kamera sowie die berechnete Disparitätenkarte sichtbar. Zudem ist ein weiterer Anzeigemodus verfügbar welcher die gefundenen Hindernisse innerhalb der Tiefenkarte markiert (siehe Abbildung \ref{fig:test_viewing}). Weiterhin kann jede erstellte Hindernis-Pointcloud im Nachhinein gerendert werden um einen Uberblick über die Ergebnisse des Algorithmus zu erhalten.
 
 \begin{figure}[h]
 	\centering
-	\begin{tabular}{c c}
+	\begin{tabular}{cc}
 	\includegraphics[width=5.5cm]{img/evaluation/test_set/_test_3_left}&
 	\includegraphics[width=5.5cm]{img/evaluation/test_set/_test_3_right}\\
 	(a) linkes Kamerabild & (b) rechtes Kamerabild\\
@@ -89,6 +81,9 @@ Während der Tests wurde für jedes aufgenommene Einzelbild die reale Distanz ge
 	\label{fig:test_viewing}
 \end{figure}
 
+
+\subsection{\emph{Subimage Detection}}
+\label{sec:evaluierung_subimage}
 
 \noindent
 \textbf{Großes Hindernis:}\\ 
@@ -102,7 +97,7 @@ Im ersten Test wurde das große Hindernis gewählt, dabei wurde mithilfe der dar
 	\includegraphics[width=7cm]{img/evaluation/diagrams/sub_big_box}\\
 	 (a) & (b)
 	\end{tabular}
-	\caption{}
+	\caption{Darstellung der Abweichung zwischen real gemessener Distanz und berechneter Distanz bei Hindernis 1 der \emph{Subimage Detection} ((a) Darstellung der einzelnen Tests, (b) Zusammengefasster Boxplot).}
     \label{fig:eval_big}
 \end{figure}
 
@@ -114,9 +109,9 @@ Wie aus diesen zu erkennen wurde in nahezu allen Frames das Hindernis richtig er
 	\begin{tabular}{cc}
 	\includegraphics[width=5cm]{img/evaluation/_test_5_disparity}&
 	\includegraphics[width=5cm]{img/evaluation/_test_8_disparity}\\
-	(a) Frame 5 &  (b) Frame 8
+	(a) &  (b)
 	\end{tabular}
-	\caption{}
+	\caption{Darstellung des in Versuch 5 (a) und Versuch 8 (b) gefundenen Hindernisse, rot markierte Bereiche zeigen ein erkanntes Hindernis innerhalb eines \emph{Subimages} }
     \label{fig:eval_big_fails}
 \end{figure}
 
@@ -132,7 +127,7 @@ Auch im in Abbildung \ref{fig:eval_big} (b) abgebildeten Boxplot lässt sich erk
 	\includegraphics[width=7cm]{img/evaluation/diagrams/sub_medium_box}\\
 	(a) &  (b)
 	\end{tabular}
-    \caption{}
+	\caption{Darstellung der Abweichung zwischen real gemessener Distanz und berechneter Distanz bei Hindernis 2 der \emph{Subimage Detection} ((a) Darstellung der einzelnen Tests, (b) Zusammengefasster Boxplot).}
     \label{fig:eval_medium}
 \end{figure}
 
@@ -144,9 +139,9 @@ Auch die Erkennung mittlerer Hindernisse durch den Algorithmus war in nahezu all
 	\begin{tabular}{cc}
 	\includegraphics[width=5cm]{img/evaluation/medium_test_0_disparity}&
 	\includegraphics[width=5cm]{img/evaluation/medium_test_1_disparity}\\
-	(a) Frame 0 &  (b) Frame 3
+	(a) &  (b)
 	\end{tabular}
-	\caption{}
+	\caption{Darstellung des in Versuch 0 (a) und Versuch 3 (b) gefundenen Hindernisse, rot markierte Bereiche zeigen ein erkanntes Hindernis innerhalb eines \emph{Subimages} }
 	\label{fig:eval_medium_fails}
 \end{figure}
 
@@ -162,15 +157,15 @@ Selbiges Resultat lässt sich in den Frames 2, 6 und 7 erkennen. In Frame 9 dage
 	\includegraphics[width=7cm]{img/evaluation/diagrams/sub_tiny_box}\\
 	(a)	& (b)
 	\end{tabular}
-    \caption{}
+	\caption{Darstellung der Abweichung zwischen real gemessener Distanz und berechneter Distanz bei Hindernis 3 der \emph{Subimage Detection} ((a) Darstellung der einzelnen Tests, (b) Zusammengefasster Boxplot).}
     \label{fig:eval_tiny}
 \end{figure}
 
 \noindent
-Die Erkennung kleiner Hindernisse gestaltet sich aufgrund diverser Faktoren schwer. Ein limitierender Faktor ist die Fläche, ist ein einzeles Hindernis so klein, dass es während der Berechnung des Medians aufgrund der umliegenden Disparitäten untergeht, so kann auch kein Hindernis erkannt werden. Dies macht sich in vielen der getesteten Bildern bemerkbar. In den Frames 2, 5, 7 und 10 wurde das Hindernis nicht erkannt, da es sich entweder an einer Kreuzung verschiedener Subimages befand, oder die verwendete Blockgröße nicht ausreicht, dadurch wird der Median aller Teilmatrizen nicht signifikant beeinflusst. Auch der Stab wurde in den Frames 3, 6 sowie 8 als zusätzliches Hindernis erkannt. Dies ist ein Resultat der relativ geringen Distanz zu den Kameras. Die hohen Entfernungsdifferenzen resultieren in diesen Fällen wiederum aus der großen Entfernung der Hindernisse zum Hintergrund sowie dem auftretenden \enquote{Schatten} welcher durch die Baseline zu begründen ist. Auch der in Abbildung \ref{fig:eval_tiny} (b) dargestellte Boxplot zeigt, das signifikant größere Distanzen erkannt wurden als sie in den realen Messungen vorkommen.
+Die Erkennung kleiner Hindernisse gestaltet sich aufgrund diverser Faktoren schwer. Ein limitierender Faktor ist die Fläche, ist ein einzelnes Hindernis so klein, dass es während der Berechnung des Medians aufgrund der umliegenden Disparitäten untergeht, so kann auch kein Hindernis erkannt werden. Dies macht sich in vielen der getesteten Bildern bemerkbar. In den Frames 2, 5, 7 und 10 wurde das Hindernis nicht erkannt, da es sich entweder an einer Kreuzung verschiedener Subimages befand, oder die verwendete Blockgröße nicht ausreicht, dadurch wird der Median aller Teilmatrizen nicht signifikant beeinflusst. Auch der Stab wurde in den Frames 3, 6 sowie 8 als zusätzliches Hindernis erkannt. Dies ist ein Resultat der relativ geringen Distanz zu den Kameras. Die hohen Entfernungsdifferenzen resultieren in diesen Fällen wiederum aus der großen Entfernung der Hindernisse zum Hintergrund sowie dem auftretenden \enquote{Schatten} welcher durch die Baseline zu begründen ist. Auch der in Abbildung \ref{fig:eval_tiny} (b) dargestellte Boxplot zeigt, das signifikant größere Distanzen erkannt wurden als sie in den realen Messungen vorkommen.
 
 % ---------------------- section -----------------------
-\section{Evaluierung Samplepoint Detection}
+\subsection{Evaluierung Samplepoint Detection}
 \label{sec:evaluierung_samplepoint}
 
 \noindent
@@ -187,7 +182,7 @@ Die Erkennung großer Objekte der Samplepoint Detection weist nahezu keine Fehle
 	\includegraphics[width=7cm]{img/evaluation/diagrams/sample_big_box}\\
 	 (a) & (b)
 	\end{tabular}
-	\caption{}
+	\caption{Darstellung der Abweichung zwischen real gemessener Distanz und berechneter Distanz bei Hindernis 1 der \emph{Samplepoint Detection} ((a) Darstellung der einzelnen Tests, (b) Zusammengefasster Boxplot).}
     \label{fig:sample_eval_big}
 \end{figure}
 
@@ -201,7 +196,7 @@ Die Erkennung großer Objekte der Samplepoint Detection weist nahezu keine Fehle
 	\includegraphics[width=7cm]{img/evaluation/diagrams/sample_medium_box}\\
 	 (a) & (b)
 	\end{tabular}
-	\caption{}
+	\caption{Darstellung der Abweichung zwischen real gemessener Distanz und berechneter Distanz bei Hindernis 2 der \emph{Samplepoint Detection} ((a) Darstellung der einzelnen Tests, (b) Zusammengefasster Boxplot).}
     \label{fig:sample_eval_medium}
 \end{figure}
 
@@ -215,7 +210,7 @@ Auch die Erkennung mittlerer Hindernisse erfolgte in allen Frames ohne signifika
 	\includegraphics[width=5cm]{img/evaluation/sample_tiny_test_11_disparity}\\
 	(a) Frame 5 &  (b) Frame 11
 	\end{tabular}
-	\caption{}
+	\caption{Darstellung erkannter Bereiche von Hindernis 2 der \emph{Samplepoint} Detection in Versuch 5 (a) und 11(b) }
 	\label{fig:sample_eval_medium_fails}
 \end{figure}
 
@@ -234,7 +229,7 @@ Die anfangs anfänglich aufgestellte These, dass sich die Verteilung sowie Grö�
 	\includegraphics[width=7cm]{img/evaluation/diagrams/sample_tiny_box}\\
 	 (a) & (b)
 	\end{tabular}
-	\caption{}
+	\caption{Darstellung der Abweichung zwischen real gemessener Distanz und berechneter Distanz bei Hindernis 3 der \emph{Samplepoint Detection} ((a) Darstellung der einzelnen Tests, (b) Zusammengefasster Boxplot).}
     \label{fig:sample_eval_tiny}
 \end{figure}
 
@@ -378,7 +373,7 @@ Die aufgenommenen Ergebnisse zeigen auf das Hindernisse erkannt wurden, jedoch i
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=7cm]{img/reflection/reflection_bar}
-	\caption{}
+	\caption{Darstellung Abweichung zwischen real gemessener und berechneter Distanz bei reflektierenden Flächen.}
 	\label{fig:reflection_only}	
 \end{figure}
 
@@ -388,7 +383,7 @@ Ein weiterer durchgeführter Versuch beinhaltet die Veränderung des Winkels zwi
 \begin{figure}
 	\centering
 	\includegraphics[width=7cm]{img/reflection/angle_bar}
-	\caption{}
+	\caption{Darstellung Abweichung zwischen real gemessener und berechneter Distanz bei reflektierenden Flächen unter Veränderung Aufnahmewinkels zur reflektierenden Fläche.}
 	\label{fig:rotation_angle}
 \end{figure}
 
@@ -401,7 +396,7 @@ Eine Kombination von Reflexion und Durchsichtigkeit brachte ebenfalls keine vali
 \begin{figure}
 	\centering
 	\includegraphics[width=7cm]{img/reflection/combined_bar}
-	\caption{}
+	\caption{Darstellung Abweichung zwischen real gemessener und berechneter Distanz bei reflektierenden einer Kombination von Reflexion sowie Durchsichtigkeit des zu findenden Hindernis}
 	\label{fig:combined}
 \end{figure}
 
