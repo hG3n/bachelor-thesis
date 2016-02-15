@@ -4,7 +4,19 @@ Um die Funktionsweise beider Methoden zu belegen wurden diese sowohl auf ihre Ro
 \section{Testsetup}
 \label{sec:test_setup}
 
-Bei der Durchführung der Tests befinden sich die Kameras statisch im Raum. Die zu erkennenden Hindernisse werden innerhalb und ausserhalb der zu erkennenden Reichweite platziert, wobei die Ausrichtung der Hindernisse teils zufällig, teils bewusst an kritischen Positionen erfolgt um ein reales Anwendungsszenarien passend zu simulieren. Ein aufgenommenes Testset besteht dabei aus beiden Bildern der Kamera, der normalisierten Disparitätenkarte sowie eine komplette Punktwolke dieser um etwaige Fehler der Algorithmen leichter erkennen zu können, sowie den einzelnen Punktwolken der Hinderniserkennung. Weiterhin werden diverse Parameter gespeichert, wie die Anzahl der erkannten Hinderniselemente sowie deren Disparitäten.\\
+Bei der Durchführung der Tests befinden sich die Kameras statisch im Raum. Um sicher zu stellen, dass sich die Position der Kameras während der einzelnen Versuche nicht verändert wurden diese auf einer Eisenplatte mittels eines Laborstativs magnetisch befestigt (siehe Abbildung \ref{fig:setup}) Die zu erkennenden Hindernisse werden innerhalb und ausserhalb der zu erkennenden Reichweite platziert, wobei die Ausrichtung der Hindernisse teils zufällig, teils bewusst an kritischen Positionen erfolgt um ein reales Anwendungsszenarien passend zu simulieren. Ein aufgenommenes Testset besteht dabei aus beiden Bildern der Kamera, der normalisierten Disparitätenkarte sowie eine komplette Punktwolke dieser um etwaige Fehler der Algorithmen leichter erkennen zu können, sowie den einzelnen Punktwolken der Hinderniserkennung. Weiterhin werden diverse Parameter gespeichert, wie die Anzahl der erkannten Hinderniselemente sowie deren Disparitäten.\\
+
+\begin{figure}[h]
+	\centering
+	\begin{tabular}{ccc}
+		\includegraphics[height=5cm]{img/camera_setup_front} & 
+		\quad \quad \quad \quad \quad \quad \quad & 
+		\includegraphics[height=5cm]{img/camera_setup_side} \\
+		(a) & & (b)
+	\end{tabular}
+	\caption{Ansicht des Kamera frontal (a) und von der Seite (b).}
+	\label{fig:setup}
+\end{figure}
 
 \noindent
 Der zu erkennende Bereich wurde auf $0,2$ bis $1,5$ Meter definiert. Dies entspricht einem Szenario in welchem das System auch aufgrund der hohen Framerate der Erkennung angewendet werden kann. Eine Erweiterung dessen auf beispielsweise $2.0$ Meter wurde nicht durchgeführt, da der Algorithmus auch bei großen Entfernungen robuste Werte in der Distanzberechnung liefert \cite{hilleralhallak}. Das nach der Anwendung der ROI auf die Disparitätenkarte erhaltene Sichtfeld (siehe \ref{sec:preprocessing}) beträgt $50^{\circ}$ auf horizontaler Achse und $38^{\circ}$ vertikal. Dies ist in Abbildung \ref{fig:field_of_view} visualisiert.
@@ -342,7 +354,7 @@ Dabei lässt sich in allen Bildern welche im Abstand von 100 Zentimetern aufgeno
 Die Erkennung von Hindernissen bei reflektierenden sowie durchsichtigen Flächen wurde mit drei verschiedenen Tests untersucht. Zunächst wurde untersucht wie sich das System bei spiegelnden Flächen (etwa Fensterglas) verhält. Anschliessend wurde die Erkennung bei reflektierenden Flächen untersucht sowohl im 90$^\circ$ Winkel, also mit direkter Sicht auf das zu erkennende Hindernis als auch unter diversen anderen Winkeln. Weiterhin wurde untersucht inwiefern sich das System bei einer Kombination beider Problemstellungen verhält. Die verwendete Methode zur Hinderniserkennung ist in allen folgenden Tests die Samplepoint Detection. Die Gefahrenzone wurde auf $0,1$ bis $1,0$ Meter definiert.\\
 
 \noindent
-Zur Untersuchung reflektierender Flächen wurde der spiegelnde Bildschirm eines Fernsehers genutzt. Da die Berechnung von Disparitätenkarten auch unter nicht optimalen Lichtverhältnissen robuste Ergebnisse liefert (Abbildung \ref{fig:dark_disparity}) stellt auch die Schwarze Grundfarbe des spiegelnden Objektes kein Konflikt dar. Trotz dessen wurde die Belichtungszeit der Kameras auf 60 - 70 ms gesetzt, was zwar die Performance beeinflusst jedoch die erhaltenen Bilder erheblich verbesse\\rt.
+Zur Untersuchung reflektierender Flächen wurde der spiegelnde Bildschirm eines Fernsehers genutzt. Da die Berechnung von Disparitätenkarten auch unter nicht optimalen Lichtverhältnissen robuste Ergebnisse liefert (Abbildung \ref{fig:dark_disparity}) stellt auch die Schwarze Grundfarbe des spiegelnden Objektes kein Konflikt dar. Trotz dessen wurde die Belichtungszeit der Kameras auf 60 - 70 ms gesetzt, was zwar die Performance beeinflusst jedoch die erhaltenen Bilder erheblich verbessert.\\
 
 \begin{figure}[h]
 	\centering
@@ -361,7 +373,7 @@ Zur Untersuchung reflektierender Flächen wurde der spiegelnde Bildschirm eines 
 \end{figure}
 
 \noindent
-Die aufgenommenen Ergebnisse zeigen auf das Hindernisse erkannt wurden, jedoch ist der Ursprung dieser nicht eindeutig zu erkennen. Abbildung \ref{fig:reflection_only} stellt die berechneten und aufgenommenen Distanzen gegenüber. Aus diesen sind ebenfalls deutlich die Fehler innerhalb der Berechnung zu erkennen.
+Die aufgenommenen Ergebnisse zeigen auf das Hindernisse erkannt wurden, jedoch ist der Ursprung dieser nicht eindeutig zu erkennen. Abbildung \ref{fig:reflection_only} stellt die berechneten und aufgenommenen Distanzen gegenüber. Aus diesen sind ebenfalls deutlich die Fehler innerhalb der Berechnung zu erkennen.\\
 
 \begin{figure}[h]
 	\centering
@@ -371,7 +383,7 @@ Die aufgenommenen Ergebnisse zeigen auf das Hindernisse erkannt wurden, jedoch i
 \end{figure}
 
 \noindent
-Ein weitere durchgeführter Versuch beinhaltet die Veränderung des Winkels zwischen Kamera und reflektierender Ebene. Die ausgehende Vermutung ist die Erkennung dieser aufgrund diverser Lichtreflexionen. Dazu wurden die Bilder aus 3 verschiedenen Winkeln (45, 22,5 und 12,25$^\circ$) aufgenommen unter Verwendung der Mitte der Basislinie als Rotationszentrum. Dabei repräsentieren die einzelnen Versuche die jeweiligen Winkel in absteigender Reihenfolge. Die gemessenen Distanzen repräsentieren jeweils die Hypotenuse des rechtwinkligen Dreiecks welches durch die Kameras und die beiden Punkte auf der Reflexionsebene gespannt wird. Abbildung \ref{fig:rotation_angle} stellt die erlangten Ergebnisse dar.
+Ein weiterer durchgeführter Versuch beinhaltet die Veränderung des Winkels zwischen Kamera und reflektierender Ebene. Die ausgehende Vermutung ist die Erkennung dieser aufgrund diverser Lichtreflexionen. Dazu wurden die Bilder aus 3 verschiedenen Winkeln (45, 22,5 und 12,25$^\circ$) aufgenommen unter Verwendung der Mitte der Basislinie als Rotationszentrum. Dabei repräsentieren die einzelnen Versuche die jeweiligen Winkel in absteigender Reihenfolge. Die gemessenen Distanzen repräsentieren jeweils die Hypotenuse des rechtwinkligen Dreiecks welches durch die Kameras und die beiden Punkte auf der Reflexionsebene gespannt wird. Abbildung \ref{fig:rotation_angle} stellt die erlangten Ergebnisse dar.\\
 
 \begin{figure}
 	\centering
@@ -384,7 +396,7 @@ Ein weitere durchgeführter Versuch beinhaltet die Veränderung des Winkels zwis
 Aus diesen wird ersichtlich, dass kein Hindernis valide erkannt werden konnte. Die Differenz zwischen gemessenen und berechnetn Distanzen deutet auf Fehler in der Berechnung der Disparitätenkarte aufgrund der Reflexion hin.\\
 
 \noindent
-Eine Kombination von Reflexion und Durchsichtigkeit brachte ebenfalls keine validen Ergebnisse. In den ersten fünf Versuchen wurden zwar Hindernisse erkannt, jedoch weitaus näher, als sie sich eigentlich befunden haben. Zudem wurden Hindernisse erkannt obwohl  sich keines innerhalb der Gefahrenzone befunden hat. Ab Versuch 5 befand sich das Fenster innerhalb der Gefahrenzone. Die in Abbildung REF abgebildeten Disparitätenkarten zeigen jedoch das zumeist nur wenige Punkte erkannt wurden welche nicht das Objekt als ganzes abbilden. Die gefundenen Hindernisse sind das Resultat eines reflektierten Lichts auf dem Glas. Abbildung \ref{fig:combined} zeigt eben diese Ergebnisse. 
+Eine Kombination von Reflexion und Durchsichtigkeit brachte ebenfalls keine validen Ergebnisse. In den ersten fünf Versuchen wurden zwar Hindernisse erkannt, jedoch weitaus näher, als sie sich eigentlich befunden haben. Zudem wurden Hindernisse erkannt obwohl  sich keines innerhalb der Gefahrenzone befunden hat. Ab Versuch 5 befand sich das Fenster innerhalb der Gefahrenzone. Die in Abbildung REF abgebildeten Disparitätenkarten zeigen jedoch das zumeist nur wenige Punkte erkannt wurden welche nicht das Objekt als ganzes abbilden. Die gefundenen Hindernisse sind das Resultat eines reflektierten Lichts auf dem Glas. Abbildung \ref{fig:combined} zeigt eben diese Ergebnisse.\\
 
 \begin{figure}
 	\centering
@@ -392,7 +404,6 @@ Eine Kombination von Reflexion und Durchsichtigkeit brachte ebenfalls keine vali
 	\caption{}
 	\label{fig:combined}
 \end{figure}
-
 
 \subsection{Erkennung unter Veränderung des Samplepoint Radius}
 \label{subsec:test_samplepoint_radius}

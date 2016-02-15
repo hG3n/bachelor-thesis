@@ -1,4 +1,4 @@
-Im Rahmen dieser Arbeit wurden zwei Ansätze zur Erkennung von Hindernissen in Echtzeit entwickelt. Ein Hindernis ist im Rahmen dieser Arbeit als Objekt definiert, welches sich vor dem UAS innerhalb einer variablen Gefahrenzone befindet. Beide Methoden richten sich nach den in Kapitel \ref{chp:concepts} erläuterten Algorithmen und Konzepten. Anhand dieser ist es möglich aus den beiden Bildern des Stereo Systems für jeden Frame die Disparity Map zu berechnen, welche im Anschluss daran in mehreren Schritten zunächst so angepasst wird, dass nicht verwertbare Bereiche der Tiefenkarte entfernt werden.\\
+Im Rahmen dieser Arbeit wurden zwei Ansätze zur Erkennung von Hindernissen in Echtzeit entwickelt. Ein Hindernis ist im Rahmen dieser Arbeit als Objekt definiert, welches sich vor dem UAV innerhalb einer variablen Gefahrenzone befindet. Beide Methoden richten sich nach den in Kapitel \ref{chp:concepts} erläuterten Algorithmen und Konzepten. Anhand dieser ist es möglich aus den beiden Bildern des Stereo Systems für jeden Frame die Disparitätenkarte zu berechnen, welche im Anschluss daran in mehreren Schritten zunächst so angepasst wird, dass nicht verwertbare Bereiche dieser entfernt werden.\\
 
 \noindent
 Im folgenden Kapitel werden beide Methoden detailliert beleuchtet. Zu Beginn wird die zugrunde liegende Klassenstruktur beschrieben. In Abschnitt \ref{sec:mean_disparity_detection} die \emph{Subimage Detection} erläutert, wobei auf das grundlegende Konzept sowie den Algorithmus zur Erkennung selber eingegangen wird. Selbiges gilt für die \emph{Samplepoint Detection} in Abschnitt \ref{sec:samplepoint_detection}.
@@ -7,7 +7,7 @@ Im folgenden Kapitel werden beide Methoden detailliert beleuchtet. Zu Beginn wir
 \section{Applikationsstruktur}
 \label{sec:structure}
 
-Die grundlegende Struktur beider im Rahmen dieser Arbeit entwickelten Methoden ist dieselbe. Die abstrakte Klasse \emph{ObstacleDetection} (siehe Abbildung \ref{fig:obstacle_detection_structure} vererbt alle grundlegenden, für die Erkennung auf Basis von Einzelbildern benötigten Methoden an je eine abgeleitete Klasse, welche eine Methode der Hinderniserkennung repräsentiert. Zu diesen zählen die Funktionen \emph{build} und \emph{detectObstacles}. Die Ausführung beider in jedem Frame ist essenziell notwendig um die benötigten Daten innerhalb jedes Einzelbildes vorliegen zu haben. Dabei dient die \emph{build} Funktion zur Aktualisierung der zugrundeliegenden Teilbereiche der Disparitätenkarte. Anschliessend wird in der Funktion \emph{detectObstacles} für jeden Wert überprüft ob sich dieser innerhalb der definierten Gefahrenzone befindet. Zusätzlich zu den Funktionen der Basisklasse besitzt jede Methode eine Funktion zur Initialisierung dieser. Bei dieser wird die eigentliche Struktur der Subimages und Samplepoints erstellt, sowie die aktuelle Gefahrenzone definiert. Im Fall der Samplepoint Detection wird ausserdem der Radius dieser festgelegt.
+Die grundlegende Struktur beider im Rahmen dieser Arbeit entwickelten Methoden ist dieselbe. Die abstrakte Klasse \emph{ObstacleDetection} (siehe Abbildung \ref{fig:obstacle_detection_structure} vererbt alle wesentlichen, für die Erkennung auf Basis von Einzelbildern benötigten Methoden an je eine abgeleitete Klasse, welche eine Methode der Hinderniserkennung repräsentiert. Zu diesen zählen die Funktionen \emph{update} und \emph{detectObstacles}. Die Ausführung beider in jedem Frame ist essenziell notwendig um die benötigten Daten innerhalb jedes Einzelbildes vorliegen zu haben. Dabei dient die \emph{update} Funktion zur Aktualisierung der zugrundeliegenden Teilbereiche der Disparitätenkarte. Anschliessend wird in der Funktion \emph{detectObstacles} für jeden Wert überprüft ob sich dieser innerhalb der definierten Gefahrenzone befindet. Zusätzlich zu den Funktionen der Basisklasse besitzt jede Methode eine Funktion zur Initialisierung dieser. Bei dieser wird die eigentliche Struktur der \emph{Subimages} und \emph{Samplepoints} erstellt, sowie die aktuelle Gefahrenzone definiert. Im Fall der \emph{Samplepoint Detection} wird ausserdem der Radius dieser festgelegt.
 
 \begin{figure}[h]
 	\begin{center}
@@ -19,13 +19,13 @@ Die grundlegende Struktur beider im Rahmen dieser Arbeit entwickelten Methoden i
 
 
 % ---------------------- section -----------------------
-\section{Preprocessing}
+\section{Grundlegende Operationen}
 \label{sec:preprocessing}
 Der Ablauf der Hinderniserkennung ist in beiden entwickelten Methoden gleich. Die dafür benötigen Preprocessing Schritte gleichen sich demnach ebenfalls und werden im folgenden erläutert.\\
 
 \noindent
 \textbf{ROI der Disparitätenkarte:}\\
-Zu Beginn des Algorithmus muss der durch die Translation der Bilder auf der Basislinie verursachte nicht matchbare Bereich entfernt werden. Dies geschieht nach der Wahl der in \ref{subsec:stereo_matching_sgbm} beschriebenen Parameter der SGBM. Dieser sogenannte \emph{Pixelshift} berechnet sich aus der Hälfte der Anzahl der zu berechnenden Disparitäten. Sollte dieser einen ungeraden Wert ergeben so wird er um 1 erhöht. Generell ist der \emph{Pixelshift} so gewählt das die Dimensionen der Disparity Map durch 8 dividierbar sind. Dieser Wert hat sich während der Entwicklung als robuster Wert erwiesen.\\
+Zu Beginn des Algorithmus muss der durch die Translation der Bilder auf der Basislinie verursachte nicht matchbare Bereich entfernt werden. Dies geschieht nach der Wahl der in \ref{subsec:stereo_matching_sgbm} beschriebenen Parameter der SGBM. Dieser sogenannte \emph{Pixelshift} berechnet sich aus der Hälfte der Anzahl der zu berechnenden Disparitäten. Sollte dieser einen ungeraden Wert ergeben so wird er um 1 erhöht. Generell ist der \emph{Pixelshift} so gewählt das die Dimensionen der Disparitätenkarte durch 8 dividierbar sind. Dieser Wert hat sich während der Entwicklung als robuster Wert erwiesen.\\
 
 	\begin{figure}[h]
 		\centering
@@ -37,8 +37,8 @@ Zu Beginn des Algorithmus muss der durch die Translation der Bilder auf der Basi
 		\label{fig:dmap_roi}
 	\end{figure}
 
-	\noindent
-	Abbildung \ref{fig:dmap_roi} zeigt den \emph{Pixelshift} in der finalen Disparity Map. Der \emph{SGBM} berechnet zwar Werte innerhalb des Bereiches welcher nicht zu erkennen ist, jedoch geschieht dies in Abhängigkeit der aktuellen Szene. Ist es nicht möglich in diesem Informationen zu berechnen so werden die Disparitäten entweder \enquote{geraten} oder als schwarzer Bereich mit negativen Werten ausgedrückt. Aus Gründen der Performance wird dieser daher entfernt um keine Berechnungen an Informationslosen Pixeln durchzuführen.\\
+\noindent
+Abbildung \ref{fig:dmap_roi} zeigt den \emph{Pixelshift} in der finalen Disparitätenkarte. Der \emph{SGBM} berechnet zwar Werte innerhalb des Bereiches welcher nicht zu erkennen ist, jedoch geschieht dies in Abhängigkeit der aktuellen Szene. Ist es nicht möglich in diesem Informationen zu berechnen so werden die Disparitäten entweder \enquote{geraten} oder als schwarzer Bereich mit negativen Werten ausgedrückt. Aus Gründen der Performance wird dieser daher entfernt um keine Berechnungen an Informationslosen Pixeln durchzuführen.\\
 	
 \noindent
 \textbf{Berechnung der Disparität aus gegebener Distanz:}\\
@@ -62,32 +62,32 @@ Um die Algorithmen ressourcensparend zu gestalten wird bei der Erkennung mit den
 \section{Subimage Detection}
 \label{sec:mean_disparity_detection}
 
-Das grundlegende Funktionsprinzip der \emph{Subimage Detection} ist grob an die von Kostavelis et al. vorgestellten Algorithmen angelehnt. Auch bei diesen werden die berechneten Disparity Maps in Segmente eingeteilt von welchen in jedem Frame der Mittelwert errechnet wird.\\
+Das grundlegende Funktionsprinzip der \emph{Subimage Detection} ist grob an die von Kostavelis et al. vorgestellten Algorithmen angelehnt. Auch bei diesen werden die berechneten Disparitätenkarten in Segmente eingeteilt von welchen in jedem Einzelbild der Mittelwert errechnet wird.\\
 
 \noindent
-Zu Beginn des Algorithmus, nach der vorherigen Bearbeitung der eigentlichen \emph{region of interest}, wird während der Initialisierung die Segmentierung der Disparity Map festgelegt. Dabei wird für jedes Segment ein eigenes Subimage erzeugt. Diese definieren eine \emph{region of interest} (ROI) innerhalb einer Matrix. Subimages selber halten lediglich die Positionsinformationen (obere linke und untere rechte Ecke des definierten Rechtecks), Mittelwert der ROI, die ROI selbst sowie den Mittelpunkt des Rechtecks zur späteren Pointcloud Generierung, wie Abbildung \ref{fig:subimage_class} aufzeigt.
+Zu Beginn des Algorithmus, nach der vorherigen Bearbeitung der eigentlichen ROI, wird während der Initialisierung die Segmentierung der Disparitätenkarte festgelegt. Dabei wird für jedes Segment ein eigenes \emph{Subimage} erzeugt. Diese definieren eine weitere ROI innerhalb der Bild-Matrix. \emph{Subimages} selber halten lediglich die Positionsinformationen (obere linke und untere rechte Ecke des definierten Rechtecks), Mittelwert der ROI, die ROI selbst sowie den Mittelpunkt des Rechtecks zur späteren \emph{Pointcloud} Generierung, wie Abbildung \ref{fig:subimage_class} aufzeigt.\\
 
 \begin{figure}[h]
 	\begin{center}
-		\includegraphics[width=8cm]{img/subimage_class.pdf}
+		\includegraphics[width=8cm]{img/subimage_class}
 	\end{center}
 	\caption{Subimage Klasse}
 	\label{fig:subimage_class}
 \end{figure}
 
 \noindent
-Für die Unterteilung der Disparity Map wurden intial nur $9$ Segmente vorgesehen wobei jeder Bereich eine der möglichen Flugrichtungen repräsentieren sollte. Aufgrund der Größe der Submatrizen konnte jedoch keine valide Erkennung kleiner Hindernisse gewährleistet werden, da solche in der Berechnung des Mittelwertes untergegangen sind. Aufgrund dessen wurde die Anzahl der Segmente auf $81$ erhöht, welches eine wesentlich genauere Erkennung ermöglicht. Zudem ist somit eine weitaus genauere Einteilung der Flugrichtungen möglich, da jede dieser nocheinmal genauer betrachtet wird (siehe Abbildung \ref{fig:subimage_detection_segments}).
+Für die Unterteilung der Disparitätenkarte wurden intial nur $9$ Segmente vorgesehen wobei jeder Bereich eine der möglichen Flugrichtungen repräsentieren sollte. Aufgrund der Größe der Submatrizen konnte jedoch keine valide Erkennung kleiner Hindernisse gewährleistet werden, da solche in der Berechnung des Mittelwertes untergegangen sind. Aufgrund dessen wurde die Anzahl der Segmente auf $81$ erhöht, welches eine wesentlich genauere Erkennung ermöglicht. Zudem ist somit eine weitaus genauere Einteilung der Flugrichtungen möglich, da jede dieser genauer betrachtet wird (siehe Abbildung \ref{fig:subimage_detection_segments}).\\
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=10cm]{img/subimage_segmentation.pdf}
 	\end{center}
-	\caption{Intiale Segmentierung der Disparity Map sowie die weitere Unterteilung zur genaueren Bestimmung der Werte der Subimages}
+	\caption{Intiale Segmentierung der Disparitätenkarte sowie die weitere Unterteilung zur genaueren Bestimmung der Werte der \emph{Subimages}}
 	\label{fig:subimage_detection_segments}
 \end{figure}
 
 \noindent
-Um die Hindernisse innerhalb der Segmente zu Erkennen wurde auf die Berechnung des Mittelwertes dieser gesetzt. Einerseits, da die Berechnung des Mittelwertes unter Betrachtung des Echtzeit-Aspektes eine ressourcensparende und schnelle Operation ist, andererseits weil jeder Pixel des Bildes in das Endresultat mit einfließt. Jedoch musste die Berechnung auf das Szenario angepasst werden, da Berechnung des Medians aller Werte zu Verzerrungen geführt hätte. Bei der Kalkulation von Disparity Maps werden Bereiche welche nicht gematcht werden können, sei es aufgrund von fehlenden Informationen im Referenzbild oder homogener Texturen in der Szene, als negativer Wert ausgedrückt. Berechnet man nun den Mittelwert unter Betrachtung positiver und negativer Werte, so entspricht dies zwar dem definierten Term Median, verfälscht allerdings das in diesem Anwendungsbereich erwünschte Ergebnis. Im schlechtesten Fall enthält eine Submatrix mehr negative als positive Werte, was dazu führen kann das Hindernisse vor homogenen Flächen nicht erkannt werden. Daraus ergibt sich die in Algorithmus \ref{alg:mean_disparity_calculation} dargestellte Berechnung des Mittelwertes.
+Um die Hindernisse innerhalb der Segmente zu Erkennen wurde auf die Berechnung des Mittelwertes dieser gesetzt. Einerseits, da die Berechnung des Mittelwertes unter Betrachtung des Echtzeit-Aspektes eine ressourcensparende und schnelle Operation ist, andererseits weil jeder Pixel des Bildes in das Endresultat mit einfließt. Jedoch musste die Berechnung auf das Szenario angepasst werden, da Berechnung des Medians aller Werte zu Verzerrungen geführt hätte. Bei der Kalkulation von Disparitätenkarten werden Bereiche welche nicht gematcht werden können, sei es aufgrund von fehlenden Informationen im Referenzbild oder homogener Texturen in der Szene, als negativer Wert ausgedrückt. Berechnet man nun den Mittelwert unter Betrachtung positiver und negativer Werte, so entspricht dies zwar dem definierten Term Median, verfälscht allerdings das in diesem Anwendungsbereich erwünschte Ergebnis. Im schlechtesten Fall enthält eine Submatrix mehr negative als positive Werte, was dazu führen kann das Hindernisse vor homogenen Flächen nicht erkannt werden. Daraus ergibt sich die in Algorithmus \ref{alg:mean_disparity_calculation} dargestellte Berechnung des Mittelwertes.\\
 
 \begin{algorithm}[h]
 \caption{Berechnung des Disparity Medians}
@@ -111,7 +111,7 @@ Um die Hindernisse innerhalb der Segmente zu Erkennen wurde auf die Berechnung d
 Es werden demnach nur positive Disparitäten betrachtet was auch dazu führt das sich der Gesamtwert aller Werte aus der Menge dieser ergibt. Mit Hilfe dieser Berechnung ist es möglich Hindernisse auch in Bereichen zu erkennen in denen die Mehrzahl der Pixel keine Matches aufweisen.\\
 
 \noindent
-Die eigentliche Hinderniserkennung erfolgt in jedem Frame. Wobei der Term Frame hierbei nicht nach einem von der Kamera aufgenommenen Bild, sondern eine neue Disparity Map definiert. Da die Bildgröße pro Einzelbild stetig ist besteht keine Nötigkeit die einzelnen Segmente erneut zu generieren. Es genügt also die Mittelwerte eines jeden Subimages anhand der neuen Disparity Map zu aktualisieren. Daraufhin wird geprüft ob sich einer oder mehrere der Subimage Mittelwerte innerhalb der Gefahrenzone befinden. Die Gefahrenzone wird zur Initialisierung der Erkennung berechnet. Mit Hilfe der in Abschnitt \ref{sec:preprocessing} beschriebenen Invertierung der Distanzberechnung müssen zu Beginn die minimale sowie maximale Distanz der Erkennung auf einen Tiefenwert zurückgerechnet werden. Diese Rückrechnung ist ausschlaggebend für die schnelle Erkennung der Tiefe. Im Falle einer weiteren Segmentierung müsste die Berechnung der Distanz als Teil der Weltkoordinate für jedes Subimage einzeln erfolgen, was gerade bei der Samplepoint Detecion zum Tragen kommt, sollen die Distanzen für ca. $6000$ Punkte (bei voller Auflösung in Abhängigkeit der verwendeten Parameter des SGBM) berechnet werden.\\
+Die eigentliche Hinderniserkennung erfolgt in jedem Frame. Wobei der Term Frame hierbei nicht nach einem von der Kamera aufgenommenen Bild, sondern eine neue Disparitätenkarte definiert. Da die Bildgröße pro Einzelbild stetig ist besteht keine Nötigkeit die einzelnen Segmente erneut zu generieren. Es genügt also die Mittelwerte eines jeden \emph{Subimages} anhand der neuen Disparitätenkarte zu aktualisieren. Daraufhin wird geprüft ob sich einer oder mehrere der Subimage Mittelwerte innerhalb der Gefahrenzone befinden. Die Gefahrenzone wird zur Initialisierung der Erkennung berechnet. Mit Hilfe der in Abschnitt \ref{sec:preprocessing} beschriebenen Invertierung der Distanzberechnung müssen zu Beginn die minimale sowie maximale Distanz der Erkennung auf einen Tiefenwert zurückgerechnet werden. Diese Rückrechnung ist ausschlaggebend für die schnelle Erkennung der Tiefe. Im Falle einer weiteren Segmentierung müsste die Berechnung der Distanz als Teil der Weltkoordinate für jedes \emph{Subimage} einzeln erfolgen, was gerade bei der \emph{Samplepoint Detecion} zum Tragen kommt, sollen die Distanzen für ca. $6000$ Punkte (bei voller Auflösung in Abhängigkeit der verwendeten Parameter des SGBM) berechnet werden.\\
 
 %
 \begin{algorithm}[h]
@@ -137,21 +137,28 @@ Die eigentliche Hinderniserkennung erfolgt in jedem Frame. Wobei der Term Frame 
 \end{algorithm}
 
 \noindent
-Die in Algorithmus \ref{alg:mean_disparity_detection} berechnete Pointcloud ist in diesem Fall ein Matrix mit der Größe der ursprünglichen Tiefenkarte. Dies ist für die Berechnung der dreidimensionalen Koordinate von Nöten. Mithilfe des Mittelpunkte der Subimages wird für jedes dieser die jeweilige 3D-Koordinate (siehe Abschnitt \ref{sec:framework}) berechnet und an der Position des Mittelwertes in die Punktwolke geschrieben.
+Die in Algorithmus \ref{alg:mean_disparity_detection} berechnete \emph{Pointcloud} ist in diesem Fall ein Matrix mit der Größe der ursprünglichen Tiefenkarte. Dies ist für die Berechnung der dreidimensionalen Koordinate von Nöten. Mithilfe des Mittelpunkte der \emph{Subimages} wird für jedes dieser die jeweilige 3D-Koordinate (siehe Abschnitt \ref{sec:framework}) berechnet und an der Position des Mittelwertes in die Punktwolke geschrieben.\\
 
 \noindent
-Innerhalb der Pointcloud sind nun die Weltkoordinaten jedes Samplepoints relativ zur Kameraposition gespeichert. Der Vektor zwischen dem Koordinatenursprung und der Koordinate entspricht dabei der Distanz zum Hindernis. Die Ausgabe der Pointclouds erfolgt in Stanfords Polygon File Format (ply). Aufgrund der einfachen Struktur können die einzelnen Pointclouds erkannter Hindernisse einfach analysiert werden um etwaige Vermeidungsstrategien zu entwickeln. Weiterhin ermöglicht das ply Format die Visualisierung jedes Frames in denen Hindernisse erkannt wurden.
+Innerhalb der \emph{Pointcloud} sind nun die Weltkoordinaten jedes \emph{Samplepoints} relativ zur Kameraposition gespeichert. Der Vektor zwischen dem Koordinatenursprung und der Koordinate entspricht dabei der Distanz zum Hindernis. Die Ausgabe der \emph{Pointclouds} erfolgt in Stanfords \emph{Polygon File Format} (\emph{ply}). Aufgrund der einfachen Struktur können die einzelnen Punktwolken erkannter Hindernisse einfach analysiert werden um etwaige Vermeidungsstrategien zu entwickeln. Weiterhin ermöglicht das \emph{ply} Format die Visualisierung jedes Frames in denen Hindernisse erkannt wurden.
 
 % ---------------------- section -----------------------
 \section{Samplepoint Detection}
 \label{sec:samplepoint_detection}
-In Hinblick auf aktive optische Algorithmen zur 3D-Rekonstruktion und damit verbunden Techniken wir Laser Scanning oder Time of Flight wurde die Samplepoint Detection entwickelt. Das Ziel war dabei eine ressourcensparende Alternative zur Subimage Detection zu schaffen indem nicht zwangsläufig alle Pixel der Disparity Map betrachtet werden müssen.\\
+In Hinblick auf aktive optische Algorithmen zur 3D-Rekonstruktion und damit verbunden Techniken wir \emph{Laser Scanning} oder \emph{Time of Flight} wurde die \emph{Samplepoint Detection} entwickelt. Das Ziel war dabei eine ressourcensparende Alternative zur \emph{Subimage Detection} zu schaffen indem nicht zwangsläufig alle Pixel der Disparitätenkarte betrachtet werden müssen.\\
 
 \noindent
-Ebenso wie in der in Abschnitt \ref{alg:mean_disparity_calculation} vorgestellten \emph{Subimage Detection} bedient sich die Samplepoint Detection einer vorverarbeiteten Disparity Map zur Hinderniserkennung. Bei der Initialisierung wird die Anzahl der zu berechnenden Samplepoints festgelegt, dabei richtet sich der Wert an der Anzahl der Reihen und Spalten der Disparity Map Matrix um eine äquidistante Verteilung gewährleisten zu können. Der hier verwendete Standart Faktor ist 8 (siehe Formel REF). Dies sorgt unter anderem für eine gleiche Anzahl von Samplepoints im gebinnten und ungebinnten Aufnahmemodus, da die jeweilige Menge relativ zur Bildgröße ist. Auf eine Verteilung der Messpunkte am direkten Rand der Disparity Map wurde bewusst verzichtet, da dieser aufgrund der Rektifizierung eher Fehler aufweist als Bereiche in der Mitte des Bildes.\\
+Ebenso wie in der in Abschnitt \ref{alg:mean_disparity_calculation} vorgestellten \emph{Subimage Detection} bedient sich die \emph{Samplepoint Detection} einer vorverarbeiteten Disparitätenkarte zur Hinderniserkennung. Bei der Initialisierung wird die Anzahl der zu berechnenden \emph{Samplepoints} festgelegt. Dabei richtet sich der Wert an der Anzahl der Reihen und Spalten der Matrix der Disparitätenkarte um eine äquidistante Verteilung gewährleisten zu können. Der hier verwendete Standart Faktor ist 8. Dies sorgt unter anderem für eine gleiche Anzahl von \emph{Samplepoints} im gebinnten und ungebinnten Aufnahmemodus, da die jeweilige Menge relativ zur Bildgröße ist. Auf eine Verteilung der Messpunkte am direkten Rand der Disparitätenkarte wurde bewusst verzichtet, da dieser aufgrund der Rektifizierung eher Fehler aufweist als Bereiche in der Mitte des Bildes.\\
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=8cm]{img/samplepoint_class}
+	\caption{Samplepoint Klasse}
+	\label{fig:samplepoint_class}
+\end{figure}
 
 \noindent
-Ein Samplepoint umfasst im entwickelten System entweder einen Pixel oder einen Zusammenschluss mehrerer Pixel. Die dabei festgelegte Ausgangskoordinate entspricht dabei entweder dem eigentlichen Punkt, oder dem Mittelpunkt einer festgelegten Region of Interest. Da ein Pixel gerade bei Bildern mit hoher Auflösung weniger Aussagekraft besitzt als der Pixel inklusive der lokalen Umgebung wurde ein Samplepoint auf diese Weise definiert. Der Wert eines einzelnen Samplepoints $S$ mit dem Zentrum $C$ ergibt sich im Falle eines Radius $r=3$ aus dem Mittelwert des Quadrats $Q$ mit den Eckpunkten $Q_{tl} = (C_x - r, C_y -r)$ und $Q_{br} = (C_x + r, C_y +r)$. Dies erhöht zwar die Anzahl der zu betrachtenden Pixel welche jedoch, in Abhängigkeit vom gewählten Radius, geringer ist als die Gesamtzahl aller Bildpunkte. Dieser Prozess wird in Abbildung \ref{fig:samplepoints_initmodes} verdeutlicht.\\
+Ein \emph{Samplepoint} (siehe Abbildung \ref{fig:samplepoint_class}) umfasst im entwickelten System entweder einen Pixel oder einen Zusammenschluss mehrerer Pixel. Die dabei festgelegte Ausgangskoordinate entspricht dabei entweder dem eigentlichen Punkt, oder dem Mittelpunkt einer festgelegten ROI. Da ein Pixel gerade bei Bildern mit hoher Auflösung weniger Aussagekraft besitzt als der Pixel inklusive der lokalen Umgebung wurde ein \emph{Samplepoint} auf diese Weise definiert. Der Wert eines einzelnen Messpunktes $S$ mit dem Zentrum $C$ ergibt sich im Falle eines Radius $r=3$ aus dem Mittelwert des Quadrats $Q$ mit den Eckpunkten $Q_{tl} = (C_x - r, C_y -r)$ und $Q_{br} = (C_x + r, C_y +r)$. Dies erhöht zwar die Anzahl der zu betrachtenden Pixel welche jedoch, in Abhängigkeit vom gewählten Radius, geringer ist als die Gesamtzahl aller Bildpunkte. Dieser Prozess wird in Abbildung \ref{fig:samplepoints_initmodes} verdeutlicht.\\
 
 \begin{figure}[h]
 	\begin{center}
@@ -162,6 +169,4 @@ Ein Samplepoint umfasst im entwickelten System entweder einen Pixel oder einen Z
 \end{figure}
 
 \noindent
-Nachdem zunächst alle Samplepoints initialisiert wurden, werden die jeweiligen Werte pro Frame aktualisiert. Die eigentliche Erkennung erfolgt dabei einerseits durch die Erstellung einer Pointcloud welche ebenfalls die selben Dimensionen wie die zugrunde liegende Disparity Map besitzt. Erweiternd dazu lässt sich mithilfe der jeweiligen Punkte das als aktuell am gefährlichsten einzustufende Hindernis sowie dessen Position bestimmen. Dabei werden Samplepoints innerhalb der Gefahrenzone zunächst nur auf Bildebene betrachtet.
-Zunächst wird die Liste an Samplepoints der errechneten Disparität sortiert.
-Da generell Hindernisse direkt vor dem UAV als am kritischsten zu betrachten sind, berechnet der Algorithmus den zweidimensionalen Abstand zwischen Bildhauptpunkt und den Samplepoints mit der geringsten Disparität. 
+Nachdem zunächst alle \emph{Samplepoints} initialisiert wurden, werden die jeweiligen Werte pro Frame aktualisiert. Die eigentliche Erkennung erfolgt dabei durch die Erstellung einer Pointcloud. Es wird für jedes \emph{Subimage} pro Einzelbild überprüft ob sich die aktualisierten Werte innerhalb des Gefahrenbereichs befinden. Ist dies der Fall wird für jede Disparität des \emph{Samplepoints} die jeweiligen dreidimensionale Korrdinate berechnet und anschließend in die Punktwolke geschrieben.
