@@ -202,8 +202,6 @@ Hinsichtlich der verschiedenen möglichen Faktoren welche eine erfolgreiche Erke
 \noindent
 Um die Auswirkungen der Blockgröße auf die Distanzberechnung zu testen wurden verschiedene Kantenlängen des Blocks getestet. Für jede Größe wurde die Hinderniserkennung aus je 3 Distanzen ausgeführt. Im Folgenden werden zunächst die Daten dargelegt und im Anschluss daran analysiert. Eine Diskussion der erhaltenen Ergebnisse findet in Abschnitt \ref{sec:evaluation_Diskussion} statt.\\
 
-%TODO ABSCHNITT FIXEN
-	
 \begin{table}[h]
 \centering
 \begin{tabular}{|l||c|c|}
@@ -287,7 +285,7 @@ Die Änderung der Blockgröße hat auch bei der \emph{Samplepoint Detection} kei
 \subsubsection{Erkennung von reflektierenden und durchsichtigen Bereichen}
 \label{subsec:test_reflection_translucency}
 
-Die Erkennung von Hindernissen bei reflektierenden sowie durchsichtigen Flächen wurde mit drei verschiedenen Tests untersucht. Zunächst wurde untersucht wie sich das System bei spiegelnden Flächen (etwa Fensterglas) verhält. Anschliessend wurde die Erkennung bei reflektierenden Flächen untersucht sowohl im 90$^\circ$ Winkel, also mit direkter Sicht auf das zu erkennende Hindernis als auch unter diversen anderen Winkeln. Weiterhin wurde untersucht inwiefern sich das System bei einer Kombination beider Problemstellungen verhält. Die verwendete Methode zur Hinderniserkennung ist in allen folgenden Tests die \emph{Samplepoint Detection} aufgrund der bisherigen besseren Ergebnisse. Die Gefahrenzone wurde aus Platzgründen auf $0,1$ bis $1,0$ Meter definiert.\\
+Die Erkennung von Hindernissen bei reflektierenden sowie durchsichtigen \linebreak Flächen wurde mit drei verschiedenen Tests untersucht. Zunächst wurde untersucht wie sich das System bei spiegelnden Flächen (etwa Fensterglas) verhält. Anschliessend wurde die Erkennung bei reflektierenden Flächen untersucht sowohl im 90$^\circ$ Winkel, also mit direkter Sicht auf das zu erkennende Hindernis als auch unter diversen anderen Winkeln. Weiterhin wurde untersucht inwiefern sich das System bei einer Kombination beider Problemstellungen verhält. Die verwendete Methode zur Hinderniserkennung ist in allen folgenden Tests die \emph{Samplepoint Detection} aufgrund der bisherigen besseren Ergebnisse. Die Gefahrenzone wurde aus Platzgründen auf $0,1$ bis $1,0$ Meter definiert.\\
 
 \noindent
 Zur Untersuchung reflektierender Flächen wurde der spiegelnde Bildschirm eines LED-Fernsehers genutzt. Da die Berechnung von Disparitätenkarten auch unter nicht optimalen Lichtverhältnissen robuste Ergebnisse liefert (Abbildung \ref{fig:dark_disparity}) stellt auch die schwarze Grundfarbe des spiegelnden Objektes prinzipiell keinen Konflikt dar. Trotz dessen wurde die Belichtungszeit der Kameras auf 60 - 70 µs gesetzt, was die erhaltenen Bilder in ihrer Helligkeit erheblich verbessert.\\
@@ -310,8 +308,6 @@ Zur Untersuchung reflektierender Flächen wurde der spiegelnde Bildschirm eines 
 
 \noindent
 Die aufgenommenen Ergebnisse zeigen auf das Hindernisse erkannt wurden, jedoch ist der Ursprung dieser nicht eindeutig zu erkennen. Abbildung \ref{fig:reflection_only} stellt die berechneten und aufgenommenen Distanzen gegenüber. Aus diesen sind ebenfalls deutlich die Fehler innerhalb der Berechnung zu erkennen.\\
-
-% TODO siehe jens kommentar
 
 \begin{figure}[h]
 	\centering
@@ -459,7 +455,7 @@ In allen durchgeführten Tests der \emph{Samplepoint Detection} lässt ab einem 
 
 
 %%% REFLEKTIERENDE & DURCHSICHTIGE FLAECHEN
-\subsection{Reflektierende und durchsichtige Flächen}
+\subsection{Erkennung von reflektierenden und durchsichtigen Flächen}
 \label{subsec:reflection_discussion}
 
 \noindent
@@ -476,7 +472,7 @@ Die Erkennung reflektierender und durchsichtiger Flächen zeigte sich als grundl
 	\label{fig:combination_images}
 \end{figure}
 
-\subsection{Veränderung des Subimage Radius}
+\subsection{Erkennung unter Veränderung des \emph{Samplepoint }Radius}
 \label{subsec:radius_change_discussion}
 %%%% SUBIMAGE RADIUS
 \noindent

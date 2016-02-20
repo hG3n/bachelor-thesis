@@ -145,10 +145,9 @@ Dies ermöglicht eine schnelle Berechnung der Disparitäten auf einem qualitativ
 \caption{Vergleich zwischen Ground Truth Bildern sowie dem SGM(2005) und OpenCV's SGBM}
 \label{fig:disparity_comparison}
 \end{figure}
-% TODO vielleicht eigene Bilder verbessern, sodass tsukuba nicht ganz so crappy aussieht
 
 \noindent
-Abbildung \ref{fig:disparity_comparison} stellt die originalen Bilder der Szene (\cite{middlebury_data}), die mithilfe von strukturiertem Licht aufgenommenen \emph{Ground Truth} Bilder sowie die jeweiligen berechneten Tiefenkarten durch den SGM und den SGBM dar. Aus dieser ist der Qualitätsverlust des SGBM beim Tsukuba- sowie beim Teddy Datensatz zu erkennen.\\
+Abbildung \ref{fig:disparity_comparison} stellt die originalen Bilder der Szene (\cite{middlebury_data}), die mithilfe von strukturiertem Licht aufgenommenen \emph{Ground Truth} Bilder sowie die jeweiligen berechneten Tiefenkarten durch den SGM und den SGBM dar. Aus dieser ist der Qualitätsverlust des SGBM beim Tsukuba- sowie beim Teddy Datensatz zu erkennen. Der am linken Rand entstandene schwarze Bereich ist ein Resultat der verwendeten Parameter des SGBM. \\
 
 \noindent
 Trotz dessen sind die Grundformen sowie die berechnete Tiefe klar erkennbar. Grundlegend bietet der SGBM eine qualitativ hochwertige Berechnung von Tiefenkarten. Weiterhin ist die Berechnung sowie die daraus resultierenden Disparitätenkarten stabiler. Bei der Berechnung durch OpenCV's einfachen Block Matching Algorithmus kann es, in Abhängigkeit der zu rekonstruierenden Szene zu einem Flackern zwischen den einzelnen Einzelbildern kommen. Dies würde bedeuten das eventuell keine Informationen zwischen zwei Frames vorliegen was wiederum zu Fehlern in der Erkennung führen würde.\\
